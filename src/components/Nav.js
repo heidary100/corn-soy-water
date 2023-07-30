@@ -243,7 +243,7 @@ const NAV_ITEMS = [
   },
   {
     label: 'Soil Map',
-    href: '/soil-map',
+    href: '/map',
   },
   {
     label: 'About',

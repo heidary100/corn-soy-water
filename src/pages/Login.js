@@ -12,6 +12,7 @@ import {
   Heading,
   Text,
   useColorModeValue,
+  Link,
 } from '@chakra-ui/react'
 
 export default function Login() {
@@ -45,7 +46,7 @@ export default function Login() {
                 align={'start'}
                 justify={'space-between'}>
                 <Checkbox>Remember me</Checkbox>
-                <Text color={'blue.400'}>Forgot password?</Text>
+                <Link color={'blue.400'} href="/forget-password">Forgot password?</Link>
               </Stack>
               <Button
                 bg={'blue.400'}
