@@ -15,6 +15,7 @@ import {
   useColorModeValue,
   useBreakpointValue,
   useDisclosure,
+  Image,
 } from '@chakra-ui/react'
 import {
   HamburgerIcon,
@@ -22,7 +23,7 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from '@chakra-ui/icons'
-import {ColorModeSwitcher} from '../components/ColorModeSwitcher'
+import { ColorModeSwitcher } from '../components/ColorModeSwitcher'
 
 export default function Nav() {
   const { isOpen, onToggle } = useDisclosure()
@@ -51,11 +52,17 @@ export default function Nav() {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
+          <Image
+            boxSize='20px'
+            objectFit='cover'
+            src='/logo.png'
+            alt='Dan Abramov'
+          />
           <Text
             textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
             fontFamily={'heading'}
             color={useColorModeValue('gray.800', 'white')}>
-            Logo
+            Corn Soy Water
           </Text>
 
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
@@ -68,7 +75,7 @@ export default function Nav() {
           justify={'flex-end'}
           direction={'row'}
           spacing={6}>
-            <ColorModeSwitcher />
+          <ColorModeSwitcher />
           <Button as={'a'} fontSize={'sm'} fontWeight={400} variant={'link'} href={'/login'}>
             Sign In
           </Button>

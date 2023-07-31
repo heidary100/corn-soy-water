@@ -8,6 +8,11 @@ import Register from "./pages/Register";
 import ForgetPassword from "./pages/ForgetPassword";
 import Map from "./pages/Map";
 import NoPage from "./pages/NoPage";
+import AdminLayout from './pages/admin/AdminLayout';
+import Profile from './pages/admin/Profile';
+import AddSoybean from './pages/admin/AddSoybean';
+import Soybean from './pages/admin/Soybean';
+import SoybeanMap from './pages/admin/SoybeanMap';
 
 function App() {
   return (
@@ -20,6 +25,13 @@ function App() {
           <Route path="register" element={<Register />} />
           <Route path="forget-password" element={<ForgetPassword />} />
           <Route path="map" element={<Map />} />
+          <Route path="*" element={<NoPage />} />
+        </Route>
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route path="profile" element={<Profile />} />
+          <Route path="soybean" element={<Soybean />} />
+          <Route path="add-soybean" element={<AddSoybean />} />
+          <Route path="soybean-map" element={<SoybeanMap />} />
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>
