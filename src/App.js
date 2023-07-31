@@ -13,6 +13,10 @@ import Profile from './pages/admin/Profile';
 import AddSoybean from './pages/admin/AddSoybean';
 import Soybean from './pages/admin/Soybean';
 import SoybeanMap from './pages/admin/SoybeanMap';
+import Dashboard from './pages/admin/Dashboard';
+import AddCorn from './pages/admin/AddCorn';
+import Corn from './pages/admin/Corn';
+import CornMap from './pages/admin/CornMap';
 
 function App() {
   return (
@@ -28,10 +32,15 @@ function App() {
           <Route path="*" element={<NoPage />} />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Dashboard />} />
           <Route path="profile" element={<Profile />} />
           <Route path="soybean" element={<Soybean />} />
           <Route path="add-soybean" element={<AddSoybean />} />
           <Route path="soybean-map" element={<SoybeanMap />} />
+
+          <Route path="corn" element={<Corn />} />
+          <Route path="add-corn" element={<AddCorn />} />
+          <Route path="corn-map" element={<CornMap />} />
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>

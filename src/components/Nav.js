@@ -16,6 +16,7 @@ import {
   useBreakpointValue,
   useDisclosure,
   Image,
+  Link,
 } from '@chakra-ui/react'
 import {
   HamburgerIcon,
@@ -57,13 +58,16 @@ export default function Nav() {
             objectFit='cover'
             src='/logo.png'
             alt='Dan Abramov'
-          />
-          <Text
+          /> &nbsp;
+          <Link
+            // as={'a'}
+            href='/'
+            variant={'ghost'}
             textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
             fontFamily={'heading'}
             color={useColorModeValue('gray.800', 'white')}>
             Corn Soy Water
-          </Text>
+          </Link>
 
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
             <DesktopNav />
@@ -85,10 +89,10 @@ export default function Nav() {
             fontSize={'sm'}
             fontWeight={600}
             color={'white'}
-            bg={'pink.400'}
+            bg={'blue.400'}
             href={'/register'}
             _hover={{
-              bg: 'pink.300',
+              bg: 'blue.300',
             }}>
             Sign Up
           </Button>

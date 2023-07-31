@@ -52,7 +52,7 @@ export default function Contact() {
                         color="#1C6FEB"
                         _hover={{ border: '2px solid #1C6FEB' }}
                         leftIcon={<MdPhone color="#1970F1" size="20px" />}>
-                        +91-988888888
+                        (402) 472-6372
                       </Button>
                       <Button
                         size="md"
@@ -72,7 +72,7 @@ export default function Contact() {
                         color="#1C6FEB"
                         _hover={{ border: '2px solid #1C6FEB' }}
                         leftIcon={<MdLocationOn color="#1970F1" size="20px" />}>
-                        Karnavati, India
+                        University of Nebraska 
                       </Button>
                     </VStack>
                   </Box>
@@ -96,6 +96,15 @@ export default function Contact() {
                         <InputGroup borderColor="#E0E1E7">
                           <InputLeftElement pointerEvents="none">
                             <MdEmail color="gray.800" />
+                          </InputLeftElement>
+                          <Input type="text" size="md" />
+                        </InputGroup>
+                      </FormControl>
+                      <FormControl id="name">
+                        <FormLabel>Phone Number</FormLabel>
+                        <InputGroup borderColor="#E0E1E7">
+                          <InputLeftElement pointerEvents="none">
+                            <MdPhone color="gray.800" />
                           </InputLeftElement>
                           <Input type="text" size="md" />
                         </InputGroup>
