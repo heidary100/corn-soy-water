@@ -17,6 +17,7 @@ import Dashboard from './pages/admin/Dashboard';
 import AddCorn from './pages/admin/AddCorn';
 import Corn from './pages/admin/Corn';
 import CornMap from './pages/admin/CornMap';
+import SoybeanDetail from './pages/admin/SoybeanDetail';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path="soybean" element={<Soybean />} />
           <Route path="add-soybean" element={<AddSoybean />} />
           <Route path="soybean-map" element={<SoybeanMap />} />
+          <Route path="soybean-detail" element={<SoybeanDetail />} />
 
           <Route path="corn" element={<Corn />} />
           <Route path="add-corn" element={<AddCorn />} />
