@@ -1,9 +1,7 @@
-import { Outlet, Link } from "react-router-dom";
 import {
     ChakraProvider,
     extendTheme,
 } from '@chakra-ui/react';
-import Nav from "../../components/admin/Nav";
 import Sidebar from "../../components/admin/Sidebar";
 
 const colors = {
@@ -31,8 +29,7 @@ const AdminLayout = () => {
     return (
         <>
             <ChakraProvider theme={theme}>
-                <Nav />
-                <Outlet />
+                <Sidebar />
             </ChakraProvider>
         </>
     )

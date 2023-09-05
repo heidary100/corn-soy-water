@@ -5,6 +5,7 @@ import vcit from "./VCIT.json";
 import portfolio from "./portfolio.json";
 import MultilineChart from "../../components/admin/MultilineChart";
 import Legend from "../../components/admin/Legend";
+import { Container, Heading } from "@chakra-ui/react";
 
 const portfolioData = {
   name: "Portfolio",
@@ -48,13 +49,14 @@ export default function SoybeanDetail() {
   };
 
   return (
-    <div>
+    <Container height={'100vh'} maxW='container.lg'>
+    <Heading marginTop={10}>Soybean Detail</Heading>
       <Legend
         data={legendData}
         selectedItems={selectedItems}
         onChange={onChangeSelection}
       />
       <MultilineChart data={chartData} dimensions={dimensions} />
-    </div>
+    </Container>
   );
 }
