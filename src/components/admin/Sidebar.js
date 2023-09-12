@@ -16,6 +16,7 @@ import { FiMenu } from "react-icons/fi";
 import { HiOutlineLogout } from "react-icons/hi";
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import { ColorModeSwitcher } from "../ColorModeSwitcher";
 
 const Sidebar = () => {
   const sidebar = useDisclosure();
@@ -40,30 +41,33 @@ const Sidebar = () => {
         fontWeight="semibold"
         transition=".15s ease"
         {...rest}
-        className={(x) => {
-          console.log(x);
+        style={({ isActive }) => {
+          return {
+            background: isActive ? "rgba(0,0,0,0.3)" : "",
+            color: isActive ? "white" : "",
+          };
         }}
       >
-          {icon && (
-            <Icon
-              mr="2"
-              boxSize="4"
-              _groupHover={{
-                color: "gray.300",
-              }}
-              as={icon}
-            />
-          )}
+        {icon && (
+          <Icon
+            mr="2"
+            boxSize="4"
+            _groupHover={{
+              color: "gray.300",
+            }}
+            as={icon}
+          />
+        )}
 
-          {image && (
-            <Image
-              boxSize='20px'
-              objectFit='cover'
-              src={image}
-              marginRight={2}
-            />
-          )}
-          {children}
+        {image && (
+          <Image
+            boxSize='20px'
+            objectFit='cover'
+            src={image}
+            marginRight={2}
+          />
+        )}
+        {children}
       </Flex>
     );
   };
@@ -79,7 +83,7 @@ const Sidebar = () => {
       pb="10"
       overflowX="hidden"
       overflowY="auto"
-      bg="green.600"
+      bg="brand.700"
       borderColor="blackAlpha.300"
       borderRightWidth="1px"
       w="60"
@@ -91,8 +95,8 @@ const Sidebar = () => {
           objectFit='cover'
           src='/logo.png'
           alt='Corn Soy Water'
-          bg={'white'}
-          borderRadius={50}
+        // bg={'white'}
+        // borderRadius={50}
         /> &nbsp;
         <Text fontSize="2xl" ml="2" color="white" fontWeight="semibold">
           Corn Soy Water
@@ -106,7 +110,7 @@ const Sidebar = () => {
         aria-label="Main Navigation"
       >
         <NavItem image={'/img/profile.png'} to={'/admin/profile'}>
-            Profile
+          Profile
         </NavItem>
         <NavItem image={'/img/corn.png'} to={'/admin/corn'}>Corn Fields</NavItem>
         <NavItem image={'/img/soy.png'} to={'/admin/soybean'}>Soybean Fields</NavItem>
@@ -151,6 +155,8 @@ const Sidebar = () => {
           </InputGroup>
 
           <Flex align="center">
+            <ColorModeSwitcher />
+            &nbsp;
             <Button as={'a'} href={'/admin/add-corn'} leftIcon={<HiOutlineLogout />} colorScheme='red' variant='solid'>
               Log out
             </Button>

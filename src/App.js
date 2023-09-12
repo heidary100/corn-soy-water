@@ -35,14 +35,19 @@ function App() {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="profile" element={<Profile />} />
-          <Route path="soybean" element={<Soybean />} />
-          <Route path="add-soybean" element={<AddSoybean />} />
-          <Route path="soybean-map" element={<SoybeanMap />} />
-          <Route path="soybean-detail" element={<SoybeanDetail />} />
+          <Route path="soybean" >
+            <Route index element={<Soybean />} />
+            <Route path="add" element={<AddSoybean />} />
+            <Route path="map" element={<SoybeanMap />} />
+            <Route path="detail" element={<SoybeanDetail />} />
+          </Route>
 
-          <Route path="corn" element={<Corn />} />
-          <Route path="add-corn" element={<AddCorn />} />
-          <Route path="corn-map" element={<CornMap />} />
+
+          <Route path="corn" >
+            <Route index element={<Corn />} />
+            <Route path="add" element={<AddCorn />} />
+            <Route path="map" element={<CornMap />} />
+          </Route>
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>

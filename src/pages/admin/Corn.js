@@ -4,13 +4,10 @@ import {
     Table,
     Thead,
     Tbody,
-    Tfoot,
     Tr,
     Th,
     Td,
-    TableCaption,
     TableContainer,
-    Divider,
     Stack,
     Button
 } from '@chakra-ui/react'
@@ -22,10 +19,10 @@ export default function Corn() {
         <Container height={'100vh'} maxW='container.lg'>
             <Heading marginTop={10}>Corn Fields</Heading>
             <Stack direction='row' spacing={4} marginTop={10}>
-                <Button as={NavLink} to={'/admin/add-corn'} leftIcon={<MdAdd />} colorScheme='green' variant='solid'>
+                <Button as={NavLink} to={'/admin/corn/add'} leftIcon={<MdAdd />} colorScheme='green' variant='solid'>
                     Add Corn Field
                 </Button>
-                <Button as={NavLink} to={'/admin/corn-map'} float={'right'} rightIcon={<MdMap />} colorScheme='blue' variant='outline'>
+                <Button as={NavLink} to={'/admin/corn/map'} float={'right'} rightIcon={<MdMap />} colorScheme='blue' variant='outline'>
                     Show on Map
                 </Button>
             </Stack>
