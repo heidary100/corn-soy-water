@@ -9,12 +9,37 @@ import {
     Td,
     TableContainer,
     Stack,
-    Button
+    Button,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalCloseButton,
+    ModalBody,
+    ModalFooter
 } from '@chakra-ui/react'
+import { useState } from 'react';
 import { MdAdd, MdMap, MdEdit, MdDetails, MdDelete } from "react-icons/md"
 import { NavLink } from 'react-router-dom'
 
 export default function Corn() {
+    const [data, setData] = useState([
+        { id: 1, name: 'Item 1', dateOfPlanting: '07/04/2023', relativeMaturity: '1.4' },
+        { id: 2, name: 'Item 2', dateOfPlanting: '07/05/2023', relativeMaturity: '1.1' },
+        { id: 3, name: 'Item 3', dateOfPlanting: '07/07/2023', relativeMaturity: '2.4' },
+        { id: 4, name: 'Item 4', dateOfPlanting: '07/08/2023', relativeMaturity: '1.3' },
+    ]);
+
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+    const handleDelete = () => {
+        // Remove the selected item from the data array
+        setData(data.filter(item => item.id !== selectedItem.id));
+        // Close the delete confirmation modal
+        setIsDeleteModalOpen(false);
+    };
+
     return (
         <Container height={'100vh'} maxW='container.lg'>
             <Heading marginTop={10}>Corn Fields</Heading>
@@ -37,62 +62,53 @@ export default function Corn() {
                         </Tr>
                     </Thead>
                     <Tbody>
-                        <Tr>
-                            <Td>Field 1</Td>
-                            <Td>07/04/2023</Td>
-                            <Td isNumeric>1.4</Td>
-                            <Td>
-                                <Stack direction='row' spacing={1}>
-                                    <Button leftIcon={<MdEdit />} colorScheme='blue' variant='outline'>
-                                        Edit
-                                    </Button>
-                                    <Button leftIcon={<MdDetails />} colorScheme='blue' variant='outline'>
-                                        Detail
-                                    </Button>
-                                    <Button leftIcon={<MdDelete />} colorScheme='red' variant='solid'>
-                                        Delete
-                                    </Button>
-                                </Stack>
-                            </Td>
-                        </Tr>
-                        <Tr>
-                            <Td>Field 2</Td>
-                            <Td>07/04/2023</Td>
-                            <Td isNumeric>2.48</Td>
-                            <Td>
-                                <Stack direction='row' spacing={1}>
-                                    <Button leftIcon={<MdEdit />} colorScheme='blue' variant='outline'>
-                                        Edit
-                                    </Button>
-                                    <Button leftIcon={<MdDetails />} colorScheme='blue' variant='outline'>
-                                        Detail
-                                    </Button>
-                                    <Button leftIcon={<MdDelete />} colorScheme='red' variant='solid'>
-                                        Delete
-                                    </Button>
-                                </Stack>
-                            </Td>
-                        </Tr>
-                        <Tr>
-                            <Td>Field 3</Td>
-                            <Td>07/04/2023</Td>
-                            <Td isNumeric>3.9</Td>
-                            <Td>
-                                <Stack direction='row' spacing={1}>
-                                    <Button leftIcon={<MdEdit />} colorScheme='blue' variant='outline'>
-                                        Edit
-                                    </Button>
-                                    <Button leftIcon={<MdDetails />} colorScheme='blue' variant='outline'>
-                                        Detail
-                                    </Button>
-                                    <Button leftIcon={<MdDelete />} colorScheme='red' variant='solid'>
-                                        Delete
-                                    </Button>
-                                </Stack>
-                            </Td>
-                        </Tr>
+                        {data.map(item => (
+                            <Tr>
+                                <Td>{item.name}</Td>
+                                <Td>{item.dateOfPlanting}</Td>
+                                <Td isNumeric>{item.relativeMaturity}</Td>
+                                <Td>
+                                    <Stack direction='row' spacing={1}>
+                                        <Button leftIcon={<MdEdit />} colorScheme='blue' variant='outline'>
+                                            Edit
+                                        </Button>
+                                        <Button leftIcon={<MdDetails />} colorScheme='blue' variant='outline'>
+                                            Detail
+                                        </Button>
+                                        <Button
+                                            onClick={() => {
+                                                setSelectedItem(item);
+                                                setIsDeleteModalOpen(true);
+                                            }}
+                                            leftIcon={<MdDelete />} colorScheme='red' variant='solid'>
+                                            Delete
+                                        </Button>
+                                    </Stack>
+                                </Td>
+                            </Tr>
+                        ))}
                     </Tbody>
                 </Table>
             </TableContainer>
+
+            <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Delete Confirmation</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        Are you sure you want to delete "{selectedItem?.name}"?
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button colorScheme="red" onClick={handleDelete}>
+                            Delete
+                        </Button>
+                        &nbsp;
+                        <Button variant="ghost" onClick={() => setIsDeleteModalOpen(false)}>
+                            Cancel
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </Container>)
 }
