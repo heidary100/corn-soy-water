@@ -16,14 +16,18 @@ import {
   useColorModeValue,
   Link,
   FormErrorMessage,
+  useToast,
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import * as Yup from 'yup'
 import { Field, Form, Formik } from 'formik'
+import AuthService from '../services/auth.service'
 
 export default function Register() {
+  const toast = useToast()
   const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const initialValues = {
     firstName: '',
@@ -39,10 +43,37 @@ export default function Register() {
     password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
   });
 
-  const handleSubmit = (values, { setSubmitting }) => {
+  const handleSubmit = async (values, { setSubmitting }) => {
     // Handle form submission here
+    setLoading(true);
     console.log(values);
-    setSubmitting(false);
+
+    try {
+      const response = await AuthService.registerUser(values);
+      // Handle a successful API response (e.g., display a success message)
+      console.log('Registration successful:', response);
+      toast({
+        title: 'Account created.',
+        description: "We've created your account for you.",
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
+      // setStatus('Registration successful');
+    } catch (error) {
+      // Handle API errors (e.g., display an error message)
+      console.error('Registration failed:', error);
+      toast({
+        title: 'Failure.',
+        description: "Registration failed.",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    } finally {
+      setSubmitting(false);
+      setLoading(false);
+    }
   };
 
   return (
@@ -131,7 +162,7 @@ export default function Register() {
                       size="lg"
                       bg={'blue.400'}
                       color={'white'}
-                      isLoading={false}
+                      isLoading={loading}
                       _hover={{
                         bg: 'blue.500',
                       }}>
