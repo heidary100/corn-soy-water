@@ -15,12 +15,35 @@ import {
   Text,
   useColorModeValue,
   Link,
+  FormErrorMessage,
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
+import * as Yup from 'yup'
+import { Field, Form, Formik } from 'formik'
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false)
+
+  const initialValues = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+  };
+
+  const validationSchema = Yup.object({
+    firstName: Yup.string().required('First name is required'),
+    lastName: Yup.string().required('Last name is required'),
+    email: Yup.string().email('Invalid email address').required('Email is required'),
+    password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
+  });
+
+  const handleSubmit = (values, { setSubmitting }) => {
+    // Handle form submission here
+    console.log(values);
+    setSubmitting(false);
+  };
 
   return (
     <Flex
@@ -40,49 +63,85 @@ export default function Register() {
           boxShadow={'lg'}
           p={8}>
           <Stack spacing={4}>
-            <HStack>
-              <Box>
-                <FormControl id="firstName" isRequired>
-                  <FormLabel>First Name</FormLabel>
-                  <Input type="text" />
-                </FormControl>
-              </Box>
-              <Box>
-                <FormControl id="lastName">
-                  <FormLabel>Last Name</FormLabel>
-                  <Input type="text" />
-                </FormControl>
-              </Box>
-            </HStack>
-            <FormControl id="email" isRequired>
-              <FormLabel>Email address</FormLabel>
-              <Input type="email" />
-            </FormControl>
-            <FormControl id="password" isRequired>
-              <FormLabel>Password</FormLabel>
-              <InputGroup>
-                <Input type={showPassword ? 'text' : 'password'} />
-                <InputRightElement h={'full'}>
-                  <Button
-                    variant={'ghost'}
-                    onClick={() => setShowPassword((showPassword) => !showPassword)}>
-                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                  </Button>
-                </InputRightElement>
-              </InputGroup>
-            </FormControl>
-            <Stack spacing={10} pt={2}>
-              <Button
-                loadingText="Submitting"
-                size="lg"
-                bg={'blue.400'}
-                color={'white'}
-                _hover={{
-                  bg: 'blue.500',
-                }}>
-                Sign up
-              </Button>
-            </Stack>
+
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={handleSubmit}
+            >
+              {() => (
+                <Form>
+                  <HStack>
+                    <Box>
+                      <Field name="firstName">
+                        {({ field, form }) => (
+                          <FormControl isRequired isInvalid={form.errors.firstName && form.touched.firstName}>
+                            <FormLabel htmlFor="firstName">First Name</FormLabel>
+                            <Input type="text"  {...field} id="firstName" placeholder="First Name" />
+                            <FormErrorMessage>{form.errors.firstName}</FormErrorMessage>
+                          </FormControl>
+                        )}
+                      </Field>
+                    </Box>
+                    <Box>
+                      <Field name="lastName">
+                        {({ field, form }) => (
+                          <FormControl isRequired isInvalid={form.errors.lastName && form.touched.lastName}>
+                            <FormLabel htmlFor="lastName">Last Name</FormLabel>
+                            <Input type="text"   {...field} id="lastName" placeholder="Last Name" />
+                            <FormErrorMessage>{form.errors.lastName}</FormErrorMessage>
+                          </FormControl>
+                        )}
+                      </Field>
+                    </Box>
+                  </HStack>
+
+                  <Field name="email">
+                    {({ field, form }) => (
+                      <FormControl isRequired isInvalid={form.errors.email && form.touched.email}>
+                        <FormLabel htmlFor='email'>Email address</FormLabel>
+                        <Input type="email" {...field} id="email" placeholder="email@example.com" />
+                        <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+
+                  <Field name="password">
+                    {({ field, form }) => (
+                      <FormControl isRequired isInvalid={form.errors.password && form.touched.password}>
+                        <FormLabel htmlFor='password'>Password</FormLabel>
+                        <InputGroup>
+                          <Input type={showPassword ? 'text' : 'password'} {...field} id="password" placeholder="******" />
+                          <InputRightElement h={'full'}>
+                            <Button
+                              variant={'ghost'}
+                              onClick={() => setShowPassword((showPassword) => !showPassword)}>
+                              {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                            </Button>
+                          </InputRightElement>
+                        </InputGroup>
+                        <FormErrorMessage>{form.errors.password}</FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Stack spacing={10} pt={2}>
+                    <Button
+                      type='submit'
+                      loadingText="Submitting"
+                      size="lg"
+                      bg={'blue.400'}
+                      color={'white'}
+                      isLoading={false}
+                      _hover={{
+                        bg: 'blue.500',
+                      }}>
+                      Sign up
+                    </Button>
+                  </Stack>
+                </Form>
+              )}
+            </Formik>
+
             <Stack pt={6}>
               <Text align={'center'}>
                 Already a user? <Link color={'blue.400'} href='/login'>Login</Link>
@@ -90,7 +149,7 @@ export default function Register() {
             </Stack>
           </Stack>
         </Box>
-      </Stack>
-    </Flex>
+      </Stack >
+    </Flex >
   )
 }
