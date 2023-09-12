@@ -15,16 +15,17 @@ import {
     Button
 } from '@chakra-ui/react'
 import { MdAdd, MdMap, MdEdit, MdDetails, MdDelete } from "react-icons/md"
+import { NavLink } from 'react-router-dom'
 
 export default function Corn() {
     return (
         <Container height={'100vh'} maxW='container.lg'>
             <Heading marginTop={10}>Corn Fields</Heading>
             <Stack direction='row' spacing={4} marginTop={10}>
-                <Button as={'a'} href={'/admin/add-corn'} leftIcon={<MdAdd />} colorScheme='green' variant='solid'>
+                <Button as={NavLink} to={'/admin/add-corn'} leftIcon={<MdAdd />} colorScheme='green' variant='solid'>
                     Add Corn Field
                 </Button>
-                <Button as={'a'} href={'/admin/corn-map'} float={'right'} rightIcon={<MdMap />} colorScheme='blue' variant='outline'>
+                <Button as={NavLink} to={'/admin/corn-map'} float={'right'} rightIcon={<MdMap />} colorScheme='blue' variant='outline'>
                     Show on Map
                 </Button>
             </Stack>

@@ -14,6 +14,7 @@ import {
   FormLabel,
   Input,
   Select,
+  Stack,
 } from '@chakra-ui/react'
 import { MapContainer, TileLayer, useMapEvents, Marker } from 'react-leaflet'
 import { useToast } from '@chakra-ui/react'
@@ -24,6 +25,8 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
 } from '@chakra-ui/react'
+import { NavLink } from 'react-router-dom'
+import { MdArrowBack } from 'react-icons/md'
 
 const LocationFinderDummy = ({ onClick }) => {
   const map = useMapEvents({
@@ -244,6 +247,11 @@ export default function AddCorn() {
   return (
     <Container height={'100vh'} maxW='container.lg'>
       <Heading marginTop={10}>Add Corn Field</Heading>
+      <Stack direction='row' spacing={4} marginTop={10}>
+        <Button as={NavLink} to={'/admin/corn'} float={'right'} leftIcon={<MdArrowBack />} colorScheme='blue' variant='outline'>
+          Back to List
+        </Button>
+      </Stack>
       <Box
         borderWidth="1px"
         rounded="lg"
@@ -291,7 +299,7 @@ export default function AddCorn() {
                 w="7rem"
                 colorScheme="green"
                 variant="solid"
-                >
+              >
                 Submit
               </Button>
             ) : null}

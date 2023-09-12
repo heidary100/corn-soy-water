@@ -7,13 +7,14 @@ import {
 } from '@chakra-ui/react'
 import { MdAdd, MdArrowBack, MdList } from "react-icons/md"
 import { MapContainer, TileLayer, Marker } from 'react-leaflet'
+import { NavLink } from 'react-router-dom'
 
 export default function SoybeanMap() {
     return (
         <Container height={'100vh'} maxW='container.lg'>
             <Heading marginTop={10}>Map of Soybean Fields</Heading>
             <Stack direction='row' spacing={4} marginTop={10}>
-                <Button as={'a'} href={'/admin/soybean'} float={'right'} leftIcon={<MdArrowBack />} colorScheme='blue' variant='outline'>
+                <Button as={NavLink} to={'/admin/soybean'} float={'right'} leftIcon={<MdArrowBack />} colorScheme='blue' variant='outline'>
                     Back to List
                 </Button>
             </Stack>

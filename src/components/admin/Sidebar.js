@@ -1,27 +1,27 @@
 import {
   Box,
+  Button,
   Drawer,
   DrawerContent,
   DrawerOverlay,
   Flex,
   Icon,
   IconButton,
+  Image,
   InputGroup,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { BsGearFill } from "react-icons/bs";
 import { FiMenu } from "react-icons/fi";
-import { HiCollection, HiOutlineLogout } from "react-icons/hi";
-import { MdHome } from "react-icons/md";
+import { HiOutlineLogout } from "react-icons/hi";
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 
 const Sidebar = () => {
   const sidebar = useDisclosure();
 
   const NavItem = (props) => {
-    const { icon, children, ...rest } = props;
+    const { icon, image, children, ...rest } = props;
     return (
       <Flex
         align="center"
@@ -36,21 +36,34 @@ const Sidebar = () => {
           color: "whiteAlpha.900",
         }}
         role="group"
+        as={NavLink}
         fontWeight="semibold"
         transition=".15s ease"
         {...rest}
+        className={(x) => {
+          console.log(x);
+        }}
       >
-        {icon && (
-          <Icon
-            mr="2"
-            boxSize="4"
-            _groupHover={{
-              color: "gray.300",
-            }}
-            as={icon}
-          />
-        )}
-        {children}
+          {icon && (
+            <Icon
+              mr="2"
+              boxSize="4"
+              _groupHover={{
+                color: "gray.300",
+              }}
+              as={icon}
+            />
+          )}
+
+          {image && (
+            <Image
+              boxSize='20px'
+              objectFit='cover'
+              src={image}
+              marginRight={2}
+            />
+          )}
+          {children}
       </Flex>
     );
   };
@@ -66,13 +79,21 @@ const Sidebar = () => {
       pb="10"
       overflowX="hidden"
       overflowY="auto"
-      bg="brand.600"
+      bg="green.600"
       borderColor="blackAlpha.300"
       borderRightWidth="1px"
       w="60"
       {...props}
     >
       <Flex px="4" py="5" align="center">
+        <Image
+          boxSize='25px'
+          objectFit='cover'
+          src='/logo.png'
+          alt='Corn Soy Water'
+          bg={'white'}
+          borderRadius={50}
+        /> &nbsp;
         <Text fontSize="2xl" ml="2" color="white" fontWeight="semibold">
           Corn Soy Water
         </Text>
@@ -84,10 +105,11 @@ const Sidebar = () => {
         color="gray.600"
         aria-label="Main Navigation"
       >
-        <NavItem icon={MdHome}>Dashboard</NavItem>
-        <NavItem icon={HiCollection}>Corn Fields</NavItem>
-        <NavItem icon={HiCollection}>Soybean Fields</NavItem>
-        <NavItem icon={BsGearFill}>Settings</NavItem>
+        <NavItem image={'/img/profile.png'} to={'/admin/profile'}>
+            Profile
+        </NavItem>
+        <NavItem image={'/img/corn.png'} to={'/admin/corn'}>Corn Fields</NavItem>
+        <NavItem image={'/img/soy.png'} to={'/admin/soybean'}>Soybean Fields</NavItem>
       </Flex>
     </Box>
   );
@@ -129,15 +151,10 @@ const Sidebar = () => {
           </InputGroup>
 
           <Flex align="center">
-            <IconButton
-              color="gray.500"
-              aria-label="Logout"
-              label="Logout"
-              icon={<HiOutlineLogout />}
-            >
+            <Button as={'a'} href={'/admin/add-corn'} leftIcon={<HiOutlineLogout />} colorScheme='red' variant='solid'>
+              Log out
+            </Button>
 
-            </IconButton>
-            Logout
           </Flex>
         </Flex>
 
