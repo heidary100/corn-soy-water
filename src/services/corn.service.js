@@ -1,34 +1,24 @@
-import axios from "axios";
-import authHeader from "./auth-header";
+import axios from 'axios';
+import authHeader from './auth-header';
 
-const API_URL = "http://localhost:8080/api/corn";
+const API_URL = 'http://localhost:8080/api/corn';
 
-const getCorns = () => {
-    return axios.get(API_URL, { headers: authHeader() });
-};
+const getCorns = () => axios.get(API_URL, { headers: authHeader() });
 
-const createCorn = (corn) => {
-    return axios.post(API_URL, { headers: authHeader(), ...corn });
-};
+const createCorn = (corn) => axios.post(API_URL, { headers: authHeader(), ...corn });
 
-const getCornById = (cornId) => {
-    return axios.get(API_URL + '/' + cornId, { headers: authHeader() });
-};
+const getCornById = (cornId) => axios.get(`${API_URL}/${cornId}`, { headers: authHeader() });
 
-const updateCorn = (cornId, corn) => {
-    return axios.put(API_URL + '/' + cornId, { headers: authHeader() , ...corn});
-};
+const updateCorn = (cornId, corn) => axios.put(`${API_URL}/${cornId}`, { headers: authHeader(), ...corn });
 
-const deleteCornById = (cornId) => {
-    return axios.delete(API_URL + '/' + cornId, { headers: authHeader() });
-};
+const deleteCornById = (cornId) => axios.delete(`${API_URL}/${cornId}`, { headers: authHeader() });
 
 const CornService = {
-    getCorns,
-    createCorn,
-    getCornById,
-    updateCorn,
-    deleteCornById,
+  getCorns,
+  createCorn,
+  getCornById,
+  updateCorn,
+  deleteCornById,
 };
 
 export default CornService;
