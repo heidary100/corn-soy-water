@@ -1,5 +1,4 @@
-'use client';
-
+import React from 'react';
 import {
   Container,
   Stack,
@@ -12,7 +11,6 @@ import {
   Icon,
   IconButton,
   createIcon,
-  IconProps,
   useColorModeValue,
 } from '@chakra-ui/react';
 

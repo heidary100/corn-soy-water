@@ -1,5 +1,4 @@
-'use client';
-
+import React, { useState } from 'react';
 import {
   Flex,
   Box,
@@ -18,7 +17,6 @@ import {
   FormErrorMessage,
   useToast,
 } from '@chakra-ui/react';
-import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import * as Yup from 'yup';
 import { Field, Form, Formik } from 'formik';
@@ -46,12 +44,10 @@ export default function Register() {
   const handleSubmit = async (values, { setSubmitting }) => {
     // Handle form submission here
     setLoading(true);
-    console.log(values);
 
     try {
-      const response = await AuthService.registerUser(values);
+      await AuthService.registerUser(values);
       // Handle a successful API response (e.g., display a success message)
-      console.log('Registration successful:', response);
       toast({
         title: 'Account created.',
         description: "We've created your account for you.",
@@ -62,7 +58,6 @@ export default function Register() {
       // setStatus('Registration successful');
     } catch (error) {
       // Handle API errors (e.g., display an error message)
-      console.error('Registration failed:', error);
       toast({
         title: 'Failure.',
         description: 'Registration failed.',
@@ -108,7 +103,10 @@ export default function Register() {
                     <Box>
                       <Field name="firstName">
                         {({ field, form }) => (
-                          <FormControl isRequired isInvalid={form.errors.firstName && form.touched.firstName}>
+                          <FormControl
+                            isRequired
+                            isInvalid={form.errors.firstName && form.touched.firstName}
+                          >
                             <FormLabel htmlFor="firstName">First Name</FormLabel>
                             <Input type="text" {...field} id="firstName" placeholder="First Name" />
                             <FormErrorMessage>{form.errors.firstName}</FormErrorMessage>
@@ -119,7 +117,10 @@ export default function Register() {
                     <Box>
                       <Field name="lastName">
                         {({ field, form }) => (
-                          <FormControl isRequired isInvalid={form.errors.lastName && form.touched.lastName}>
+                          <FormControl
+                            isRequired
+                            isInvalid={form.errors.lastName && form.touched.lastName}
+                          >
                             <FormLabel htmlFor="lastName">Last Name</FormLabel>
                             <Input type="text" {...field} id="lastName" placeholder="Last Name" />
                             <FormErrorMessage>{form.errors.lastName}</FormErrorMessage>
@@ -141,14 +142,17 @@ export default function Register() {
 
                   <Field name="password">
                     {({ field, form }) => (
-                      <FormControl isRequired isInvalid={form.errors.password && form.touched.password}>
+                      <FormControl
+                        isRequired
+                        isInvalid={form.errors.password && form.touched.password}
+                      >
                         <FormLabel htmlFor="password">Password</FormLabel>
                         <InputGroup>
                           <Input type={showPassword ? 'text' : 'password'} {...field} id="password" placeholder="******" />
                           <InputRightElement h="full">
                             <Button
                               variant="ghost"
-                              onClick={() => setShowPassword((showPassword) => !showPassword)}
+                              onClick={() => setShowPassword((show) => !show)}
                             >
                               {showPassword ? <ViewIcon /> : <ViewOffIcon />}
                             </Button>

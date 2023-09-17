@@ -13,7 +13,6 @@ import {
   Input,
   Select,
   Stack,
-  useToast,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
@@ -27,6 +26,7 @@ import { NavLink } from 'react-router-dom';
 import { MdArrowBack } from 'react-icons/md';
 
 function LocationFinderDummy({ onClick }) {
+  // eslint-disable-next-line no-unused-vars
   const map = useMapEvents({
     click(e) {
       // map.setView([e.latlng.lat, e.latlng.lng], map.getZoom())
@@ -262,9 +262,10 @@ function Form3() {
 }
 
 export default function AddCorn() {
-  const toast = useToast();
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(33.33);
+  // eslint-disable-next-line no-nested-ternary
+  const currentForm = step === 1 ? <Form1 /> : step === 2 ? <Form2 /> : <Form3 />;
 
   return (
     <Container height="100vh" maxW="container.lg">
@@ -285,7 +286,7 @@ export default function AddCorn() {
         as="form"
       >
         <Progress hasStripe value={progress} mb="5%" mx="5%" isAnimated />
-        {step === 1 ? <Form1 /> : step === 2 ? <Form2 /> : <Form3 />}
+        {currentForm}
         <ButtonGroup mt="5%" w="100%">
           <Flex w="100%" justifyContent="space-between">
             <Flex>

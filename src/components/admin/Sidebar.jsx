@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Box,
   Button,
@@ -14,9 +15,8 @@ import {
 } from '@chakra-ui/react';
 import { FiMenu } from 'react-icons/fi';
 import { HiOutlineLogout } from 'react-icons/hi';
-import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { ColorModeSwitcher } from '../ColorModeSwitcher';
+import ColorModeSwitcher from '../ColorModeSwitcher';
 
 function Sidebar() {
   const sidebar = useDisclosure();

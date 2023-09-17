@@ -1,5 +1,4 @@
-'use client';
-
+import React from 'react';
 import {
   Box,
   Flex,
@@ -24,7 +23,26 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from '@chakra-ui/icons';
-import { ColorModeSwitcher } from './ColorModeSwitcher';
+import ColorModeSwitcher from './ColorModeSwitcher';
+
+const NAV_ITEMS = [
+  {
+    label: 'Contact',
+    href: '/contact',
+  },
+  {
+    label: 'Soil Map',
+    href: '/map',
+  },
+  {
+    label: 'About',
+    href: '/about',
+  },
+  {
+    label: 'Team',
+    href: '/team',
+  },
+];
 
 export default function Nav() {
   const { isOpen, onToggle } = useDisclosure();
@@ -205,6 +223,7 @@ function MobileNav() {
   return (
     <Stack bg={useColorModeValue('white', 'gray.800')} p={4} display={{ md: 'none' }}>
       {NAV_ITEMS.map((navItem) => (
+        // eslint-disable-next-line react/jsx-props-no-spreading
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
     </Stack>
@@ -260,22 +279,3 @@ function MobileNavItem({ label, children, href }) {
     </Stack>
   );
 }
-
-const NAV_ITEMS = [
-  {
-    label: 'Contact',
-    href: '/contact',
-  },
-  {
-    label: 'Soil Map',
-    href: '/map',
-  },
-  {
-    label: 'About',
-    href: '/about',
-  },
-  {
-    label: 'Team',
-    href: '/team',
-  },
-];
