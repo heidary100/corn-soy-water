@@ -18,7 +18,7 @@ import {
   ModalBody,
   ModalFooter,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
   MdAdd, MdMap, MdEdit, MdDetails, MdDelete,
 } from 'react-icons/md';
@@ -110,9 +110,9 @@ export default function Soybean() {
           <ModalHeader>Delete Confirmation</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            Are you sure you want to delete "
+            Are you sure you want to delete &qout;
             {selectedItem?.name}
-            "?
+            &qout;?
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="red" onClick={handleDelete}>

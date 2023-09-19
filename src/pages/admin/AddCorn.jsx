@@ -18,12 +18,19 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  useToast,
+  FormErrorMessage,
 } from '@chakra-ui/react';
 import {
   MapContainer, TileLayer, useMapEvents, Marker,
 } from 'react-leaflet';
 import { NavLink } from 'react-router-dom';
 import { MdArrowBack } from 'react-icons/md';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { Field, Form, Formik } from 'formik';
+import * as Yup from 'yup';
+import CornService from '../../services/corn.service';
 
 function LocationFinderDummy({ onClick }) {
   // eslint-disable-next-line no-unused-vars
@@ -60,37 +67,51 @@ function Form1() {
 }
 
 function Form2() {
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
   return (
     <>
       <Heading w="100%" textAlign="center" fontWeight="normal" mb="2%">
         Step 2: Crop Management Info
       </Heading>
 
-      <FormControl as={GridItem}>
-        <FormLabel
-          htmlFor="name"
-          fontSize="sm"
-          fontWeight="md"
-          color="gray.700"
-          _dark={{
-            color: 'gray.50',
-          }}
-          mt="2%"
-        >
-          Name
-        </FormLabel>
-        <Input
-          type="text"
-          name="name"
-          id="name"
-          focusBorderColor="brand.400"
-          shadow="sm"
-          size="sm"
-          w="full"
-          rounded="md"
-        />
-      </FormControl>
-
+      <Field name="name">
+        {({ field, form }) => (
+          <FormControl
+            as={GridItem}
+            isRequired
+            isInvalid={form.errors.name && form.touched.name}
+          >
+            <FormLabel
+              htmlFor="name"
+              fontSize="sm"
+              fontWeight="md"
+              color="gray.700"
+              _dark={{
+                color: 'gray.50',
+              }}
+              mt="2%"
+            >
+              Name
+            </FormLabel>
+            <Input
+              type="text"
+              id="name"
+              focusBorderColor="brand.400"
+              shadow="sm"
+              size="sm"
+              w="full"
+              rounded="md"
+              {...field}
+            />
+            <FormErrorMessage>{form.errors.name}</FormErrorMessage>
+          </FormControl>
+        )}
+      </Field>
       <FormControl as={GridItem}>
         <FormLabel
           htmlFor="city"
@@ -104,7 +125,7 @@ function Form2() {
         >
           Date of Planting
         </FormLabel>
-        <Input
+        {/* <Input
           type="text"
           name="city"
           id="city"
@@ -114,6 +135,11 @@ function Form2() {
           size="sm"
           w="full"
           rounded="md"
+        /> */}
+        <DatePicker
+          selected={selectedDate}
+          onChange={handleDateChange}
+          dateFormat="dd/MM/yyyy"
         />
       </FormControl>
 
@@ -264,8 +290,48 @@ function Form3() {
 export default function AddCorn() {
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(33.33);
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
   // eslint-disable-next-line no-nested-ternary
   const currentForm = step === 1 ? <Form1 /> : step === 2 ? <Form2 /> : <Form3 />;
+
+  const initialValues = {
+    name: '',
+  };
+
+  const validationSchema = Yup.object({
+    name: Yup.string().required('Name is required'),
+  });
+
+  const handleSubmit = async (values, { setSubmitting }) => {
+    // Handle form submission here
+    setLoading(true);
+
+    try {
+      await CornService.createCorn(values);
+      // Handle a successful API response (e.g., display a success message)
+      toast({
+        title: 'Account created.',
+        description: "We've created your account for you.",
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
+      // setStatus('Registration successful');
+    } catch (error) {
+      // Handle API errors (e.g., display an error message)
+      toast({
+        title: 'Failure.',
+        description: 'Registration failed.',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
+    } finally {
+      setSubmitting(false);
+      setLoading(false);
+    }
+  };
 
   return (
     <Container height="100vh" maxW="container.lg">
@@ -286,7 +352,17 @@ export default function AddCorn() {
         as="form"
       >
         <Progress hasStripe value={progress} mb="5%" mx="5%" isAnimated />
-        {currentForm}
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {() => (
+            <Form>
+              {currentForm}
+            </Form>
+          )}
+        </Formik>
         <ButtonGroup mt="5%" w="100%">
           <Flex w="100%" justifyContent="space-between">
             <Flex>
@@ -325,6 +401,8 @@ export default function AddCorn() {
                 w="7rem"
                 colorScheme="green"
                 variant="solid"
+                isLoading={loading}
+                loadingText="Submitting"
               >
                 Submit
               </Button>
