@@ -1,0 +1,21 @@
+.line1 {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 2px;
+  }
+  
+  .line2 {
+    fill: none;
+    stroke: red;
+    stroke-width: 2px;
+  }
+  
+  .x-axis {
+    font-size: 12px;
+  }
+  
+  .y0-axis,
+  .y1-axis {
+    font-size: 12px;
+  }
+  

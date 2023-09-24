@@ -1,68 +1,72 @@
-/** MultilineChart.js */
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import * as d3 from 'd3';
 
 function MultilineChart({ data = [], dimensions = {} }) {
-  const svgRef = React.useRef(null);
-  // to detect what line to animate we should store previous data state
-  const [prevItems, setPrevItems] = React.useState([]);
+  const svgRef = useRef(null);
+  const [prevItems, setPrevItems] = useState([]);
   const { width, height, margin = {} } = dimensions;
   const svgWidth = width + margin.left + margin.right;
   const svgHeight = height + margin.top + margin.bottom;
 
-  React.useEffect(() => {
+  useEffect(() => {
     const xScale = d3
       .scaleTime()
       .domain(d3.extent(data[0].items, (d) => d.date))
       .range([0, width]);
+
     const yScale = d3
       .scaleLinear()
       .domain([
-        d3.min(data[0].items, (d) => d.value) - 50,
-        d3.max(data[0].items, (d) => d.value) + 50,
+        d3.min(data[0].items, (d) => d.value) - 10,
+        d3.max(data[0].items, (d) => d.value) + 10,
       ])
       .range([height, 0]);
-    // Create root container where we will append all other chart elements
+
+    const y2Scale = d3
+      .scaleLinear()
+      .domain([
+        d3.min(data[0].items, (d) => d.marketvalue) - 10,
+        d3.max(data[0].items, (d) => d.marketvalue) + 10,
+      ])
+      .range([height, 0]);
+
     const svgEl = d3.select(svgRef.current);
-    svgEl.selectAll('*').remove(); // Clear svg content before adding new elements
-    const svg = svgEl
-      .append('g')
-      .attr('transform', `translate(${margin.left},${margin.top})`);
-    // Add X grid lines with labels
+    svgEl.selectAll('*').remove();
+    const svg = svgEl.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
     const xAxis = d3
       .axisBottom(xScale)
       .ticks(5)
       .tickSize(-height + margin.bottom);
+
     const xAxisGroup = svg
       .append('g')
       .attr('transform', `translate(0, ${height - margin.bottom})`)
       .call(xAxis);
+
     xAxisGroup.select('.domain').remove();
     xAxisGroup.selectAll('line').attr('stroke', 'rgba(0, 0, 0, 0.2)');
-    xAxisGroup
-      .selectAll('text')
-      .attr('opacity', 0.5)
-      .attr('color', 'black')
-      .attr('font-size', '0.75rem');
-    // Add Y grid lines with labels
+    xAxisGroup.selectAll('text').attr('opacity', 0.5).attr('color', 'black').attr('font-size', '0.75rem');
+
     const yAxis = d3
       .axisLeft(yScale)
       .ticks(5)
-      .tickSize(-width)
-      .tickFormat((val) => `${val}%`);
+      .tickSize(-width);
+
     const yAxisGroup = svg.append('g').call(yAxis);
     yAxisGroup.select('.domain').remove();
     yAxisGroup.selectAll('line').attr('stroke', 'rgba(0, 0, 0, 0.2)');
-    yAxisGroup
-      .selectAll('text')
-      .attr('opacity', 0.5)
-      .attr('color', 'black')
-      .attr('font-size', '0.75rem');
-    // Draw the lines
-    const line = d3
-      .line()
-      .x((d) => xScale(d.date))
-      .y((d) => yScale(d.value));
+    yAxisGroup.selectAll('text').attr('opacity', 0.5).attr('color', 'black').attr('font-size', '0.75rem');
+
+    const yAxis2 = d3.axisRight(y2Scale).ticks(5).tickSize(width);
+    const yAxis2Group = svg.append('g').call(yAxis2);
+    yAxis2Group.select('.domain').remove();
+    yAxis2Group.selectAll('text').attr('opacity', 0.5).attr('color', 'black').attr('font-size', '0.75rem');
+
+    const line = d3.line().x((d) => xScale(d.date)).y((d) => yScale(d.value));
+
+    const line2 = d3.line().x((d) => xScale(d.date)).y((d) => y2Scale(d.marketvalue));
+
     const lines = svg
       .selectAll('.line')
       .data(data)
@@ -71,8 +75,8 @@ function MultilineChart({ data = [], dimensions = {} }) {
       .attr('fill', 'none')
       .attr('stroke', (d) => d.color)
       .attr('stroke-width', 3)
-      .attr('d', (d) => line(d.items));
-    // Use stroke-dashoffset for transition
+      .attr('d', (d) => (d.name === data[0].name ? line(d.items) : line2(d.items)));
+
     lines.each((d, i, nodes) => {
       const element = nodes[i];
       const length = element.getTotalLength();

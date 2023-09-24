@@ -1,22 +1,21 @@
+import { Checkbox, VStack } from '@chakra-ui/react';
 import React from 'react';
 
 function Legend({ data, selectedItems, onChange }) {
   return (
-    <div className="legendContainer">
+    <VStack align="flex-start">
       {data.map((d) => (
-        <div className="checkbox" style={{ color: d.color }} key={d.name}>
-          {d.name !== 'Portfolio' && (
-          <input
-            type="checkbox"
-            value={d.name}
-            checked={selectedItems.includes(d.name)}
-            onChange={() => onChange(d.name)}
-          />
-          )}
-          <p>{d.name}</p>
-        </div>
+        <Checkbox
+          style={{ color: d.color }}
+          key={d.name}
+          value={d.name}
+          checked={selectedItems.includes(d.name)}
+          onChange={() => onChange(d.name)}
+        >
+          {d.name}
+        </Checkbox>
       ))}
-    </div>
+    </VStack>
   );
 }
 

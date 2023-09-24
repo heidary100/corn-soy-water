@@ -39,7 +39,7 @@ function App() {
             <Route index element={<Soybean />} />
             <Route path="add" element={<AddSoybean />} />
             <Route path="map" element={<SoybeanMap />} />
-            <Route path="detail" element={<SoybeanDetail />} />
+            <Route path="detail/:id" element={<SoybeanDetail />} />
           </Route>
 
           <Route path="corn">

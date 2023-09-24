@@ -79,10 +79,10 @@ export default function Soybean() {
                 <Td isNumeric>{item.relativeMaturity}</Td>
                 <Td>
                   <Stack direction="row" spacing={1}>
-                    <Button leftIcon={<MdEdit />} colorScheme="blue" variant="outline">
+                    <Button as={NavLink} to={`/admin/soybean/edit/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="outline">
                       Edit
                     </Button>
-                    <Button leftIcon={<MdDetails />} colorScheme="blue" variant="outline">
+                    <Button as={NavLink} to={`/admin/soybean/detail/${item.id}`} leftIcon={<MdDetails />} colorScheme="blue" variant="outline">
                       Detail
                     </Button>
                     <Button
@@ -118,7 +118,7 @@ export default function Soybean() {
             <Button colorScheme="red" onClick={handleDelete}>
               Delete
             </Button>
-                        &nbsp;
+            &nbsp;
             <Button variant="ghost" onClick={() => setIsDeleteModalOpen(false)}>
               Cancel
             </Button>
