@@ -2,9 +2,9 @@ import React from 'react';
 import {
   Box, Container, Heading, Tab, TabList, TabPanel, TabPanels, Tabs, Text, VStack,
 } from '@chakra-ui/react';
-import schc from './SCHC.json';
-import vcit from './VCIT.json';
-import portfolio from './portfolio.json';
+import schc from '../../data/SCHC.json';
+import vcit from '../../data/VCIT.json';
+import portfolio from '../../data/portfolio.json';
 import MultilineChart from '../../components/admin/MultilineChart';
 import Legend from '../../components/admin/Legend';
 
