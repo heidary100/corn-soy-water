@@ -26,7 +26,7 @@ import {
 import {
   MapContainer, TileLayer, useMapEvents, Marker,
 } from 'react-leaflet';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { MdArrowBack } from 'react-icons/md';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -72,6 +72,7 @@ const form3ValidationSchema = Yup.object().shape({
 });
 
 export default function AddSoybean() {
+  const navigate = useNavigate();
   const toast = useToast();
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(33.33);
@@ -79,6 +80,8 @@ export default function AddSoybean() {
 
   const handleSubmit = async (values) => {
     try {
+      // eslint-disable-next-line no-console
+      console.log(values);
       await SoybeanService.createSoybean(values);
       // Handle successful submission here
       toast({
@@ -87,6 +90,7 @@ export default function AddSoybean() {
         duration: 9000,
         isClosable: true,
       });
+      navigate('/admin/soybean');
     } catch (error) {
       // Handle submission error here
       toast({

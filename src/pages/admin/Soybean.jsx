@@ -17,37 +17,60 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  useToast,
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   MdAdd, MdMap, MdEdit, MdDetails, MdDelete,
 } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
+import SoybeanService from '../../services/soybean.service';
 
 export default function Soybean() {
-  const [data, setData] = useState([
-    {
-      id: 1, name: 'Item 1', dateOfPlanting: '07/04/2023', relativeMaturity: '1.4',
-    },
-    {
-      id: 2, name: 'Item 2', dateOfPlanting: '07/05/2023', relativeMaturity: '1.1',
-    },
-    {
-      id: 3, name: 'Item 3', dateOfPlanting: '07/07/2023', relativeMaturity: '2.4',
-    },
-    {
-      id: 4, name: 'Item 4', dateOfPlanting: '07/08/2023', relativeMaturity: '1.3',
-    },
-  ]);
+  const toast = useToast();
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    try {
+      setData(SoybeanService.getSoybeans());
+    } catch (error) {
+      // Handle submission error here
+      toast({
+        title: 'Failed to load data, Try again.',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  }, []);
 
   const [selectedItem, setSelectedItem] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const handleDelete = () => {
-    // Remove the selected item from the data array
-    setData(data.filter((item) => item.id !== selectedItem.id));
-    // Close the delete confirmation modal
-    setIsDeleteModalOpen(false);
+  const handleDelete = async () => {
+    try {
+      // eslint-disable-next-line no-console
+      await SoybeanService.deleteSoybeanById(selectedItem.id);
+      setData(data.filter((item) => item.id !== selectedItem.id));
+
+      // Handle successful submission here
+      toast({
+        title: 'Deleted Soybean Field Successfuly.',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
+    } catch (error) {
+      // Handle submission error here
+      toast({
+        title: 'Failure, Try again.',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
+    } finally {
+      setIsDeleteModalOpen(false);
+    }
   };
 
   return (
@@ -73,10 +96,10 @@ export default function Soybean() {
           </Thead>
           <Tbody>
             {data.map((item) => (
-              <Tr>
+              <Tr key={item.id}>
                 <Td>{item.name}</Td>
-                <Td>{item.dateOfPlanting}</Td>
-                <Td isNumeric>{item.relativeMaturity}</Td>
+                <Td>{item.plantingDate}</Td>
+                <Td isNumeric>{item.maturityGroup}</Td>
                 <Td>
                   <Stack direction="row" spacing={1}>
                     <Button as={NavLink} to={`/admin/soybean/edit/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="outline">
@@ -110,9 +133,9 @@ export default function Soybean() {
           <ModalHeader>Delete Confirmation</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            Are you sure you want to delete &qout;
+            Are you sure you want to delete &ldquo;
             {selectedItem?.name}
-            &qout;?
+            &ldquo;?
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="red" onClick={handleDelete}>
