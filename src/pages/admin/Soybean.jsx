@@ -18,6 +18,7 @@ import {
   ModalBody,
   ModalFooter,
   useToast,
+  Progress,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import {
@@ -29,10 +30,18 @@ import SoybeanService from '../../services/soybean.service';
 export default function Soybean() {
   const toast = useToast();
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    async function fetchData() {
+      const soybeans = await SoybeanService.getSoybeans();
+      setData(soybeans);
+      setLoading(false);
+    }
+
     try {
-      setData(SoybeanService.getSoybeans());
+      setLoading(true);
+      fetchData();
     } catch (error) {
       // Handle submission error here
       toast({
@@ -48,6 +57,8 @@ export default function Soybean() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const handleDelete = async () => {
+    setIsDeleteModalOpen(false);
+    setLoading(true);
     try {
       // eslint-disable-next-line no-console
       await SoybeanService.deleteSoybeanById(selectedItem.id);
@@ -69,7 +80,7 @@ export default function Soybean() {
         isClosable: true,
       });
     } finally {
-      setIsDeleteModalOpen(false);
+      setLoading(false);
     }
   };
 
@@ -84,7 +95,9 @@ export default function Soybean() {
           Show on Map
         </Button>
       </Stack>
+
       <TableContainer marginTop={10}>
+        <Progress hidden={!loading} size="xs" isIndeterminate />
         <Table variant="simple">
           <Thead>
             <Tr>
@@ -98,7 +111,7 @@ export default function Soybean() {
             {data.map((item) => (
               <Tr key={item.id}>
                 <Td>{item.name}</Td>
-                <Td>{item.plantingDate}</Td>
+                <Td>{item.plantingDate.toString().split('T')[0]}</Td>
                 <Td isNumeric>{item.maturityGroup}</Td>
                 <Td>
                   <Stack direction="row" spacing={1}>

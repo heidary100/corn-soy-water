@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Container,
   Progress,
@@ -26,7 +26,7 @@ import {
 import {
   MapContainer, TileLayer, useMapEvents, Marker,
 } from 'react-leaflet';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { MdArrowBack } from 'react-icons/md';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -71,25 +71,39 @@ const form3ValidationSchema = Yup.object().shape({
     .required('Average Soil Texture is required'),
 });
 
-export default function AddSoybean() {
+export default function AddSoybean({ edit }) {
+  const { id } = useParams();
   const navigate = useNavigate();
   const toast = useToast();
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(33.33);
   const [soilTexture, setSoilTexture] = useState('automatic');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (values) => {
+    setLoading(true);
+
     try {
       // eslint-disable-next-line no-console
-      console.log(values);
-      await SoybeanService.createSoybean(values);
-      // Handle successful submission here
-      toast({
-        title: 'Created Soybean Field Successfuly.',
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-      });
+      if (edit === true) {
+        await SoybeanService.updateSoybean(id, values);
+        // Handle successful submission here
+        toast({
+          title: 'Updated Soybean Field Successfuly.',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+        });
+      } else {
+        await SoybeanService.createSoybean(values);
+        // Handle successful submission here
+        toast({
+          title: 'Created Soybean Field Successfuly.',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+        });
+      }
       navigate('/admin/soybean');
     } catch (error) {
       // Handle submission error here
@@ -99,6 +113,8 @@ export default function AddSoybean() {
         duration: 9000,
         isClosable: true,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -124,6 +140,29 @@ export default function AddSoybean() {
       }
     },
   });
+
+  useEffect(() => {
+    async function fetchData(soybeanId) {
+      const soybean = await SoybeanService.getSoybeanById(soybeanId);
+      formik.setValues(soybean);
+      setLoading(false);
+    }
+
+    if (edit === true && id !== undefined) {
+      setLoading(true);
+      try {
+        fetchData(id);
+      } catch (error) {
+        // Handle submission error here
+        toast({
+          title: 'Failed to load data, Try again.',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+    }
+  }, []);
 
   const currentForm = () => {
     switch (step) {
@@ -505,6 +544,8 @@ export default function AddSoybean() {
                   w="7rem"
                   colorScheme="green"
                   variant="solid"
+                  isLoading={loading}
+                  loadingText="Submitting"
                 >
                   Submit
                 </Button>
@@ -520,12 +561,15 @@ export default function AddSoybean() {
 
   return (
     <Container height="100vh" maxW="container.lg">
-      <Heading marginTop={10}>Add Soybean Field</Heading>
+      <Heading marginTop={10}>
+        {edit === true ? 'Edit Soybean Field' : 'Add Soybean Field'}
+      </Heading>
       <Stack direction="row" spacing={4} marginTop={10}>
         <Button as={NavLink} to="/admin/soybean" float="right" leftIcon={<MdArrowBack />} colorScheme="blue" variant="outline">
           Back to List
         </Button>
       </Stack>
+      <Progress hidden={!loading} size="xs" isIndeterminate marginTop={10} />
       <Box
         borderWidth="1px"
         rounded="lg"
@@ -533,6 +577,7 @@ export default function AddSoybean() {
         p={6}
         m="10px auto"
         marginTop={10}
+        disabled={loading}
       >
         <Progress hasStripe value={progress} mb="5%" mx="5%" isAnimated />
         {currentForm()}

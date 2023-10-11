@@ -38,6 +38,7 @@ function App() {
           <Route path="soybean">
             <Route index element={<Soybean />} />
             <Route path="add" element={<AddSoybean />} />
+            <Route path="edit/:id" element={<AddSoybean edit />} />
             <Route path="map" element={<SoybeanMap />} />
             <Route path="detail/:id" element={<SoybeanDetail />} />
           </Route>
