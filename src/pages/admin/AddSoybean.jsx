@@ -55,19 +55,19 @@ const form2ValidationSchema = Yup.object().shape({
     .required('Planting date is required'),
   maturityGroup: Yup.number()
     .required('Maturity Group is required')
-    .min(1, 'Maturity Group shoud be more than 1')
-    .max(4.5, 'Maturity Group shoud be less than 4.5'),
+    .min(1, 'Maturity Group should be more than 1')
+    .max(4.5, 'Maturity Group should be less than 4.5'),
 });
 
 const form3ValidationSchema = Yup.object().shape({
   soilRootingDepth: Yup.number()
     .required('Soil Rooting Depth is required')
-    .min(20, 'Soil Rooting Depth shoud be more than 20')
-    .max(50, 'Soil Rooting Depth shoud be less than 50'),
+    .min(20, 'Soil Rooting Depth should be more than 20')
+    .max(50, 'Soil Rooting Depth should be less than 50'),
   availableSoilWater: Yup.number()
     .required('Average Soil Water is required')
-    .min(0, 'Average Soil Water shoud be more than 0')
-    .max(100, 'Average Soil Water shoud be less than 100'),
+    .min(0, 'Average Soil Water should be more than 0')
+    .max(100, 'Average Soil Water should be less than 100'),
   averageSoilTexture: Yup.string()
     .required('Average Soil Texture is required'),
 });
