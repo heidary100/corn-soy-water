@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
   Container,
   Heading,
@@ -18,36 +17,71 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  useToast,
+  Progress,
 } from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
 import {
   MdAdd, MdMap, MdEdit, MdDetails, MdDelete,
 } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
+import CornService from '../../services/corn.service';
 
 export default function Corn() {
-  const [data, setData] = useState([
-    {
-      id: 1, name: 'Item 1', dateOfPlanting: '07/04/2023', relativeMaturity: '1.4',
-    },
-    {
-      id: 2, name: 'Item 2', dateOfPlanting: '07/05/2023', relativeMaturity: '1.1',
-    },
-    {
-      id: 3, name: 'Item 3', dateOfPlanting: '07/07/2023', relativeMaturity: '2.4',
-    },
-    {
-      id: 4, name: 'Item 4', dateOfPlanting: '07/08/2023', relativeMaturity: '1.3',
-    },
-  ]);
+  const toast = useToast();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    async function fetchData() {
+      const corns = await CornService.getCorns();
+      setData(corns);
+      setLoading(false);
+    }
+
+    try {
+      setLoading(true);
+      fetchData();
+    } catch (error) {
+      // Handle submission error here
+      toast({
+        title: 'Failed to load data, Try again.',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  }, []);
 
   const [selectedItem, setSelectedItem] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const handleDelete = () => {
-    // Remove the selected item from the data array
-    setData(data.filter((item) => item.id !== selectedItem.id));
-    // Close the delete confirmation modal
+  const handleDelete = async () => {
     setIsDeleteModalOpen(false);
+    setLoading(true);
+    try {
+      // eslint-disable-next-line no-console
+      await CornService.deleteCornById(selectedItem.id);
+      setData(data.filter((item) => item.id !== selectedItem.id));
+
+      // Handle successful submission here
+      toast({
+        title: 'Deleted Corn Field Successfuly.',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
+    } catch (error) {
+      // Handle submission error here
+      toast({
+        title: 'Failure, Try again.',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -61,7 +95,9 @@ export default function Corn() {
           Show on Map
         </Button>
       </Stack>
+
       <TableContainer marginTop={10}>
+        <Progress hidden={!loading} size="xs" isIndeterminate />
         <Table variant="simple">
           <Thead>
             <Tr>
@@ -73,16 +109,16 @@ export default function Corn() {
           </Thead>
           <Tbody>
             {data.map((item) => (
-              <Tr>
+              <Tr key={item.id}>
                 <Td>{item.name}</Td>
-                <Td>{item.dateOfPlanting}</Td>
-                <Td isNumeric>{item.relativeMaturity}</Td>
+                <Td>{item.plantingDate.toString().split('T')[0]}</Td>
+                <Td isNumeric>{item.maturityGroup}</Td>
                 <Td>
                   <Stack direction="row" spacing={1}>
-                    <Button leftIcon={<MdEdit />} colorScheme="blue" variant="outline">
+                    <Button as={NavLink} to={`/admin/corn/edit/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="outline">
                       Edit
                     </Button>
-                    <Button leftIcon={<MdDetails />} colorScheme="blue" variant="outline">
+                    <Button as={NavLink} to={`/admin/corn/detail/${item.id}`} leftIcon={<MdDetails />} colorScheme="blue" variant="outline">
                       Detail
                     </Button>
                     <Button
@@ -110,15 +146,15 @@ export default function Corn() {
           <ModalHeader>Delete Confirmation</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            Are you sure you want to delete &qout;
+            Are you sure you want to delete &ldquo;
             {selectedItem?.name}
-            &qout;?
+            &ldquo;?
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="red" onClick={handleDelete}>
               Delete
             </Button>
-                        &nbsp;
+            &nbsp;
             <Button variant="ghost" onClick={() => setIsDeleteModalOpen(false)}>
               Cancel
             </Button>

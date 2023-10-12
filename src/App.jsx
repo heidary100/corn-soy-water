@@ -46,6 +46,7 @@ function App() {
           <Route path="corn">
             <Route index element={<Corn />} />
             <Route path="add" element={<AddCorn />} />
+            <Route path="edit/:id" element={<AddCorn edit />} />
             <Route path="map" element={<CornMap />} />
           </Route>
           <Route path="*" element={<NoPage />} />
