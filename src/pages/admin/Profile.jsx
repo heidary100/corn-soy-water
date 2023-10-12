@@ -1,5 +1,4 @@
-'use client';
-
+import React from 'react';
 import {
   Button,
   Flex,
@@ -9,7 +8,6 @@ import {
   Input,
   Stack,
   useColorModeValue,
-  HStack,
   Avatar,
   AvatarBadge,
   IconButton,

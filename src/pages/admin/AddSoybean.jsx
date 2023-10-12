@@ -33,6 +33,7 @@ import * as Yup from 'yup';
 import DatePicker from 'react-datepicker';
 import SoybeanService from '../../services/soybean.service';
 import 'react-datepicker/dist/react-datepicker.css';
+import LeafletgeoSearch from '../../components/LeafletgeoSearch';
 
 function LocationFinderDummy({ onClick }) {
   // eslint-disable-next-line no-unused-vars
@@ -186,6 +187,7 @@ export default function AddSoybean({ edit }) {
                 <LocationFinderDummy
                   onClick={(point) => formik.setValues({ ...formik.values, ...point })}
                 />
+                <LeafletgeoSearch />
               </MapContainer>
             </Box>
 

@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Container,
   Heading,
@@ -5,7 +6,7 @@ import {
   Button,
   Box,
 } from '@chakra-ui/react';
-import { MdAdd, MdArrowBack, MdList } from 'react-icons/md';
+import { MdArrowBack } from 'react-icons/md';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import { NavLink } from 'react-router-dom';
 

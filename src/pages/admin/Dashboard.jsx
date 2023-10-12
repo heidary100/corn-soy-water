@@ -51,7 +51,13 @@ export default function Dashboard() {
             </Text>
           </Heading>
           <Text color="gray.500">
-            Using real-time weather data and field specific crop information provided by the user, CornSoyWater uses simulation to track, from planting to now, crop water use, water inputs from rainfall and past irrigation, soil available water to the maximum rooting depth, and possible crop water stress. Irrigation is recommended for a field if crop water stress is indicated currently or within the next three days if no significant rainfall is expected.
+            Using real-time weather data and field specific crop information provided by the user,
+            CornSoyWater uses simulation to track, from planting to now, crop water use,
+            water inputs from rainfall and past irrigation,
+            soil available water to the maximum rooting depth,
+            and possible crop water stress.
+            Irrigation is recommended for a field if crop water stress is indicated
+            currently or within the next three days if no significant rainfall is expected.
           </Text>
           <Stack spacing={{ base: 4, sm: 6 }} direction={{ base: 'column', sm: 'row' }}>
             <Button

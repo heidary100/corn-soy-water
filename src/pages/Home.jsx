@@ -53,7 +53,7 @@ export default function Home() {
             Sign in
           </Button>
           <Text align="center">
-            Don't have an account?
+            Don&apos;t have an account?
             {' '}
             <Button as="a" href="/register" variant="link" colorScheme="blue" size="sm">
               Sign up.
