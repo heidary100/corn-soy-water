@@ -5,7 +5,7 @@
 const sleep = (delay) => new Promise((resolve) => { setTimeout(resolve, delay); });
 // const getSoybeans = () => axios.get(API_URL, { headers: authHeader() });
 const getSoybeans = async () => {
-  await sleep(5000);
+  await sleep(200);
   if (localStorage.soybeans !== undefined) {
     return JSON.parse(localStorage.soybeans);
   } return [];

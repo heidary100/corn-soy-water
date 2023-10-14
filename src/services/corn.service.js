@@ -7,7 +7,7 @@ const sleep = (delay) => new Promise((resolve) => { setTimeout(resolve, delay); 
 
 // const getCorns = () => axios.get(API_URL, { headers: authHeader() });
 const getCorns = async () => {
-  await sleep(5000);
+  await sleep(200);
   if (localStorage.corns !== undefined) {
     return JSON.parse(localStorage.corns);
   } return [];
