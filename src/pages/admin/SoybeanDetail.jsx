@@ -63,7 +63,7 @@ export default function SoybeanDetail() {
   };
 
   return (
-    <Container height="100vh" maxW="container.lg">
+    <Container minHeight="100vh" maxW="container.lg">
       <Heading marginTop={10}>Soybean Detail</Heading>
       <br />
       <Tabs isFitted>

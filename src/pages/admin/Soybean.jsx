@@ -85,7 +85,7 @@ export default function Soybean() {
   };
 
   return (
-    <Container height="100vh" maxW="container.lg">
+    <Container minHeight="100vh" maxW="container.lg">
       <Heading marginTop={10}>Soybean Fields</Heading>
       <Stack direction="row" spacing={4} marginTop={10}>
         <Button as={NavLink} to="/admin/soybean/add" leftIcon={<MdAdd />} colorScheme="green" variant="solid">

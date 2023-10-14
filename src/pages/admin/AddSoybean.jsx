@@ -562,7 +562,7 @@ export default function AddSoybean({ edit }) {
   };
 
   return (
-    <Container height="100vh" maxW="container.lg">
+    <Container minHeight="100vh" maxW="container.lg">
       <Heading marginTop={10}>
         {edit === true ? 'Edit Soybean Field' : 'Add Soybean Field'}
       </Heading>

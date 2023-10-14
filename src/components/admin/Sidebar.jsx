@@ -95,7 +95,7 @@ function SidebarContent(props) {
           alt="Corn Soy Water"
         />
         {' '}
-&nbsp;
+        &nbsp;
         <Text fontSize="2xl" ml="2" color="white" fontWeight="semibold">
           Corn Soy Water
         </Text>
@@ -119,6 +119,7 @@ function SidebarContent(props) {
 
 function Sidebar() {
   const sidebar = useDisclosure();
+  const user = JSON.parse(localStorage.user);
 
   return (
     <Box as="section" bg="gray.50" _dark={{ bg: 'gray.700' }} minH="100vh">
@@ -146,6 +147,11 @@ function Sidebar() {
           borderColor="blackAlpha.300"
           h="14"
         >
+          <Text fontWeight="bold">
+            Hey,&nbsp;
+            {user.firstName}
+            !
+          </Text>
           <IconButton
             aria-label="Menu"
             display={{ base: 'inline-flex', md: 'none' }}
@@ -158,7 +164,7 @@ function Sidebar() {
           <Flex align="center">
             <ColorModeSwitcher />
             &nbsp;
-            <Button as="a" href="/admin/add-corn" leftIcon={<HiOutlineLogout />} colorScheme="red" variant="solid">
+            <Button as="a" href="/login" leftIcon={<HiOutlineLogout />} colorScheme="red" variant="solid">
               Log out
             </Button>
 

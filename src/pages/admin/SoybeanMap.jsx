@@ -12,7 +12,7 @@ import { NavLink } from 'react-router-dom';
 
 export default function SoybeanMap() {
   return (
-    <Container height="100vh" maxW="container.lg">
+    <Container minHeight="100vh" maxW="container.lg">
       <Heading marginTop={10}>Map of Soybean Fields</Heading>
       <Stack direction="row" spacing={4} marginTop={10}>
         <Button as={NavLink} to="/admin/soybean" float="right" leftIcon={<MdArrowBack />} colorScheme="blue" variant="outline">

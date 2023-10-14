@@ -12,7 +12,7 @@ import LeafletgeoSearch from '../components/LeafletgeoSearch';
 
 export default function Map() {
   return (
-    <Container height="100vh" maxW="container.lg">
+    <Container minHeight="100vh" maxW="container.lg">
       <Text marginTop={10}>
         Enter zip code or address of your field area.
       </Text>
