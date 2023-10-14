@@ -119,7 +119,7 @@ function SidebarContent(props) {
 
 function Sidebar() {
   const sidebar = useDisclosure();
-  const user = JSON.parse(localStorage.user);
+  // const user = JSON.parse(localStorage.user);
 
   return (
     <Box as="section" bg="gray.50" _dark={{ bg: 'gray.700' }} minH="100vh">
@@ -147,11 +147,13 @@ function Sidebar() {
           borderColor="blackAlpha.300"
           h="14"
         >
+          {/* {user && (
           <Text fontWeight="bold">
             Hey,&nbsp;
             {user.firstName}
             !
           </Text>
+          )} */}
           <IconButton
             aria-label="Menu"
             display={{ base: 'inline-flex', md: 'none' }}

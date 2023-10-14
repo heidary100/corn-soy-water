@@ -1,16 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Container,
   Heading,
   Stack,
   Button,
   Box,
+  useToast,
+  Progress,
 } from '@chakra-ui/react';
-import { MdArrowBack } from 'react-icons/md';
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import { MdArrowBack, MdDetails, MdEdit } from 'react-icons/md';
+import {
+  MapContainer, TileLayer, Popup, Marker,
+} from 'react-leaflet';
 import { NavLink } from 'react-router-dom';
+import SoybeanService from '../../services/soybean.service';
 
 export default function SoybeanMap() {
+  const toast = useToast();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    async function fetchData() {
+      const soybeans = await SoybeanService.getSoybeans();
+      setData(soybeans);
+      setLoading(false);
+    }
+
+    try {
+      setLoading(true);
+      fetchData();
+    } catch (error) {
+      // Handle submission error here
+      toast({
+        title: 'Failed to load data, Try again.',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  }, []);
+
   return (
     <Container minHeight="100vh" maxW="container.lg">
       <Heading marginTop={10}>Map of Soybean Fields</Heading>
@@ -21,18 +51,44 @@ export default function SoybeanMap() {
       </Stack>
 
       <Box height="50vh" marginTop="10">
-        <MapContainer center={[38, -450]} zoom={4} scrollWheelZoom>
+        <Progress hidden={!loading} size="xs" isIndeterminate />
+        {!loading && (
+        <MapContainer center={[38, -90]} zoom={4} scrollWheelZoom>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker position={[38, -450]} />
+          {data.map((item) => {
+            const latitude = parseFloat(item.lat);
+            const longitude = parseFloat(item.lng);
+            if (!Number.isNaN(latitude) && !Number.isNaN(longitude)) {
+              return (
+                <Marker
+                  key={item.id}
+                  position={[latitude, longitude]}
+                  eventHandlers={{
+                    mouseover: (event) => event.target.openPopup(),
+                  }}
+                >
+                  <Popup>
+                    {item.name}
+                    &nbsp;
+                    <Button as={NavLink} to={`/admin/soybean/detail/${item.id}`} leftIcon={<MdDetails />} colorScheme="blue" variant="outline" size="sm">
+                      Detail
+                    </Button>
+                    &nbsp;
+                    <Button as={NavLink} to={`/admin/soybean/edit/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="outline" size="sm">
+                      Edit
+                    </Button>
+                  </Popup>
+                </Marker>
+              );
+            }
 
-          <Marker position={[38, -460]} />
-
-          <Marker position={[39, -470]} />
-
+            return null; // Ignore markers with invalid coordinates
+          })}
         </MapContainer>
+        )}
       </Box>
     </Container>
   );
