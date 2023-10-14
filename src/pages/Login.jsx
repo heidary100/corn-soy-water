@@ -17,10 +17,12 @@ import {
   useToast,
   FormErrorMessage,
 } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 import AuthService from '../services/auth.service';
 
 export default function Login() {
   const toast = useToast();
+  const navigate = useNavigate();
 
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -38,13 +40,14 @@ export default function Login() {
     validationSchema,
     onSubmit: async (values) => {
       try {
-        await AuthService.registerUser(values);
+        await AuthService.loginUser(values);
         toast({
           title: 'Login successful.',
           status: 'success',
           duration: 9000,
           isClosable: true,
         });
+        navigate('/admin');
       } catch (error) {
         toast({
           title: 'Failure.',
