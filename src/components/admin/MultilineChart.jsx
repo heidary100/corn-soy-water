@@ -17,16 +17,15 @@ function MultilineChart({ data = [], dimensions = {} }) {
     const yScale = d3
       .scaleLinear()
       .domain([
-        d3.min(data[0].items, (d) => d.value) - 10,
-        d3.max(data[0].items, (d) => d.value) + 10,
+        0,
+        12.5,
       ])
       .range([height, 0]);
 
     const y2Scale = d3
       .scaleLinear()
-      .domain([
-        d3.min(data[0].items, (d) => d.marketvalue) - 10,
-        d3.max(data[0].items, (d) => d.marketvalue) + 10,
+      .domain([0,
+        1.25,
       ])
       .range([height, 0]);
 
@@ -37,11 +36,11 @@ function MultilineChart({ data = [], dimensions = {} }) {
     const xAxis = d3
       .axisBottom(xScale)
       .ticks(5)
-      .tickSize(-height + margin.bottom);
+      .tickSize(-height);
 
     const xAxisGroup = svg
       .append('g')
-      .attr('transform', `translate(0, ${height - margin.bottom})`)
+      .attr('transform', `translate(0, ${height + 10})`)
       .call(xAxis);
 
     xAxisGroup.select('.domain').remove();
@@ -65,8 +64,6 @@ function MultilineChart({ data = [], dimensions = {} }) {
 
     const line = d3.line().x((d) => xScale(d.date)).y((d) => yScale(d.value));
 
-    const line2 = d3.line().x((d) => xScale(d.date)).y((d) => y2Scale(d.marketvalue));
-
     const lines = svg
       .selectAll('.line')
       .data(data)
@@ -75,7 +72,7 @@ function MultilineChart({ data = [], dimensions = {} }) {
       .attr('fill', 'none')
       .attr('stroke', (d) => d.color)
       .attr('stroke-width', 3)
-      .attr('d', (d) => (d.name === data[0].name ? line(d.items) : line2(d.items)));
+      .attr('d', (d) => line(d.items));
 
     lines.each((d, i, nodes) => {
       const element = nodes[i];

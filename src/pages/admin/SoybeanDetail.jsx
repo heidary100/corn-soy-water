@@ -33,7 +33,7 @@ const vcitData = {
 };
 
 const dimensions = {
-  width: 600,
+  width: 800,
   height: 300,
   margin: {
     top: 30,

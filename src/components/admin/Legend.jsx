@@ -6,12 +6,21 @@ function Legend({ data, selectedItems, onChange }) {
     <VStack align="flex-start">
       {data.map((d) => (
         <Checkbox
-          style={{ color: d.color }}
+          fontWeight="bold"
           key={d.name}
           value={d.name}
           checked={selectedItems.includes(d.name)}
           onChange={() => onChange(d.name)}
         >
+          <span style={{
+            display: 'inline-block',
+            height: '15px',
+            width: '15px',
+            borderRadius: '15px',
+            background: d.color,
+          }}
+          />
+          {' '}
           {d.name}
         </Checkbox>
       ))}
