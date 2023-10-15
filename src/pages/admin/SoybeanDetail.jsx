@@ -9,29 +9,59 @@ import { MdArrowBack } from 'react-icons/md';
 import {
   MapContainer, Marker, Popup, TileLayer,
 } from 'react-leaflet';
-import schc from '../../data/SCHC.json';
-import vcit from '../../data/VCIT.json';
-import portfolio from '../../data/portfolio.json';
 import MultilineChart from '../../components/admin/MultilineChart';
 import Legend from '../../components/admin/Legend';
 import SoybeanService from '../../services/soybean.service';
+import waterstress from '../../data/waterstress.json';
+import availablewater from '../../data/available-water.json';
 
-const portfolioData = {
-  name: 'Total available water within active rooting zone',
+const waterStressData = {
+  name: 'Crop Water Stress',
+  color: 'red',
+  items: waterstress.records.records.map((d) => ({ value: d.wstress, date: parseInt(d.date.split('/').join(''), 10) })),
+};
+
+const thresholdOfTotalAvailableWaterData = {
+  name: 'Threshold of total available soil water for irrigation',
+  color: 'purple',
+  items: availablewater.records.records.map((d) => ({ value: d.threshold + 1 + (Math.random()), date: parseInt(d.date.split('/').join(''), 10) })),
+};
+
+const totalAvailableWaterData = {
+  name: 'Total available soil water to maximum rooting depth',
+  color: 'brown',
+  items: availablewater.records.records.map((d) => ({ value: d.threshold + (Math.random()), date: parseInt(d.date.split('/').join(''), 10) })),
+};
+
+const rainfallAmountData = {
+  name: 'Rainfall amount (inch)',
   color: 'blue',
-  items: portfolio.map((d) => ({ ...d, date: new Date(d.date) })),
-};
-const schcData = {
-  name: 'Available soil water at a 50% depletion',
-  color: '#d53e4f',
-  items: schc.map((d) => ({ ...d, date: new Date(d.date) })),
-};
-const vcitData = {
-  name: 'Crop water stress',
-  color: '#d568fb',
-  items: vcit.map((d) => ({ ...d, date: new Date(d.date) })),
+  items: availablewater.records.records.map((d) => ({ value: d.threshold + (Math.random()), date: parseInt(d.date.split('/').join(''), 10) })),
 };
 
+const irrigationAmountData = {
+  name: 'Irrigation amount (inch)',
+  color: 'green',
+  items: availablewater.records.records.map((d) => ({ value: d.threshold + (Math.random()), date: parseInt(d.date.split('/').join(''), 10) })),
+};
+
+const availableWaterOfFirstFootData = {
+  name: 'Available water of the first foot of soil',
+  color: 'orange',
+  items: availablewater.records.records.map((d) => ({ value: d.threshold + (Math.random()), date: parseInt(d.date.split('/').join(''), 10) })),
+};
+
+const availableWaterOfSecondFootData = {
+  name: 'Available water of the second foot of soil',
+  color: 'pink',
+  items: availablewater.records.records.map((d) => ({ value: d.threshold + (Math.random()), date: parseInt(d.date.split('/').join(''), 10) })),
+};
+
+const availableWaterBelowSecondFootData = {
+  name: 'Available water below the second foot of soil',
+  color: 'grey',
+  items: availablewater.records.records.map((d) => ({ value: d.threshold + (Math.random()), date: parseInt(d.date.split('/').join(''), 10) })),
+};
 const dimensions = {
   width: 800,
   height: 300,
@@ -42,27 +72,6 @@ const dimensions = {
     left: 60,
   },
 };
-// [Log] Object (main.5d97ed8e880d9cf27c95.hot-update.js, line 113)
-
-// availableSoilWater: "25"
-
-// averageSoilTexture: "11"
-
-// id: 8832
-
-// lat: 26.714667780379038
-
-// lng: -81.07910156250001
-
-// maturityGroup: "4.4"
-
-// name: "Field 1"
-
-// plantingDate: Tue Oct 17 2023 00:00:00 GMT+0330 (Iran Standard Time)
-
-// soilRootingDepth: "45"
-
-// Object Prototype
 
 export default function SoybeanDetail() {
   const { id } = useParams();
@@ -79,7 +88,15 @@ export default function SoybeanDetail() {
     // averageSoilTexture: 'eh',
   });
   const [selectedItems, setSelectedItems] = useState([]);
-  const legendData = [portfolioData, schcData, vcitData];
+  const legendData = [
+    waterStressData,
+    thresholdOfTotalAvailableWaterData,
+    totalAvailableWaterData,
+    rainfallAmountData,
+    irrigationAmountData,
+    availableWaterOfFirstFootData,
+    availableWaterOfSecondFootData,
+    availableWaterBelowSecondFootData];
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
@@ -108,8 +125,15 @@ export default function SoybeanDetail() {
   }, []);
 
   const chartData = [
-    portfolioData,
-    ...[schcData, vcitData].filter((d) => selectedItems.includes(d.name)),
+    waterStressData,
+    ...[thresholdOfTotalAvailableWaterData,
+      totalAvailableWaterData,
+      rainfallAmountData,
+      irrigationAmountData,
+      availableWaterOfFirstFootData,
+      availableWaterOfSecondFootData,
+      availableWaterBelowSecondFootData,
+    ].filter((d) => selectedItems.includes(d.name)),
   ];
 
   const onChangeSelection = (name) => {
@@ -130,8 +154,7 @@ export default function SoybeanDetail() {
       <Tabs isFitted marginTop={10}>
         <TabList>
           <Tab fontWeight="bold">Field Information</Tab>
-          <Tab fontWeight="bold">Result Summary</Tab>
-          <Tab fontWeight="bold">Insights</Tab>
+          <Tab fontWeight="bold">Result</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
@@ -139,6 +162,33 @@ export default function SoybeanDetail() {
               <Progress hidden={!loading} size="xs" isIndeterminate marginTop={10} />
               {!loading && (
                 <Box>
+                  <Box height="50vh" marginBottom="10">
+                    {!Number.isNaN(parseFloat(fieldInfo.lat))
+                      && !Number.isNaN(parseFloat(fieldInfo.lng))
+                      && (
+                        <MapContainer
+                          center={[parseFloat(fieldInfo.lat), parseFloat(fieldInfo.lng)]}
+                          zoom={6}
+                          scrollWheelZoom
+                        >
+                          <TileLayer
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                          />
+                          <Marker
+                            position={[fieldInfo.lat, fieldInfo.lng]}
+                            eventHandlers={{
+                              mouseover: (event) => event.target.openPopup(),
+                            }}
+                          >
+                            <Popup>
+                              {fieldInfo.name}
+                            </Popup>
+                          </Marker>
+                        </MapContainer>
+                      )}
+                  </Box>
+
                   <HStack>
                     <VStack spacing={4} align="left" padding={3}>
                       <Heading as="h3" size="lg" mb={2}>
@@ -185,70 +235,16 @@ export default function SoybeanDetail() {
                       </Text>
                     </VStack>
                   </HStack>
-
-                  <Box height="50vh" marginTop="10">
-                    {!Number.isNaN(parseFloat(fieldInfo.lat))
-                    && !Number.isNaN(parseFloat(fieldInfo.lng))
-                    && (
-                    <MapContainer
-                      center={[parseFloat(fieldInfo.lat), parseFloat(fieldInfo.lng)]}
-                      zoom={6}
-                      scrollWheelZoom
-                    >
-                      <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                      />
-                      <Marker position={[fieldInfo.lat, fieldInfo.lng]} />
-                      <Marker
-                        position={[fieldInfo.lat, fieldInfo.lng]}
-                        eventHandlers={{
-                          mouseover: (event) => event.target.openPopup(),
-                        }}
-                      >
-                        <Popup>
-                          {fieldInfo.name}
-                        </Popup>
-                      </Marker>
-                    </MapContainer>
-                    )}
-                  </Box>
                 </Box>
               )}
             </Box>
           </TabPanel>
           <TabPanel>
-            <Box p={4}>
-              <VStack spacing={4} align="left">
-                <Text fontSize="lg">
-                  <strong>Current available water balance within the active rooting zone: </strong>
-                  0
-                </Text>
-                <Text fontSize="lg">
-                  <strong>Initial available water in 0 - 12 inch soil zone at planting: </strong>
-                  2.1
-                </Text>
-                <Text fontSize="lg">
-                  <strong>Total rainfall amount since planting: </strong>
-                  2
-                </Text>
-                <Text fontSize="lg">
-                  <strong>Total irrigation amount: </strong>
-                  12
-                </Text>
-                <Text fontSize="lg">
-                  <strong>Water consumption (i.e., total crop ET) since planting: </strong>
-                  2982
-                </Text>
-              </VStack>
-            </Box>
-          </TabPanel>
-          <TabPanel>
             <Box border={1}>
-              <Heading as="h5" color="green">
+              <Heading color="green" marginTop={5}>
                 No crop water stress is projected for the next 10 days.
               </Heading>
-              <Text fontSize="lg">
+              <Text fontSize="md" marginTop={5}>
                 Irrigation should be commenced THREE DAYS BEFORE the day when the chart
                 crop water stress dashed line moves up from zero.
                 Crop water stress (red solid/dashed chart line) can vary
@@ -266,13 +262,59 @@ export default function SoybeanDetail() {
               if no substantial rainfall is forecasted. */}
             </Box>
             <br />
-            <Box p={4}>
+            <Box p={4} position="relative">
+              <Text position="absolute" fontWeight="bold" left="0" right="0" margin="auto" textAlign="center">
+                Estimated soil water status & crop water stress
+              </Text>
+
+              <Text position="absolute" fontWeight="bold" left="0" top="0" margin="auto" textAlign="center" transform="rotate(-90deg) translateY(-125px) translateX(-165px)">
+                Total soil available water,
+                <br />
+                irrigation amount and rainfall (inch)
+              </Text>
+
+              <Text position="absolute" fontWeight="bold" right="0" top="0" margin="auto" textAlign="center" transform="rotate(90deg) translateY(-70px) translateX(165px)">
+                Crop water stress (0 to 1)
+              </Text>
+
               <MultilineChart data={chartData} dimensions={dimensions} />
               <Legend
                 data={legendData}
                 selectedItems={selectedItems}
                 onChange={onChangeSelection}
               />
+            </Box>
+            <Box p={4}>
+              <VStack spacing={4} align="left">
+                <Heading as="h3" size="lg" mb={2}>
+                  Result Summary
+                </Heading>
+                <Text fontSize="lg">
+                  <strong>Current available water balance within the active rooting zone: </strong>
+                  {' '}
+                  0
+                </Text>
+                <Text fontSize="lg">
+                  <strong>Initial available water in 0 - 12 inch soil zone at planting: </strong>
+                  {' '}
+                  2.1
+                </Text>
+                <Text fontSize="lg">
+                  <strong>Total rainfall amount since planting: </strong>
+                  {' '}
+                  2
+                </Text>
+                <Text fontSize="lg">
+                  <strong>Total irrigation amount: </strong>
+                  {' '}
+                  12
+                </Text>
+                <Text fontSize="lg">
+                  <strong>Water consumption (i.e., total crop ET) since planting: </strong>
+                  {' '}
+                  2982
+                </Text>
+              </VStack>
             </Box>
           </TabPanel>
         </TabPanels>

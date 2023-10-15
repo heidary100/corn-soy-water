@@ -92,7 +92,10 @@ export default function CornDetail() {
     // subSoilTexture: '',
   });
   const [selectedItems, setSelectedItems] = useState([]);
-  const legendData = [waterStressData, thresholdOfTotalAvailableWaterData, totalAvailableWaterData,
+  const legendData = [
+    waterStressData,
+    thresholdOfTotalAvailableWaterData,
+    totalAvailableWaterData,
     rainfallAmountData,
     irrigationAmountData,
     availableWaterOfFirstFootData,
@@ -176,7 +179,6 @@ export default function CornDetail() {
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                           />
-                          <Marker position={[fieldInfo.lat, fieldInfo.lng]} />
                           <Marker
                             position={[fieldInfo.lat, fieldInfo.lng]}
                             eventHandlers={{
