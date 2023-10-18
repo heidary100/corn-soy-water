@@ -21,6 +21,44 @@ const createCorn = async (corn) => {
   localStorage.corns = JSON.stringify(corns);
 };
 
+const addIrrigationRecord = async (record, cornId) => {
+  const corns = await getCorns();
+  const addedRecord = { id: Math.round(Math.random() * 10000), ...record };
+  const updatedCorns = corns.map(
+    (corn) => {
+      if (Number.parseInt(corn.id, 10) === Number.parseInt(cornId, 10)) {
+        let irrigations = [];
+        if (corn.irrigations) {
+          irrigations = corn.irrigations;
+        }
+        irrigations.push(addedRecord);
+        return { ...corn, irrigations };
+      }
+      return corn;
+    },
+  );
+  localStorage.corns = JSON.stringify(updatedCorns);
+  return addedRecord;
+};
+
+const deleteIrrigationById = async (cornId, irrigationRecordId) => {
+  const corns = await getCorns();
+  const updatedCorns = corns.map(
+    (corn) => {
+      if (Number.parseInt(corn.id, 10) === Number.parseInt(cornId, 10)) {
+        let irrigations = [];
+        if (corn.irrigations) {
+          irrigations = corn.irrigations;
+        }
+        irrigations = irrigations.filter((item) => item.id !== irrigationRecordId);
+        return { ...corn, irrigations };
+      }
+      return corn;
+    },
+  );
+  localStorage.corns = JSON.stringify(updatedCorns);
+};
+
 // const getCornById = (cornId) => axios.get(`${API_URL}/${cornId}`, { headers: authHeader() });
 const getCornById = async (cornId) => {
   const corns = await getCorns();
@@ -61,6 +99,8 @@ const CornService = {
   getCornById,
   updateCorn,
   deleteCornById,
+  addIrrigationRecord,
+  deleteIrrigationById,
 };
 
 export default CornService;

@@ -19,6 +19,44 @@ const createSoybean = async (soybean) => {
   localStorage.soybeans = JSON.stringify(soybeans);
 };
 
+const addIrrigationRecord = async (record, soybeanId) => {
+  const soybeans = await getSoybeans();
+  const addedRecord = { id: Math.round(Math.random() * 10000), ...record };
+  const updatedSoybeans = soybeans.map(
+    (soybean) => {
+      if (Number.parseInt(soybean.id, 10) === Number.parseInt(soybeanId, 10)) {
+        let irrigations = [];
+        if (soybean.irrigations) {
+          irrigations = soybean.irrigations;
+        }
+        irrigations.push(addedRecord);
+        return { ...soybean, irrigations };
+      }
+      return soybean;
+    },
+  );
+  localStorage.soybeans = JSON.stringify(updatedSoybeans);
+  return addedRecord;
+};
+
+const deleteIrrigationById = async (soybeanId, irrigationRecordId) => {
+  const soybeans = await getSoybeans();
+  const updatedSoybean = soybeans.map(
+    (soybean) => {
+      if (Number.parseInt(soybean.id, 10) === Number.parseInt(soybeanId, 10)) {
+        let irrigations = [];
+        if (soybean.irrigations) {
+          irrigations = soybean.irrigations;
+        }
+        irrigations = irrigations.filter((item) => item.id !== irrigationRecordId);
+        return { ...soybean, irrigations };
+      }
+      return soybean;
+    },
+  );
+  localStorage.soybeans = JSON.stringify(updatedSoybean);
+};
+
 // const getSoybeanById = (soybeanId) =>
 // axios.get(`${API_URL}/${soybeanId}`, { headers: authHeader() });
 const getSoybeanById = async (soybeanId) => {
@@ -61,6 +99,8 @@ const SoybeanService = {
   getSoybeanById,
   updateSoybean,
   deleteSoybeanById,
+  addIrrigationRecord,
+  deleteIrrigationById,
 };
 
 export default SoybeanService;

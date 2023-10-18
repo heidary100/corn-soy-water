@@ -1,11 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import {
   Box, Button, Container,
+  Divider,
   HStack,
-  Heading, Progress, Stack, Tab, TabList, TabPanel, TabPanels, Tabs, Text, VStack, useToast,
+  Heading,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Progress, Stack,
+  Tab, TabList, TabPanel, TabPanels,
+  Table, TableContainer, Tabs, Tbody, Td, Text,
+  Th, Thead, Tr, VStack, useToast,
 } from '@chakra-ui/react';
 import { NavLink, useParams } from 'react-router-dom';
-import { MdArrowBack } from 'react-icons/md';
+import { MdAdd, MdArrowBack, MdDelete } from 'react-icons/md';
 import {
   MapContainer, Marker, Popup, TileLayer,
 } from 'react-leaflet';
@@ -14,6 +26,7 @@ import Legend from '../../components/admin/Legend';
 import SoybeanService from '../../services/soybean.service';
 import waterstress from '../../data/waterstress.json';
 import availablewater from '../../data/available-water.json';
+import AddIrrigation from './AddIrrigation';
 
 const waterStressData = {
   name: 'Crop Water Stress',
@@ -99,6 +112,77 @@ export default function SoybeanDetail() {
     availableWaterBelowSecondFootData];
   const [loading, setLoading] = useState(false);
   const toast = useToast();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedIrrigationRecord, setSelectedIrrigationRecord] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleIrrigationSubmit = async (values) => {
+    setLoading(true);
+
+    try {
+      // eslint-disable-next-line no-console
+      const addedRecord = await SoybeanService.addIrrigationRecord(values, id);
+      // Handle successful submission here
+      toast({
+        title: 'Added Irrigation record Successfuly.',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
+
+      let irrigations = fieldInfo.irrigations ? fieldInfo.irrigations : [];
+      irrigations = [...irrigations, addedRecord];
+      setFieldInfo({ ...fieldInfo, irrigations });
+    } catch (error) {
+      // Handle submission error here
+      toast({
+        title: 'Failure, Try again.',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteIrrigation = async () => {
+    setIsDeleteModalOpen(false);
+    setLoading(true);
+    try {
+      // eslint-disable-next-line no-console
+      await SoybeanService.deleteIrrigationById(selectedIrrigationRecord.id);
+      let irrigations = fieldInfo.irrigations ? fieldInfo.irrigations : [];
+      irrigations = irrigations.filter((item) => item.id !== selectedIrrigationRecord.id);
+      setFieldInfo({ ...fieldInfo, irrigations });
+
+      // Handle successful submission here
+      toast({
+        title: 'Deleted Irrigation Record Successfuly.',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
+    } catch (error) {
+      // Handle submission error here
+      toast({
+        title: 'Failure, Try again.',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     async function fetchData(soybeanId) {
@@ -235,6 +319,61 @@ export default function SoybeanDetail() {
                       </Text>
                     </VStack>
                   </HStack>
+
+                  <Divider />
+
+                  <Stack direction="row" spacing={4} marginTop={10}>
+                    <Heading float="left" as="h3" size="lg" mb={2}>
+                      Irrigation Records
+                    </Heading>
+                    <Button float="right" leftIcon={<MdAdd />} colorScheme="green" variant="solid" onClick={openModal}>
+                      Add new record
+                    </Button>
+                  </Stack>
+                  <AddIrrigation
+                    onSubmit={handleIrrigationSubmit}
+                    isOpen={isModalOpen}
+                    onClose={closeModal}
+                  />
+                  <TableContainer marginTop={10}>
+                    <Progress hidden={!loading} size="xs" isIndeterminate />
+                    {fieldInfo.irrigations && (
+                      <Table variant="simple">
+                        <Thead>
+                          <Tr>
+                            <Th>Amount</Th>
+                            <Th>Date</Th>
+                            <Th>Actions</Th>
+                          </Tr>
+                        </Thead>
+                        <Tbody>
+                          {fieldInfo.irrigations && fieldInfo.irrigations.map((item) => (
+                            <Tr key={item.id}>
+                              <Td>{item.amount}</Td>
+                              <Td>{item.date.toString().split('T')[0]}</Td>
+                              <Td>
+                                <Stack direction="row" spacing={1}>
+                                  <Button
+                                    onClick={() => {
+                                      setSelectedIrrigationRecord(item);
+                                      setIsDeleteModalOpen(true);
+                                    }}
+                                    leftIcon={<MdDelete />}
+                                    colorScheme="red"
+                                    variant="solid"
+                                  >
+                                    Delete
+                                  </Button>
+                                </Stack>
+                              </Td>
+                            </Tr>
+                          ))}
+                        </Tbody>
+                      </Table>
+                    )}
+                  </TableContainer>
+                  {!fieldInfo.irrigations
+                    && <Text fontWeight="bold">No irrigation records were found!</Text>}
                 </Box>
               )}
             </Box>
@@ -319,6 +458,25 @@ export default function SoybeanDetail() {
           </TabPanel>
         </TabPanels>
       </Tabs>
+      <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Delete Confirmation</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            Are you sure you want to delete this record?
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="red" onClick={handleDeleteIrrigation}>
+              Delete
+            </Button>
+            &nbsp;
+            <Button variant="ghost" onClick={() => setIsDeleteModalOpen(false)}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Container>
   );
 }
