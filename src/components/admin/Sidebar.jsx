@@ -16,6 +16,7 @@ import {
 import { FiMenu } from 'react-icons/fi';
 import { HiOutlineLogout } from 'react-icons/hi';
 import { NavLink, Outlet } from 'react-router-dom';
+import { CloseIcon } from '@chakra-ui/icons';
 import ColorModeSwitcher from '../ColorModeSwitcher';
 
 function NavItem(props) {
@@ -70,6 +71,7 @@ function NavItem(props) {
 }
 
 function SidebarContent(props) {
+  const { onClose } = props;
   return (
     <Box
       as="nav"
@@ -99,6 +101,17 @@ function SidebarContent(props) {
         <Text fontSize="2xl" ml="2" color="white" fontWeight="semibold">
           Corn Soy Water
         </Text>
+        <IconButton
+          position="absolute"
+          right="10px"
+          aria-label="Menu"
+          colorScheme="whiteAlpha"
+          display={{ md: 'none', base: 'unset' }}
+          onClick={onClose}
+          variant="outline"
+          icon={<CloseIcon />}
+          size="sm"
+        />
       </Flex>
       <Flex
         direction="column"
@@ -107,11 +120,18 @@ function SidebarContent(props) {
         color="gray.600"
         aria-label="Main Navigation"
       >
-        <NavItem image="/img/profile.png" to="/admin/profile">
+        <NavItem onClick={onClose} image="/img/profile.png" to="/admin/profile">
           Profile
         </NavItem>
-        <NavItem image="/img/corn.png" to="/admin/corn">Corn Fields</NavItem>
-        <NavItem image="/img/soy.png" to="/admin/soybean">Soybean Fields</NavItem>
+        <NavItem
+          onClick={onClose}
+          image="/img/corn.png"
+          to="/admin/corn"
+        >
+          Corn Fields
+
+        </NavItem>
+        <NavItem onClick={onClose} image="/img/soy.png" to="/admin/soybean">Soybean Fields</NavItem>
       </Flex>
     </Box>
   );
@@ -123,7 +143,7 @@ function Sidebar() {
 
   return (
     <Box as="section" bg="gray.50" _dark={{ bg: 'gray.700' }} minH="100vh">
-      <SidebarContent display={{ base: 'none', md: 'unset' }} />
+      <SidebarContent onClose={sidebar.onClose} display={{ base: 'none', md: 'unset' }} />
       <Drawer
         isOpen={sidebar.isOpen}
         onClose={sidebar.onClose}
@@ -131,7 +151,7 @@ function Sidebar() {
       >
         <DrawerOverlay />
         <DrawerContent>
-          <SidebarContent w="full" borderRight="none" />
+          <SidebarContent onClose={sidebar.onClose} w="full" borderRight="none" />
         </DrawerContent>
       </Drawer>
       <Box ml={{ base: 0, md: 60 }} transition=".3s ease">
