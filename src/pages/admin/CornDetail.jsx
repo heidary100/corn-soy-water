@@ -179,7 +179,7 @@ export default function CornDetail() {
     setLoading(true);
     try {
       // eslint-disable-next-line no-console
-      await CornService.deleteIrrigationById(selectedIrrigationRecord.id);
+      await CornService.deleteIrrigationById(fieldInfo.id, selectedIrrigationRecord.id);
       let irrigations = fieldInfo.irrigations ? fieldInfo.irrigations : [];
       irrigations = irrigations.filter((item) => item.id !== selectedIrrigationRecord.id);
       setFieldInfo({ ...fieldInfo, irrigations });

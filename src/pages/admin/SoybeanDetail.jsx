@@ -159,7 +159,7 @@ export default function SoybeanDetail() {
     setLoading(true);
     try {
       // eslint-disable-next-line no-console
-      await SoybeanService.deleteIrrigationById(selectedIrrigationRecord.id);
+      await SoybeanService.deleteIrrigationById(fieldInfo.id, selectedIrrigationRecord.id);
       let irrigations = fieldInfo.irrigations ? fieldInfo.irrigations : [];
       irrigations = irrigations.filter((item) => item.id !== selectedIrrigationRecord.id);
       setFieldInfo({ ...fieldInfo, irrigations });
