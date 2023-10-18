@@ -22,7 +22,7 @@ import {
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import {
-  MdAdd, MdMap, MdEdit, MdDetails, MdDelete,
+  MdAdd, MdMap, MdEdit, MdDelete, MdInfo,
 } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 import SoybeanService from '../../services/soybean.service';
@@ -118,7 +118,7 @@ export default function Soybean() {
                     <Button as={NavLink} to={`/admin/soybean/edit/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="outline">
                       Edit
                     </Button>
-                    <Button as={NavLink} to={`/admin/soybean/detail/${item.id}`} leftIcon={<MdDetails />} colorScheme="blue" variant="outline">
+                    <Button as={NavLink} to={`/admin/soybean/detail/${item.id}`} leftIcon={<MdInfo />} colorScheme="blue" variant="outline">
                       Detail
                     </Button>
                     <Button
@@ -128,7 +128,7 @@ export default function Soybean() {
                       }}
                       leftIcon={<MdDelete />}
                       colorScheme="red"
-                      variant="solid"
+                      variant="outline"
                     >
                       Delete
                     </Button>

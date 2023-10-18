@@ -8,7 +8,7 @@ import {
   useToast,
   Progress,
 } from '@chakra-ui/react';
-import { MdArrowBack, MdDetails, MdEdit } from 'react-icons/md';
+import { MdArrowBack, MdEdit, MdInfo } from 'react-icons/md';
 import {
   MapContainer, TileLayer, Popup, Marker,
 } from 'react-leaflet';
@@ -73,7 +73,7 @@ export default function SoybeanMap() {
                   <Popup>
                     {item.name}
                     &nbsp;
-                    <Button as={NavLink} to={`/admin/soybean/detail/${item.id}`} leftIcon={<MdDetails />} colorScheme="blue" variant="outline" size="sm">
+                    <Button as={NavLink} to={`/admin/soybean/detail/${item.id}`} leftIcon={<MdInfo />} colorScheme="blue" variant="outline" size="sm">
                       Detail
                     </Button>
                     &nbsp;
