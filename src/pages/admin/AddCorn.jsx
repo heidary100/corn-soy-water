@@ -720,6 +720,7 @@ export default function AddCorn({ edit }) {
 
             <FormControl as={GridItem}>
               <FormLabel
+                htmlFor="soilTexture"
                 fontSize="sm"
                 fontWeight="md"
                 color="gray.700"
@@ -731,7 +732,7 @@ export default function AddCorn({ edit }) {
                 Soil Texture
               </FormLabel>
 
-              <RadioGroup onChange={setSoilTexture} value={soilTexture}>
+              <RadioGroup id="soilTexture" onChange={setSoilTexture} value={soilTexture}>
                 <Stack direction="row">
                   <Radio value="automatic">Automatic</Radio>
                   <Radio value="manual">Manual</Radio>
