@@ -59,6 +59,7 @@ export default function Nav() {
           </Button>
           <Button
             as="a"
+            display={{ base: 'none', md: 'inline-flex' }}
             fontSize="sm"
             fontWeight={600}
             color="white"
