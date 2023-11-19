@@ -31,10 +31,10 @@ function NavItem(props) {
       rounded="md"
       py="3"
       cursor="pointer"
-      color="whiteAlpha.700"
+      color="whiteAlpha.900"
       _hover={{
         bg: 'blackAlpha.300',
-        color: 'whiteAlpha.900',
+        color: 'whiteAlpha.700',
       }}
       role="group"
       as={NavLink}
@@ -83,7 +83,7 @@ function SidebarContent(props) {
       pb="10"
       overflowX="hidden"
       overflowY="auto"
-      bg="brand.700"
+      bg="#61b0b7"
       borderColor="blackAlpha.300"
       borderRightWidth="1px"
       w="60"
@@ -120,18 +120,22 @@ function SidebarContent(props) {
         color="gray.600"
         aria-label="Main Navigation"
       >
-        <NavItem onClick={onClose} image="/img/profile.png" to="/admin/profile">
-          Profile
+        <NavItem onClick={onClose} image="/img/home.png" to="/admin/">
+          Home
         </NavItem>
-        <NavItem
-          onClick={onClose}
-          image="/img/corn.png"
-          to="/admin/corn"
-        >
-          Corn Fields
 
+        <NavItem onClick={onClose} image="/img/location.png" to="/admin/new">
+          Add new Field
         </NavItem>
-        <NavItem onClick={onClose} image="/img/soy.png" to="/admin/soybean">Soybean Fields</NavItem>
+
+        <NavItem onClick={onClose} image="/img/chart.png" to="/admin/result">
+          Field info and Result
+        </NavItem>
+
+        <NavItem onClick={onClose} image="/img/gears.png" to="/admin/setting">
+          Setting
+        </NavItem>
+
       </Flex>
     </Box>
   );
