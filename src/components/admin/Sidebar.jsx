@@ -132,7 +132,7 @@ function SidebarContent(props) {
           Field info and Result
         </NavItem>
 
-        <NavItem onClick={onClose} image="/img/gears.png" to="/admin/setting">
+        <NavItem onClick={onClose} image="/img/gears.png" to="/admin/profile">
           Setting
         </NavItem>
 

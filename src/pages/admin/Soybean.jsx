@@ -22,7 +22,7 @@ import {
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import {
-  MdAdd, MdMap, MdEdit, MdDelete, MdInfo,
+  MdEdit, MdDelete, MdInfo,
 } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 import SoybeanService from '../../services/soybean.service';
@@ -87,14 +87,6 @@ export default function Soybean() {
   return (
     <Container minHeight="100vh" maxW="container.lg">
       <Heading marginTop={10}>Soybean Fields</Heading>
-      <Stack direction="row" spacing={4} marginTop={10}>
-        <Button as={NavLink} to="/admin/soybean/add" leftIcon={<MdAdd />} colorScheme="green" variant="solid">
-          Add Soybean Field
-        </Button>
-        <Button as={NavLink} to="/admin/soybean/map" float="right" rightIcon={<MdMap />} colorScheme="blue" variant="outline">
-          Show on Map
-        </Button>
-      </Stack>
 
       <TableContainer marginTop={10}>
         <Progress hidden={!loading} size="xs" isIndeterminate />
