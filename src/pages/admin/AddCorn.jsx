@@ -878,8 +878,8 @@ export default function AddCorn({ edit }) {
         {edit === true ? 'Edit Corn Field' : 'Add Corn Field'}
       </Heading>
       <Stack direction="row" spacing={4} marginTop={10}>
-        <Button as={NavLink} to="/admin/corn" float="right" leftIcon={<MdArrowBack />} colorScheme="blue" variant="outline">
-          Back to List
+        <Button as={NavLink} to="/admin/new" float="right" leftIcon={<MdArrowBack />} colorScheme="blue" variant="outline">
+          Select Crop Type
         </Button>
       </Stack>
       <Progress hidden={!loading} size="xs" isIndeterminate marginTop={10} />

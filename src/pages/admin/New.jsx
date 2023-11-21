@@ -1,30 +1,49 @@
 import React from 'react';
 import {
   Box,
-  Container, Heading, Image, SimpleGrid,
+  Container, HStack, Heading, Image,
 } from '@chakra-ui/react';
+import { NavLink } from 'react-router-dom';
 
 export default function Dashboard() {
   return (
-    <Container maxW="7xl">
-      <Heading marginTop={10}>Choose a crop type:</Heading>
+    <Container justifyItems="center">
+      <Heading textAlign="center" marginTop={10}>Choose a Crop Type:</Heading>
 
-      <SimpleGrid columns={2} spacing={1}>
-        <Box>
+      <HStack marginTop={10} alignContent="center">
+        <Box
+          as={NavLink}
+          to="/admin/new/corn"
+          bg="#61b0b7"
+          borderRadius="lg"
+          padding={10}
+          paddingBottom={0}
+        >
           <Image
             boxSize="200px"
             src="/img/corn.png"
-            alt="Dan Abramov"
+            alt="Corn"
           />
+          <Heading textAlign="center" margin={5} color="white">Corn</Heading>
+
         </Box>
-        <Box>
+        <Box
+          as={NavLink}
+          to="/admin/new/soybean"
+          bg="#61b0b7"
+          borderRadius="lg"
+          padding={10}
+          paddingBottom={0}
+        >
           <Image
             boxSize="200px"
             src="/img/soybean.png"
-            alt="Dan Abramov"
+            alt="Soybean"
           />
+
+          <Heading textAlign="center" margin={5} color="white">Soybean</Heading>
         </Box>
-      </SimpleGrid>
+      </HStack>
     </Container>
   );
 }

@@ -568,8 +568,8 @@ export default function AddSoybean({ edit }) {
         {edit === true ? 'Edit Soybean Field' : 'Add Soybean Field'}
       </Heading>
       <Stack direction="row" spacing={4} marginTop={10}>
-        <Button as={NavLink} to="/admin/soybean" float="right" leftIcon={<MdArrowBack />} colorScheme="blue" variant="outline">
-          Back to List
+        <Button as={NavLink} to="/admin/new" float="right" leftIcon={<MdArrowBack />} colorScheme="blue" variant="outline">
+          Select Crop Type
         </Button>
       </Stack>
       <Progress hidden={!loading} size="xs" isIndeterminate marginTop={10} />

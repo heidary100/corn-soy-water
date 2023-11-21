@@ -32,7 +32,11 @@ function App() {
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
-          <Route path="new" element={<New />} />
+          <Route path="new">
+            <Route index element={<New />} />
+            <Route path="soybean" element={<AddSoybean />} />
+            <Route path="corn" element={<AddCorn />} />
+          </Route>
           <Route path="profile" element={<Profile />} />
           <Route path="soybean">
             <Route index element={<Soybean />} />
