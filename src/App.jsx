@@ -17,6 +17,7 @@ import Corn from './pages/admin/Corn';
 import CornMap from './pages/admin/CornMap';
 import SoybeanDetail from './pages/admin/SoybeanDetail';
 import CornDetail from './pages/admin/CornDetail';
+import New from './pages/admin/New';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
+          <Route path="new" element={<New />} />
           <Route path="profile" element={<Profile />} />
           <Route path="soybean">
             <Route index element={<Soybean />} />

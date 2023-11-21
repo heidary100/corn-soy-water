@@ -20,7 +20,7 @@ export default function Dashboard() {
             <FieldsMap />
           </TabPanel>
           <TabPanel>
-            <SimpleGrid columns={2} spacing={1}>
+            <SimpleGrid minChildWidth="400px" columns={2} spacing={1}>
               <Box>
                 <Soybean />
               </Box>

@@ -1,14 +1,6 @@
 import {
   Container,
   Heading,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableContainer,
-  Stack,
   Button,
   Modal,
   ModalOverlay,
@@ -19,6 +11,15 @@ import {
   ModalFooter,
   useToast,
   Progress,
+  CardBody,
+  Text,
+  Card,
+  CardHeader,
+  CardFooter,
+  Box,
+  StackDivider,
+  ButtonGroup,
+  HStack,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import {
@@ -85,52 +86,66 @@ export default function Soybean() {
   };
 
   return (
-    <Container minHeight="100vh" maxW="container.lg">
+    <Container maxW="container.lg">
       <Heading marginTop={10}>Soybean Fields</Heading>
+      <Progress hidden={!loading} size="xs" isIndeterminate />
 
-      <TableContainer marginTop={10}>
-        <Progress hidden={!loading} size="xs" isIndeterminate />
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Th>Name</Th>
-              <Th>Date of planting</Th>
-              <Th isNumeric>Maturity Group</Th>
-              <Th>Actions</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {data.map((item) => (
-              <Tr key={item.id}>
-                <Td>{item.name}</Td>
-                <Td>{item.plantingDate.toString().split('T')[0]}</Td>
-                <Td isNumeric>{item.maturityGroup}</Td>
-                <Td>
-                  <Stack direction="row" spacing={1}>
-                    <Button as={NavLink} to={`/admin/soybean/edit/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="outline">
-                      Edit
-                    </Button>
-                    <Button as={NavLink} to={`/admin/soybean/detail/${item.id}`} leftIcon={<MdInfo />} colorScheme="blue" variant="outline">
-                      Detail
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        setSelectedItem(item);
-                        setIsDeleteModalOpen(true);
-                      }}
-                      leftIcon={<MdDelete />}
-                      colorScheme="red"
-                      variant="outline"
-                    >
-                      Delete
-                    </Button>
-                  </Stack>
-                </Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
+      {data.map((item) => (
+        <Card marginTop={5}>
+          <CardHeader>
+            <Heading size="md">{item.name}</Heading>
+          </CardHeader>
+          <CardBody>
+            <HStack divider={<StackDivider />} spacing="4">
+              <Box>
+                <Heading size="xs" textTransform="uppercase">
+                  Date of planting
+                </Heading>
+                <Text pt="2" fontSize="sm">
+                  {item.plantingDate.toString().split('T')[0]}
+                </Text>
+              </Box>
+              <Box>
+                <Heading size="xs" textTransform="uppercase">
+                  Maturity Group
+                </Heading>
+                <Text pt="2" fontSize="sm">
+                  {item.maturityGroup}
+                </Text>
+              </Box>
+              <Box>
+                <Heading size="xs" textTransform="uppercase">
+                  Crop Status
+                </Heading>
+                <Text pt="2" fontSize="sm" color="green">
+                  No water stress
+                </Text>
+              </Box>
+            </HStack>
+          </CardBody>
+          <CardFooter>
+            <ButtonGroup spacing="2">
+              <Button as={NavLink} to={`/admin/soybean/detail/${item.id}`} leftIcon={<MdInfo />} colorScheme="blue" variant="ghost">
+                Detail
+              </Button>
+              <Button as={NavLink} to={`/admin/soybean/edit/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="ghost">
+                Edit
+              </Button>
+              <Button
+                onClick={() => {
+                  setSelectedItem(item);
+                  setIsDeleteModalOpen(true);
+                }}
+                leftIcon={<MdDelete />}
+                colorScheme="red"
+                variant="ghost"
+              >
+                Delete
+              </Button>
+            </ButtonGroup>
+          </CardFooter>
+        </Card>
+      ))}
 
       <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)}>
         <ModalOverlay />
