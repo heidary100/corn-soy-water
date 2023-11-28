@@ -17,7 +17,7 @@ const sleep = (delay) => new Promise((resolve) => { setTimeout(resolve, delay); 
 //   } return {};
 // };
 const getUser = async () => {
-  await sleep(5000);
+  await sleep(200);
   if (localStorage.user !== undefined) {
     return JSON.parse(localStorage.user);
   } return {};
@@ -26,7 +26,7 @@ const getUser = async () => {
 // const updateUser = (user) =>
 // axios.put(API_URL, { headers: authHeader(), ...user });
 const updateUser = async (user) => {
-  await sleep(5000);
+  await sleep(200);
   if (localStorage.user !== undefined) {
     localStorage.user = JSON.stringify(user);
   }

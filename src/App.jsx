@@ -8,15 +8,11 @@ import ForgetPassword from './pages/ForgetPassword';
 import NoPage from './pages/NoPage';
 import AdminLayout from './pages/admin/AdminLayout';
 import Profile from './pages/admin/Profile';
-import AddSoybean from './pages/admin/AddSoybean';
-import Soybean from './pages/admin/Soybean';
-import SoybeanMap from './pages/admin/SoybeanMap';
+import AddSoybean from './pages/admin/soybean/AddSoybean';
 import Dashboard from './pages/admin/Dashboard';
-import AddCorn from './pages/admin/AddCorn';
-import Corn from './pages/admin/Corn';
-import CornMap from './pages/admin/CornMap';
-import SoybeanDetail from './pages/admin/SoybeanDetail';
-import CornDetail from './pages/admin/CornDetail';
+import AddCorn from './pages/admin/corn/AddCorn';
+import SoybeanDetail from './pages/admin/soybean/SoybeanDetail';
+import CornDetail from './pages/admin/corn/CornDetail';
 import New from './pages/admin/New';
 
 function App() {
@@ -37,22 +33,17 @@ function App() {
             <Route path="soybean" element={<AddSoybean />} />
             <Route path="corn" element={<AddCorn />} />
           </Route>
+          <Route path="edit">
+            <Route path="soybean/:id" element={<AddSoybean edit />} />
+            <Route path="corn/:id" element={<AddCorn edit />} />
+          </Route>
           <Route path="profile" element={<Profile />} />
-          <Route path="soybean">
-            <Route index element={<Soybean />} />
-            <Route path="add" element={<AddSoybean />} />
-            <Route path="edit/:id" element={<AddSoybean edit />} />
-            <Route path="map" element={<SoybeanMap />} />
-            <Route path="detail/:id" element={<SoybeanDetail />} />
+          <Route path="result">
+            <Route index element={<Dashboard />} />
+            <Route path="soybean/:id" element={<SoybeanDetail />} />
+            <Route path="corn/:id" element={<CornDetail />} />
           </Route>
 
-          <Route path="corn">
-            <Route index element={<Corn />} />
-            <Route path="add" element={<AddCorn />} />
-            <Route path="edit/:id" element={<AddCorn edit />} />
-            <Route path="map" element={<CornMap />} />
-            <Route path="detail/:id" element={<CornDetail />} />
-          </Route>
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>

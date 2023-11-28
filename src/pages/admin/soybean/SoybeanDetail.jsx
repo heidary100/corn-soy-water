@@ -21,12 +21,12 @@ import { MdAdd, MdArrowBack, MdDelete } from 'react-icons/md';
 import {
   MapContainer, Marker, Popup, TileLayer,
 } from 'react-leaflet';
-import MultilineChart from '../../components/admin/MultilineChart';
-import Legend from '../../components/admin/Legend';
-import SoybeanService from '../../services/soybean.service';
-import waterstress from '../../data/waterstress.json';
-import availablewater from '../../data/available-water.json';
-import AddIrrigation from './AddIrrigation';
+import MultilineChart from '../../../components/admin/MultilineChart';
+import Legend from '../../../components/admin/Legend';
+import SoybeanService from '../../../services/soybean.service';
+import waterstress from '../../../data/waterstress.json';
+import availablewater from '../../../data/available-water.json';
+import AddIrrigation from '../AddIrrigation';
 
 const waterStressData = {
   name: 'Crop Water Stress',
@@ -231,7 +231,7 @@ export default function SoybeanDetail() {
     <Container minHeight="100vh" maxW="container.lg">
       <Heading marginTop={10}>Soybean Detail</Heading>
       <Stack direction="row" spacing={4} marginTop={10}>
-        <Button as={NavLink} to="/admin/soybean" float="right" leftIcon={<MdArrowBack />} colorScheme="blue" variant="outline">
+        <Button as={NavLink} to="/admin/" float="right" leftIcon={<MdArrowBack />} colorScheme="blue" variant="outline">
           Back to List
         </Button>
       </Stack>

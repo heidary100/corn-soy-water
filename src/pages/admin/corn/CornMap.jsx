@@ -13,7 +13,7 @@ import {
   MapContainer, TileLayer, Marker, Popup,
 } from 'react-leaflet';
 import { NavLink } from 'react-router-dom';
-import CornService from '../../services/corn.service';
+import CornService from '../../../services/corn.service';
 
 export default function CornMap() {
   const toast = useToast();

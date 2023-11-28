@@ -17,6 +17,7 @@ const createSoybean = async (soybean) => {
   const soybeans = await getSoybeans();
   soybeans.push({ id, ...soybean });
   localStorage.soybeans = JSON.stringify(soybeans);
+  return { id, ...soybean };
 };
 
 const addIrrigationRecord = async (record, soybeanId) => {

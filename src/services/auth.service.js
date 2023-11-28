@@ -9,7 +9,7 @@ const sleep = (delay) => new Promise((resolve) => { setTimeout(resolve, delay); 
 //   return response.data;
 // };
 const registerUser = async (user) => {
-  await sleep(5000);
+  await sleep(200);
   localStorage.user = JSON.stringify(user);
   return user;
 };
@@ -28,7 +28,7 @@ const registerUser = async (user) => {
 // };
 // eslint-disable-next-line no-unused-vars
 const loginUser = async (username, password) => {
-  await sleep(5000);
+  await sleep(200);
   if (localStorage.user !== undefined) {
     return JSON.parse(localStorage.user);
   } return {};

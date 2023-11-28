@@ -26,9 +26,9 @@ import {
   MdEdit, MdDelete, MdInfo,
 } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
-import SoybeanService from '../../services/soybean.service';
+import SoybeanService from '../../../services/soybean.service';
 
-export default function Soybean() {
+export default function SoybeanList() {
   const toast = useToast();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -125,10 +125,10 @@ export default function Soybean() {
           </CardBody>
           <CardFooter>
             <ButtonGroup spacing="2">
-              <Button as={NavLink} to={`/admin/soybean/detail/${item.id}`} leftIcon={<MdInfo />} colorScheme="blue" variant="ghost">
+              <Button as={NavLink} to={`/admin/result/soybean/${item.id}`} leftIcon={<MdInfo />} colorScheme="blue" variant="ghost">
                 Detail
               </Button>
-              <Button as={NavLink} to={`/admin/soybean/edit/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="ghost">
+              <Button as={NavLink} to={`/admin/edit/soybean/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="ghost">
                 Edit
               </Button>
               <Button

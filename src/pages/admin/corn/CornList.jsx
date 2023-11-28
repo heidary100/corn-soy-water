@@ -26,9 +26,9 @@ import {
   MdEdit, MdDelete, MdInfo,
 } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
-import CornService from '../../services/corn.service';
+import CornService from '../../../services/corn.service';
 
-export default function Corn() {
+export default function CornList() {
   const toast = useToast();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -125,10 +125,10 @@ export default function Corn() {
           </CardBody>
           <CardFooter>
             <ButtonGroup spacing="2">
-              <Button as={NavLink} to={`/admin/corn/detail/${item.id}`} leftIcon={<MdInfo />} colorScheme="blue" variant="ghost">
+              <Button as={NavLink} to={`/admin/result/corn/${item.id}`} leftIcon={<MdInfo />} colorScheme="blue" variant="ghost">
                 Detail
               </Button>
-              <Button as={NavLink} to={`/admin/corn/edit/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="ghost">
+              <Button as={NavLink} to={`/admin/edit/corn/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="ghost">
                 Edit
               </Button>
               <Button

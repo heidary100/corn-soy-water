@@ -47,7 +47,7 @@ export default function Login() {
           duration: 9000,
           isClosable: true,
         });
-        navigate('/admin');
+        navigate('/admin/');
       } catch (error) {
         toast({
           title: 'Failure.',

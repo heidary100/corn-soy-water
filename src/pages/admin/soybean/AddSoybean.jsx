@@ -31,9 +31,9 @@ import { MdArrowBack } from 'react-icons/md';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import DatePicker from 'react-datepicker';
-import SoybeanService from '../../services/soybean.service';
+import SoybeanService from '../../../services/soybean.service';
 import 'react-datepicker/dist/react-datepicker.css';
-import LeafletgeoSearch from '../../components/LeafletgeoSearch';
+import LeafletgeoSearch from '../../../components/LeafletgeoSearch';
 
 function LocationFinderDummy({ onClick }) {
   // eslint-disable-next-line no-unused-vars
@@ -96,7 +96,7 @@ export default function AddSoybean({ edit }) {
           isClosable: true,
         });
       } else {
-        await SoybeanService.createSoybean(values);
+        const savedSoybean = await SoybeanService.createSoybean(values);
         // Handle successful submission here
         toast({
           title: 'Created Soybean Field Successfuly.',
@@ -104,8 +104,8 @@ export default function AddSoybean({ edit }) {
           duration: 9000,
           isClosable: true,
         });
+        navigate(`/admin/result/soybean/${savedSoybean.id}`);
       }
-      navigate('/admin/soybean');
     } catch (error) {
       // Handle submission error here
       toast({
@@ -568,9 +568,16 @@ export default function AddSoybean({ edit }) {
         {edit === true ? 'Edit Soybean Field' : 'Add Soybean Field'}
       </Heading>
       <Stack direction="row" spacing={4} marginTop={10}>
-        <Button as={NavLink} to="/admin/new" float="right" leftIcon={<MdArrowBack />} colorScheme="blue" variant="outline">
-          Select Crop Type
-        </Button>
+        {edit === true ? (
+          <Button as={NavLink} to="/admin/" float="right" leftIcon={<MdArrowBack />} colorScheme="blue" variant="outline">
+            Back to List
+          </Button>
+        )
+          : (
+            <Button as={NavLink} to="/admin/new" float="right" leftIcon={<MdArrowBack />} colorScheme="blue" variant="outline">
+              Select Crop Type
+            </Button>
+          )}
       </Stack>
       <Progress hidden={!loading} size="xs" isIndeterminate marginTop={10} />
       <Box

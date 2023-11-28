@@ -3,8 +3,8 @@ import {
   Box,
   Container, SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs,
 } from '@chakra-ui/react';
-import Soybean from './Soybean';
-import Corn from './Corn';
+import SoybeanList from './soybean/SoybeanList';
+import CornList from './corn/CornList';
 import FieldsMap from './FieldsMaps';
 
 export default function Dashboard() {
@@ -22,10 +22,10 @@ export default function Dashboard() {
           <TabPanel>
             <SimpleGrid minChildWidth="400px" columns={2} spacing={1}>
               <Box>
-                <Soybean />
+                <SoybeanList />
               </Box>
               <Box>
-                <Corn />
+                <CornList />
               </Box>
             </SimpleGrid>
           </TabPanel>

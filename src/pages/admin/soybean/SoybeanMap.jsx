@@ -13,7 +13,7 @@ import {
   MapContainer, TileLayer, Popup, Marker,
 } from 'react-leaflet';
 import { NavLink } from 'react-router-dom';
-import SoybeanService from '../../services/soybean.service';
+import SoybeanService from '../../../services/soybean.service';
 
 export default function SoybeanMap() {
   const toast = useToast();

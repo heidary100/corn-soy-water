@@ -69,12 +69,12 @@ export default function FieldsMap() {
                 >
                   <Popup>
                     {item.name}
-                    &nbsp;
-                    <Button as={NavLink} to={`/admin/corn/detail/${item.id}`} leftIcon={<MdInfo />} colorScheme="blue" variant="outline" size="sm">
+                    { }
+                    <Button as={NavLink} to={`/admin/result/corn/${item.id}`} leftIcon={<MdInfo />} colorScheme="blue" variant="outline" size="sm">
                       Detail
                     </Button>
-                    &nbsp;
-                    <Button as={NavLink} to={`/admin/corn/edit/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="outline" size="sm">
+                    { }
+                    <Button as={NavLink} to={`/admin/edit/corn/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="outline" size="sm">
                       Edit
                     </Button>
                   </Popup>
@@ -99,12 +99,12 @@ export default function FieldsMap() {
                 >
                   <Popup>
                     {item.name}
-                    &nbsp;
-                    <Button as={NavLink} to={`/admin/soybean/detail/${item.id}`} leftIcon={<MdInfo />} colorScheme="blue" variant="outline" size="sm">
+                    { }
+                    <Button as={NavLink} to={`/admin/result/soybean/${item.id}`} leftIcon={<MdInfo />} colorScheme="blue" variant="outline" size="sm">
                       Detail
                     </Button>
-                    &nbsp;
-                    <Button as={NavLink} to={`/admin/soybean/edit/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="outline" size="sm">
+                    { }
+                    <Button as={NavLink} to={`/admin/edit/soybean/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="outline" size="sm">
                       Edit
                     </Button>
                   </Popup>

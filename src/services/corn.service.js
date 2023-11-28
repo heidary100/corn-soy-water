@@ -19,6 +19,7 @@ const createCorn = async (corn) => {
   const corns = await getCorns();
   corns.push({ id, ...corn });
   localStorage.corns = JSON.stringify(corns);
+  return { id, ...corn };
 };
 
 const addIrrigationRecord = async (record, cornId) => {
