@@ -17,6 +17,7 @@ import {
   RadioGroup,
   Radio,
   useToast,
+  Tooltip,
 } from '@chakra-ui/react';
 import {
   MapContainer, TileLayer, useMapEvents, Marker,
@@ -26,6 +27,7 @@ import { MdArrowBack } from 'react-icons/md';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import DatePicker from 'react-datepicker';
+import { InfoIcon } from '@chakra-ui/icons';
 import CornService from '../../../services/corn.service';
 import 'react-datepicker/dist/react-datepicker.css';
 import LeafletgeoSearch from '../../../components/LeafletgeoSearch';
@@ -248,6 +250,9 @@ export default function AddCorn({ edit }) {
                 mt="2%"
               >
                 Name
+                <Tooltip label="enter your name" fontSize="md">
+                  <InfoIcon marginLeft={2} />
+                </Tooltip>
               </FormLabel>
               <Input
                 type="text"
@@ -279,6 +284,9 @@ export default function AddCorn({ edit }) {
                 mt="2%"
               >
                 Date of Planting
+                <Tooltip label="enter your Date of Planting" fontSize="md">
+                  <InfoIcon marginLeft={2} />
+                </Tooltip>
               </FormLabel>
               <DatePicker
                 name="plantingDate"
@@ -311,6 +319,9 @@ export default function AddCorn({ edit }) {
                 mt="2%"
               >
                 Relative Maturity (days)
+                <Tooltip label="enter your Relative Maturity (days)" fontSize="md">
+                  <InfoIcon marginLeft={2} />
+                </Tooltip>
               </FormLabel>
 
               <Select
@@ -380,6 +391,9 @@ export default function AddCorn({ edit }) {
                 mt="2%"
               >
                 Plant Population (x1000/acre)
+                <Tooltip label="enter your Plant Population (x1000/acre)" fontSize="md">
+                  <InfoIcon marginLeft={2} />
+                </Tooltip>
               </FormLabel>
 
               <Select
@@ -501,6 +515,9 @@ export default function AddCorn({ edit }) {
                 mt="2%"
               >
                 Soil Rooting Depth (inch)
+                <Tooltip label="enter your Soil Rooting Depth (inch)" fontSize="md">
+                  <InfoIcon marginLeft={2} />
+                </Tooltip>
               </FormLabel>
               <Select
                 id="soilRootingDepth"
@@ -575,6 +592,9 @@ export default function AddCorn({ edit }) {
                 mt="2%"
               >
                 Soil Surface Residues Coverage (%)
+                <Tooltip label="enter your Soil Surface Residues Coverage (%)" fontSize="md">
+                  <InfoIcon marginLeft={2} />
+                </Tooltip>
               </FormLabel>
               <Select
                 id="soilSurfaceResiduesCoverage"
@@ -619,6 +639,9 @@ export default function AddCorn({ edit }) {
                 mt="2%"
               >
                 Top Soil Bulk Density
+                <Tooltip label="enter your Top Soil Bulk Density" fontSize="md">
+                  <InfoIcon marginLeft={2} />
+                </Tooltip>
               </FormLabel>
               <Select
                 id="topSoilBulkDensity"
@@ -656,6 +679,9 @@ export default function AddCorn({ edit }) {
                 mt="2%"
               >
                 Top Soil (1 foot) Moisture at Planting
+                <Tooltip label="enter your Top Soil (1 foot) Moisture at Planting" fontSize="md">
+                  <InfoIcon marginLeft={2} />
+                </Tooltip>
               </FormLabel>
               <Select
                 id="topSoilMoistureAtPlanting"
@@ -693,6 +719,9 @@ export default function AddCorn({ edit }) {
                 mt="2%"
               >
                 Sub Soil (below 1 foot) Moisture at Planting
+                <Tooltip label="enter your Sub Soil (below 1 foot) Moisture at Planting" fontSize="md">
+                  <InfoIcon marginLeft={2} />
+                </Tooltip>
               </FormLabel>
               <Select
                 id="subSoilMoistureAtPlanting"
@@ -730,6 +759,9 @@ export default function AddCorn({ edit }) {
                 mt="2%"
               >
                 Soil Texture
+                <Tooltip label="enter your Soil Texture" fontSize="md">
+                  <InfoIcon marginLeft={2} />
+                </Tooltip>
               </FormLabel>
 
               <RadioGroup id="soilTexture" onChange={setSoilTexture} value={soilTexture}>
@@ -752,6 +784,9 @@ export default function AddCorn({ edit }) {
                 mt="2%"
               >
                 Top Soil (1 foot) Texture
+                <Tooltip label="enter your Top Soil (1 foot) Texture" fontSize="md">
+                  <InfoIcon marginLeft={2} />
+                </Tooltip>
               </FormLabel>
 
               <Select
@@ -795,6 +830,9 @@ export default function AddCorn({ edit }) {
                 mt="2%"
               >
                 Sub Soil (below 1 foot) Texture
+                <Tooltip label="enter your Sub Soil (below 1 foot) Texture" fontSize="md">
+                  <InfoIcon marginLeft={2} />
+                </Tooltip>
               </FormLabel>
 
               <Select
