@@ -22,6 +22,7 @@ import {
   RadioGroup,
   Radio,
   useToast,
+  Tooltip,
 } from '@chakra-ui/react';
 import {
   MapContainer, TileLayer, useMapEvents, Marker,
@@ -31,6 +32,7 @@ import { MdArrowBack } from 'react-icons/md';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import DatePicker from 'react-datepicker';
+import { InfoIcon } from '@chakra-ui/icons';
 import SoybeanService from '../../../services/soybean.service';
 import 'react-datepicker/dist/react-datepicker.css';
 import LeafletgeoSearch from '../../../components/LeafletgeoSearch';
@@ -240,6 +242,9 @@ export default function AddSoybean({ edit }) {
                 mt="2%"
               >
                 Name
+                <Tooltip label="enter your Name" fontSize="md">
+                  <InfoIcon marginLeft={2} />
+                </Tooltip>
               </FormLabel>
               <Input
                 type="text"
@@ -271,21 +276,10 @@ export default function AddSoybean({ edit }) {
                 mt="2%"
               >
                 Date of Planting
+                <Tooltip label="enter your Date of Planting" fontSize="md">
+                  <InfoIcon marginLeft={2} />
+                </Tooltip>
               </FormLabel>
-              {/* <Input
-                type="text"
-                name="plantingDate"
-                id="plantingDate"
-                autoComplete="plantingDate"
-                focusBorderColor="brand.400"
-                shadow="sm"
-                size="sm"
-                w="full"
-                rounded="md"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.plantingDate}
-              /> */}
               <DatePicker
                 name="plantingDate"
                 id="plantingDate"
@@ -317,6 +311,9 @@ export default function AddSoybean({ edit }) {
                 mt="2%"
               >
                 Maturity Group
+                <Tooltip label="enter your Maturity Group" fontSize="md">
+                  <InfoIcon marginLeft={2} />
+                </Tooltip>
               </FormLabel>
 
               <NumberInput
@@ -390,6 +387,9 @@ export default function AddSoybean({ edit }) {
                 mt="2%"
               >
                 Soil Rooting Depth (inch)
+                <Tooltip label="enter your Soil Rooting Depth (inch)" fontSize="md">
+                  <InfoIcon marginLeft={2} />
+                </Tooltip>
               </FormLabel>
               <NumberInput
                 precision={0}
@@ -425,6 +425,9 @@ export default function AddSoybean({ edit }) {
                 mt="2%"
               >
                 Available soil water at planting day (%)
+                <Tooltip label="enter your Available soil water at planting day (%)" fontSize="md">
+                  <InfoIcon marginLeft={2} />
+                </Tooltip>
               </FormLabel>
               <NumberInput
                 precision={0}
@@ -460,6 +463,9 @@ export default function AddSoybean({ edit }) {
                 mt="2%"
               >
                 Soil Texture
+                <Tooltip label="enter your Soil Texture" fontSize="md">
+                  <InfoIcon marginLeft={2} />
+                </Tooltip>
               </FormLabel>
 
               <RadioGroup id="soilTexture" onChange={setSoilTexture} value={soilTexture}>
@@ -482,6 +488,9 @@ export default function AddSoybean({ edit }) {
                 mt="2%"
               >
                 Average soil texture to the rooting depth
+                <Tooltip label="enter your Average soil texture to the rooting depth" fontSize="md">
+                  <InfoIcon marginLeft={2} />
+                </Tooltip>
               </FormLabel>
 
               <Select
