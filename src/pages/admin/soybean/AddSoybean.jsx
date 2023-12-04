@@ -18,6 +18,13 @@ import {
   Radio,
   useToast,
   Tooltip,
+  AlertDialog,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogBody,
+  AlertDialogFooter,
+  useDisclosure,
 } from '@chakra-ui/react';
 import {
   MapContainer, TileLayer, useMapEvents, Marker,
@@ -77,6 +84,7 @@ export default function AddSoybean({ edit }) {
   const [progress, setProgress] = useState(33.33);
   const [soilTexture, setSoilTexture] = useState('automatic');
   const [loading, setLoading] = useState(false);
+  const { onOpen, isOpen, onClose } = useDisclosure();
 
   const handleSubmit = async (values) => {
     setLoading(true);
@@ -182,7 +190,10 @@ export default function AddSoybean({ edit }) {
                 />
                 <Marker position={[formik.values.lat, formik.values.lng]} />
                 <LocationFinderDummy
-                  onClick={(point) => formik.setValues({ ...formik.values, ...point })}
+                  onClick={(point) => {
+                    formik.setValues({ ...formik.values, ...point });
+                    onOpen();
+                  }}
                 />
                 <LeafletgeoSearch />
               </MapContainer>
@@ -215,6 +226,30 @@ export default function AddSoybean({ edit }) {
                 </Flex>
               </Flex>
             </ButtonGroup>
+            <AlertDialog
+              isOpen={isOpen}
+              onClose={onClose}
+              isCentered
+            >
+              <AlertDialogOverlay>
+                <AlertDialogContent>
+                  <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                    Warning
+                  </AlertDialogHeader>
+
+                  <AlertDialogBody>
+                    Your field is 43 miles away from the nearest weather station.
+                    The result of the program may not accurately represent your field.
+                  </AlertDialogBody>
+
+                  <AlertDialogFooter>
+                    <Button colorScheme="green" onClick={onClose} ml={3}>
+                      Proceed
+                    </Button>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialogOverlay>
+            </AlertDialog>
           </form>
         );
 
