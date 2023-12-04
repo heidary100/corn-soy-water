@@ -9,11 +9,27 @@ import { MdEdit, MdInfo } from 'react-icons/md';
 import {
   MapContainer, TileLayer, Popup, Marker,
 } from 'react-leaflet';
+import L from 'leaflet';
 import { NavLink } from 'react-router-dom';
 import SoybeanService from '../../services/soybean.service';
 import CornService from '../../services/corn.service';
 
 export default function FieldsMap() {
+  const cornIcon = L.divIcon({
+    className: 'custom-marker',
+    iconSize: [32, 32], // adjust the size of your custom marker
+    iconAnchor: [16, 32], // adjust the anchor point if needed
+    popupAnchor: [0, -32], // adjust the popup anchor point if needed
+    html: '<img src="/img/corn.png" style="width: 100%; height: 100%;background: orange;padding:2px;border-radius:10px;" />',
+  });
+  const soybeanIcon = L.divIcon({
+    className: 'custom-marker',
+    iconSize: [32, 32], // adjust the size of your custom marker
+    iconAnchor: [16, 32], // adjust the anchor point if needed
+    popupAnchor: [0, -32], // adjust the popup anchor point if needed
+    html: '<img src="/img/soybean.png" style="width: 100%; height: 100%;background: green;padding:2px;border-radius:10px;" />',
+  });
+
   const toast = useToast();
   const [data, setData] = useState({
     corns: [],
@@ -61,6 +77,7 @@ export default function FieldsMap() {
             if (!Number.isNaN(latitude) && !Number.isNaN(longitude)) {
               return (
                 <Marker
+                  icon={cornIcon}
                   key={`corn-${item.id}`}
                   position={[latitude, longitude]}
                   eventHandlers={{
@@ -69,12 +86,12 @@ export default function FieldsMap() {
                 >
                   <Popup>
                     {item.name}
-                    { }
-                    <Button as={NavLink} to={`/admin/result/corn/${item.id}`} leftIcon={<MdInfo />} colorScheme="blue" variant="outline" size="sm">
+                    <br />
+                    <Button as={NavLink} to={`/admin/result/corn/${item.id}`} leftIcon={<MdInfo />} colorScheme="blue" variant="ghost" size="sm">
                       Detail
                     </Button>
                     { }
-                    <Button as={NavLink} to={`/admin/edit/corn/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="outline" size="sm">
+                    <Button as={NavLink} to={`/admin/edit/corn/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="ghost" size="sm">
                       Edit
                     </Button>
                   </Popup>
@@ -91,6 +108,7 @@ export default function FieldsMap() {
             if (!Number.isNaN(latitude) && !Number.isNaN(longitude)) {
               return (
                 <Marker
+                  icon={soybeanIcon}
                   key={`soybean-${item.id}`}
                   position={[latitude, longitude]}
                   eventHandlers={{
@@ -99,12 +117,12 @@ export default function FieldsMap() {
                 >
                   <Popup>
                     {item.name}
-                    { }
-                    <Button as={NavLink} to={`/admin/result/soybean/${item.id}`} leftIcon={<MdInfo />} colorScheme="blue" variant="outline" size="sm">
+                    <br />
+                    <Button as={NavLink} to={`/admin/result/soybean/${item.id}`} leftIcon={<MdInfo />} colorScheme="blue" variant="ghost" size="sm">
                       Detail
                     </Button>
                     { }
-                    <Button as={NavLink} to={`/admin/edit/soybean/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="outline" size="sm">
+                    <Button as={NavLink} to={`/admin/edit/soybean/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="ghost" size="sm">
                       Edit
                     </Button>
                   </Popup>
