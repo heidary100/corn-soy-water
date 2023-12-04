@@ -13,11 +13,6 @@ import {
   Input,
   Select,
   Stack,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
   Text,
   RadioGroup,
   Radio,
@@ -315,24 +310,56 @@ export default function AddSoybean({ edit }) {
                   <InfoIcon marginLeft={2} />
                 </Tooltip>
               </FormLabel>
-
-              <NumberInput
-                precision={1}
-                step={0.1}
-                min={1}
-                max={4.5}
-                name="maturityGroup"
+              <Select
                 id="maturityGroup"
-                onChange={(value) => formik.setFieldValue('maturityGroup', value)}
+                name="maturityGroup"
+                placeholder="Select one"
+                focusBorderColor="brand.400"
+                shadow="sm"
+                size="sm"
+                w="full"
+                rounded="md"
+                onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.maturityGroup}
               >
-                <NumberInputField />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
+                <option value="1">1</option>
+                <option value="1.1">1.1</option>
+                <option value="1.2">1.2</option>
+                <option value="1.3">1.3</option>
+                <option value="1.4">1.4</option>
+                <option value="1.5">1.5</option>
+                <option value="1.6">1.6</option>
+                <option value="1.7">1.7</option>
+                <option value="1.8">1.8</option>
+                <option value="1.9">1.9</option>
+                <option value="2">2</option>
+                <option value="2.1">2.1</option>
+                <option value="2.2">2.2</option>
+                <option value="2.3">2.3</option>
+                <option value="2.4">2.4</option>
+                <option value="2.5">2.5</option>
+                <option value="2.6">2.6</option>
+                <option value="2.7">2.7</option>
+                <option value="2.8">2.8</option>
+                <option value="2.9">2.9</option>
+                <option value="3">3</option>
+                <option value="3.1">3.1</option>
+                <option value="3.2">3.2</option>
+                <option value="3.3">3.3</option>
+                <option value="3.4">3.4</option>
+                <option value="3.5">3.5</option>
+                <option value="3.6">3.6</option>
+                <option value="3.7">3.7</option>
+                <option value="3.8">3.8</option>
+                <option value="3.9">3.9</option>
+                <option value="4">4</option>
+                <option value="4.1">4.1</option>
+                <option value="4.2">4.2</option>
+                <option value="4.3">4.3</option>
+                <option value="4.4">4.4</option>
+                <option value="4.5">4.5</option>
+              </Select>
               {formik.touched.maturityGroup && formik.errors.maturityGroup && (
                 <Text color="red">{formik.errors.maturityGroup}</Text>
               )}
@@ -391,23 +418,51 @@ export default function AddSoybean({ edit }) {
                   <InfoIcon marginLeft={2} />
                 </Tooltip>
               </FormLabel>
-              <NumberInput
-                precision={0}
-                step={1}
-                min={20}
-                max={50}
-                name="soilRootingDepth"
+              <Select
                 id="soilRootingDepth"
-                onChange={(value) => formik.setFieldValue('soilRootingDepth', value)}
+                name="soilRootingDepth"
+                placeholder="Select one"
+                focusBorderColor="brand.400"
+                shadow="sm"
+                size="sm"
+                w="full"
+                rounded="md"
+                onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.soilRootingDepth}
               >
-                <NumberInputField />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
+                <option value="34">34</option>
+                <option value="35">35</option>
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="46">46</option>
+                <option value="47">47</option>
+                <option value="48">48</option>
+                <option value="49">49</option>
+                <option value="50">50</option>
+              </Select>
               {formik.touched.soilRootingDepth && formik.errors.soilRootingDepth && (
                 <Text color="red">{formik.errors.soilRootingDepth}</Text>
               )}
@@ -429,23 +484,24 @@ export default function AddSoybean({ edit }) {
                   <InfoIcon marginLeft={2} />
                 </Tooltip>
               </FormLabel>
-              <NumberInput
-                precision={0}
-                step={25}
-                min={25}
-                max={100}
-                name="availableSoilWater"
+              <Select
                 id="availableSoilWater"
-                onChange={(value) => formik.setFieldValue('availableSoilWater', value)}
+                name="availableSoilWater"
+                placeholder="Select one"
+                focusBorderColor="brand.400"
+                shadow="sm"
+                size="sm"
+                w="full"
+                rounded="md"
+                onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.availableSoilWater}
               >
-                <NumberInputField />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="75">75</option>
+                <option value="100">100</option>
+              </Select>
               {formik.touched.availableSoilWater && formik.errors.availableSoilWater && (
                 <Text color="red">{formik.errors.availableSoilWater}</Text>
               )}
