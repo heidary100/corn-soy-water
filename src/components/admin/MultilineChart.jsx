@@ -45,7 +45,7 @@ function MultilineChart({ data = [], dimensions = {} }) {
 
     xAxisGroup.select('.domain').remove();
     xAxisGroup.selectAll('line').remove();
-    xAxisGroup.selectAll('text').attr('opacity', 0.5).attr('color', 'black').attr('font-size', '0.75rem');
+    xAxisGroup.selectAll('text').attr('opacity', 0.5).attr('font-size', '0.75rem');
 
     const yAxis = d3
       .axisLeft(yScale)
@@ -55,13 +55,13 @@ function MultilineChart({ data = [], dimensions = {} }) {
     const yAxisGroup = svg.append('g').call(yAxis);
     yAxisGroup.select('.domain').remove();
     yAxisGroup.selectAll('line').remove();
-    yAxisGroup.selectAll('text').attr('opacity', 0.5).attr('color', 'black').attr('font-size', '0.75rem');
+    yAxisGroup.selectAll('text').attr('opacity', 0.5).attr('font-size', '0.75rem');
 
     const yAxis2 = d3.axisRight(y2Scale).ticks(5).tickSize(width);
     const yAxis2Group = svg.append('g').call(yAxis2);
     yAxis2Group.select('.domain').remove();
     yAxis2Group.selectAll('line').remove();
-    yAxis2Group.selectAll('text').attr('opacity', 0.5).attr('color', 'black').attr('font-size', '0.75rem');
+    yAxis2Group.selectAll('text').attr('opacity', 0.5).attr('font-size', '0.75rem');
 
     const line = d3.line().x((d) => xScale(d.date)).y((d) => yScale(d.value));
 
