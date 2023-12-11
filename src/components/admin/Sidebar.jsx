@@ -18,6 +18,7 @@ import { HiOutlineLogout } from 'react-icons/hi';
 import { NavLink, Outlet } from 'react-router-dom';
 import { CloseIcon } from '@chakra-ui/icons';
 import ColorModeSwitcher from '../ColorModeSwitcher';
+import Footer from './Footer';
 
 function NavItem(props) {
   const {
@@ -171,13 +172,6 @@ function Sidebar() {
           borderColor="blackAlpha.300"
           h="14"
         >
-          {/* {user && (
-          <Text fontWeight="bold">
-            Hey,&nbsp;
-            {user.firstName}
-            !
-          </Text>
-          )} */}
           <IconButton
             aria-label="Menu"
             display={{ base: 'inline-flex', md: 'none' }}
@@ -188,6 +182,9 @@ function Sidebar() {
           <InputGroup w="96" display={{ base: 'none', md: 'flex' }} />
 
           <Flex align="center">
+            <Button fontWeight="bold" as={NavItem} to="/admin/profile" variant="outline" _hover={{ color: 'black' }}>
+              Welcome back, Jon
+            </Button>
             <ColorModeSwitcher />
             &nbsp;
             <Button as="a" href="/login" leftIcon={<HiOutlineLogout />} colorScheme="red" variant="solid">
@@ -200,6 +197,7 @@ function Sidebar() {
         <Box as="main" p="4">
           <Outlet />
         </Box>
+        <Footer />
       </Box>
     </Box>
   );
