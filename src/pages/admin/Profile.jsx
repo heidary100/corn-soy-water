@@ -95,7 +95,7 @@ export default function Profile() {
   }, []);
 
   return (
-    <Container minHeight="100vh" maxW="container.lg">
+    <Container maxW="container.lg">
       <Heading marginTop={10}>
         Your Profile
       </Heading>

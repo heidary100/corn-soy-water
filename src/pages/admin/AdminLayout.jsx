@@ -58,7 +58,7 @@ function AdminLayout() {
             </Flex>
           </Flex>
 
-          <Box as="main">
+          <Box as="main" minH="70vh">
             <Outlet />
           </Box>
           <Footer />

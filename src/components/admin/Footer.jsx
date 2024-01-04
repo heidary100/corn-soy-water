@@ -1,15 +1,16 @@
 import React from 'react';
 import {
-  Box,
   Container,
+  Flex,
   Image,
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { NavLink } from 'react-router-dom';
 
 export default function Footer() {
   return (
-    <Box
+    <Flex
       bg={useColorModeValue('gray.50', 'gray.900')}
       color={useColorModeValue('gray.700', 'gray.200')}
     >
@@ -22,15 +23,33 @@ export default function Footer() {
         justify={{ base: 'center', md: 'space-between' }}
         align={{ base: 'center', md: 'center' }}
       >
-        <Stack direction="row" spacing={6}>
-          <Image src="/img/footer/unl.png" />
-          <Image src="/img/footer/weai.jpg" />
-          <Image src="/img/footer/hprcc.jpg" />
-          <Image src="/img/footer/cornboard.jpg" />
-          <Image src="/img/footer/waterforfood.jpg" />
-          <Image src="/img/footer/soyboard.jpg" />
+        <Stack alignItems="center" direction="row" spacing={1}>
+          <NavLink to="https://www.unl.edu/">
+            <Image src="/img/footer/unl.png" />
+          </NavLink>
+
+          <NavLink to="https://ncesr.unl.edu/?page_id=532">
+            <Image src="/img/footer/weai.jpg" />
+          </NavLink>
+
+          <NavLink to="https://hprcc.unl.edu/">
+            <Image src="/img/footer/hprcc.jpg" />
+          </NavLink>
+
+          <NavLink to="https://nebraskacorn.gov/">
+            <Image src="/img/footer/cornboard.jpg" />
+          </NavLink>
+
+          <NavLink to="https://waterforfood.nebraska.edu/">
+            <Image src="/img/footer/waterforfood.jpg" />
+          </NavLink>
+
+          <NavLink to="https://nebraskasoybeans.org/">
+            <Image src="/img/footer/soyboard.jpg" />
+          </NavLink>
+
         </Stack>
       </Container>
-    </Box>
+    </Flex>
   );
 }
