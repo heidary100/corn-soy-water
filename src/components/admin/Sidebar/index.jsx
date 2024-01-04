@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {
-  Box, Flex, IconButton, useDisclosure, useMediaQuery,
+  Box, Flex, IconButton, Text, useDisclosure, useMediaQuery,
 } from '@chakra-ui/react';
 import {
   FiHome, FiMapPin, FiBarChart, FiSettings, FiMenu, FiArrowLeft,
@@ -24,11 +24,12 @@ export default function Sidebar(props) {
     <Box
       as="nav"
       zIndex="sticky"
-      minH="100vh"
+      h="100vh"
+      position="relative"
       pb="10"
       w="fit-content"
       overflowX="hidden"
-      overflowY="auto"
+      overflowY="scroll"
       bg="#61b0b7"
       borderColor="blackAlpha.300"
       borderRightWidth="1px"
@@ -72,6 +73,10 @@ export default function Sidebar(props) {
         </NavItem>
 
       </Flex>
+
+      <Text pos="absolute" bottom="5" w="full" textAlign="center" fontWeight="semibold" color="whiteAlpha.900">
+        {sidebar.isOpen ? 'Version 1.0' : 'v. 1.0'}
+      </Text>
     </Box>
   );
 }

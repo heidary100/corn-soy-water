@@ -14,10 +14,10 @@ import Footer from '../../components/admin/Footer';
 
 function AdminLayout() {
   return (
-    <Box as="section" bg="gray.50" _dark={{ bg: 'gray.700' }} minH="100vh" maxW="100vw">
+    <Box as="section" bg="gray.50" _dark={{ bg: 'gray.700' }} maxW="100vw">
       <Flex>
         <Sidebar />
-        <Box flex="1" transition=".3s ease">
+        <Box flex="1" transition=".3s ease" maxH="100vh" overflowY="scroll">
           <Flex
             as="header"
             align="center"
