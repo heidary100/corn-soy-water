@@ -5,7 +5,6 @@ import {
   Flex,
   Image,
   Text,
-  useDisclosure,
 } from '@chakra-ui/react';
 import { HiOutlineLogout } from 'react-icons/hi';
 import { NavLink, Outlet } from 'react-router-dom';
@@ -14,12 +13,10 @@ import ColorModeSwitcher from '../../components/ColorModeSwitcher';
 import Footer from '../../components/admin/Footer';
 
 function AdminLayout() {
-  const sidebar = useDisclosure();
-
   return (
     <Box as="section" bg="gray.50" _dark={{ bg: 'gray.700' }} minH="100vh" maxW="100vw">
       <Flex>
-        <Sidebar onToggle={sidebar.onToggle} isListMode={sidebar.isOpen} />
+        <Sidebar />
         <Box flex="1" transition=".3s ease">
           <Flex
             as="header"
@@ -32,18 +29,16 @@ function AdminLayout() {
             borderBottomWidth="1px"
             borderColor="blackAlpha.300"
             h="14"
+            overflow="hidden"
           >
             <Flex px="4" py="5" align="center">
               <Image
                 w={30}
                 h={30}
-                // objectFit="cover"
                 src="/logo.png"
                 alt="Corn Soy Water"
               />
-              {' '}
-              &nbsp;
-              <Text fontSize="2xl" ml="2" fontWeight="semibold">
+              <Text fontSize="xl" ml="2" fontWeight="semibold">
                 Corn Soy Water
               </Text>
             </Flex>

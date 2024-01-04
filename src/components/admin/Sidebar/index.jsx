@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
-  Box, Flex, IconButton,
+  Box, Flex, IconButton, useDisclosure, useMediaQuery,
 } from '@chakra-ui/react';
 import {
   FiHome, FiMapPin, FiBarChart, FiSettings, FiMenu, FiArrowLeft,
@@ -8,13 +8,21 @@ import {
 import NavItem from './NavItem';
 
 export default function Sidebar(props) {
-  const { onToggle, isListMode } = props;
+  const sidebar = useDisclosure();
+  const [isLargerThanMd] = useMediaQuery('(min-width: 48em)'); // Detect screen size
+
+  useEffect(() => {
+    // Set isListMode to false on smaller screens
+    if (isLargerThanMd) {
+      sidebar.onOpen();
+    } else {
+      sidebar.onClose();
+    }
+  }, [isLargerThanMd]);
+
   return (
     <Box
       as="nav"
-      // pos="fixed"
-      // top="0"
-      // left="0"
       zIndex="sticky"
       minH="100vh"
       pb="10"
@@ -35,11 +43,8 @@ export default function Sidebar(props) {
           color: 'whiteAlpha.700',
         }}
         color="whiteAlpha.900"
-        // display={{ base: 'inline-flex', md: 'none' }}
-        // onClick={sidebar.onOpen}
-        onClick={onToggle}
-        // icon={<FiMenu />}
-        icon={isListMode ? <FiMenu /> : <FiArrowLeft />}
+        onClick={sidebar.onToggle}
+        icon={sidebar.isOpen ? <FiMenu /> : <FiArrowLeft />}
         size="lg"
       />
 
@@ -50,19 +55,19 @@ export default function Sidebar(props) {
         color="gray.600"
         aria-label="Main Navigation"
       >
-        <NavItem isListMode={isListMode} icon={FiHome} to="/admin/">
+        <NavItem isListMode={sidebar.isOpen} icon={FiHome} to="/admin/">
           Home
         </NavItem>
 
-        <NavItem isListMode={isListMode} icon={FiMapPin} to="/admin/new">
+        <NavItem isListMode={sidebar.isOpen} icon={FiMapPin} to="/admin/new">
           Add new Field
         </NavItem>
 
-        <NavItem isListMode={isListMode} icon={FiBarChart} to="/admin/result">
+        <NavItem isListMode={sidebar.isOpen} icon={FiBarChart} to="/admin/result">
           Field info and Result
         </NavItem>
 
-        <NavItem isListMode={isListMode} icon={FiSettings} to="/admin/profile">
+        <NavItem isListMode={sidebar.isOpen} icon={FiSettings} to="/admin/profile">
           Setting
         </NavItem>
 
