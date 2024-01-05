@@ -24,27 +24,27 @@ export default function Footer() {
         align={{ base: 'center', md: 'center' }}
       >
         <Stack alignItems="center" direction="row" spacing={1}>
-          <NavLink to="https://www.unl.edu/">
+          <NavLink to="https://www.unl.edu/" target="_blank">
             <Image src="/img/footer/unl.png" />
           </NavLink>
 
-          <NavLink to="https://ncesr.unl.edu/?page_id=532">
+          <NavLink to="https://ncesr.unl.edu/?page_id=532" target="_blank">
             <Image src="/img/footer/weai.jpg" />
           </NavLink>
 
-          <NavLink to="https://hprcc.unl.edu/">
+          <NavLink to="https://hprcc.unl.edu/" target="_blank">
             <Image src="/img/footer/hprcc.jpg" />
           </NavLink>
 
-          <NavLink to="https://nebraskacorn.gov/">
+          <NavLink to="https://nebraskacorn.gov/" target="_blank">
             <Image src="/img/footer/cornboard.jpg" />
           </NavLink>
 
-          <NavLink to="https://waterforfood.nebraska.edu/">
+          <NavLink to="https://waterforfood.nebraska.edu/" target="_blank">
             <Image src="/img/footer/waterforfood.jpg" />
           </NavLink>
 
-          <NavLink to="https://nebraskasoybeans.org/">
+          <NavLink to="https://nebraskasoybeans.org/" target="_blank">
             <Image src="/img/footer/soyboard.jpg" />
           </NavLink>
 
