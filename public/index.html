@@ -23,7 +23,8 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
   <title>Corn Soy Water</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
     integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
     crossorigin="" /> -->
@@ -32,6 +33,23 @@
       width: 100%;
       height: 100%;
     }
+
+    .leaflet-control-geosearch .results>* {
+      color: black !important;
+    }
+
+    div.leaflet-control-geosearch.leaflet-geosearch-bar>form>input {
+      background: white !important;
+      color: black !important;
+    }
+
+    div.leaflet-control-geosearch.leaflet-geosearch-bar>form>input::placeholder {
+      color: black !important;
+    }
+
+    /* #root > section > div > div > main > div > div.css-ubtlgf > form > div.css-1dirme1 > div > div.leaflet-control-container > div.leaflet-control-geosearch.leaflet-geosearch-bar > form > div{
+
+    } */
   </style>
 </head>
 
