@@ -20,14 +20,14 @@ export default function FieldsMap() {
     iconSize: [32, 32], // adjust the size of your custom marker
     iconAnchor: [16, 32], // adjust the anchor point if needed
     popupAnchor: [0, -32], // adjust the popup anchor point if needed
-    html: '<img src="/img/corn.png" style="width: 100%; height: 100%;background: orange;padding:2px;border-radius:15px;box-shadow:0px 0px 10px rgba(0,0,0,0.5);opacity:0.5;" />',
+    html: '<img src="/img/corn.png" style="width: 100%; height: 100%;background: orange;padding:2px;border-radius:15px;box-shadow:0px 0px 10px green;opacity:0.5;border:4px solid green;" />',
   });
   const soybeanIcon = L.divIcon({
     className: 'custom-marker',
     iconSize: [32, 32], // adjust the size of your custom marker
     iconAnchor: [16, 32], // adjust the anchor point if needed
     popupAnchor: [0, -32], // adjust the popup anchor point if needed
-    html: '<img src="/img/soybean.png" style="width: 100%; height: 100%;background: green;padding:2px;border-radius:15px;box-shadow:0px 0px 10px rgba(0,0,0,0.5);opacity:0.5;" />',
+    html: '<img src="/img/soybean.png" style="width: 100%; height: 100%;background: green;padding:2px;border-radius:15px;box-shadow:0px 0px 10px red;opacity:0.5;border:3px solid red;" />',
   });
 
   const toast = useToast();
@@ -109,6 +109,8 @@ export default function FieldsMap() {
               return (
                 <Marker
                   icon={soybeanIcon}
+                  style={{ background: '3px solid red' }}
+                  weight="12"
                   key={`soybean-${item.id}`}
                   position={[latitude, longitude]}
                   eventHandlers={{
