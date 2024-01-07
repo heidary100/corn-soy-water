@@ -1,30 +1,48 @@
-import { Checkbox, VStack } from '@chakra-ui/react';
+import { Checkbox, Grid, GridItem } from '@chakra-ui/react';
 import React from 'react';
 
-function Legend({ data, selectedItems, onChange }) {
+function Legend({ data, onChange }) {
   return (
-    <VStack align="flex-start">
+    <Grid templateColumns="repeat(12, 1fr)" gap={1} p={5}>
       {data.map((d) => (
-        <Checkbox
-          fontWeight="bold"
-          key={d.name}
-          value={d.name}
-          checked={selectedItems.includes(d.name)}
-          onChange={() => onChange(d.name)}
-        >
-          <span style={{
-            display: 'inline-block',
-            height: '15px',
-            width: '15px',
-            borderRadius: '15px',
-            background: d.color,
-          }}
-          />
-          {' '}
-          {d.name}
-        </Checkbox>
+        <GridItem colSpan={6}>
+          <Checkbox
+            fontWeight="medium"
+            key={d.name}
+            value={d.name}
+            onChange={() => onChange(d.name)}
+            checked={d.checked}
+            disabled={d.checked}
+          >
+
+            {d.legendShape === 'line' && (
+              <span style={{
+                display: 'inline-block',
+                marginBottom: '5px',
+                height: '3px',
+                width: '15px',
+                borderTop: `3px solid ${d.color}`,
+                borderStyle: d.dashed ? 'dashed' : 'solid',
+              }}
+              />
+            )}
+
+            {d.legendShape === 'circle' && (
+              <span style={{
+                display: 'inline-block',
+                background: d.color,
+                height: '13px',
+                width: '13px',
+                borderRadius: '13px',
+              }}
+              />
+            )}
+            &nbsp;
+            {d.name}
+          </Checkbox>
+        </GridItem>
       ))}
-    </VStack>
+    </Grid>
   );
 }
 

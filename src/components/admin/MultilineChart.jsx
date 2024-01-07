@@ -1,97 +1,147 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 
 function MultilineChart({ data = [], dimensions = {} }) {
   const svgRef = useRef(null);
-  const [prevItems, setPrevItems] = useState([]);
-  const { width, height, margin = {} } = dimensions;
-  const svgWidth = width + margin.left + margin.right;
-  const svgHeight = height + margin.top + margin.bottom;
+  // const [prevItems, setPrevItems] = useState([]);
+  const { margin = {} } = dimensions;
 
   useEffect(() => {
+    const lineData = data.filter((each) => each.type === 'line');
+    const barData = data.filter((each) => each.type === 'bar');
+
+    const svgEl = d3.select(svgRef.current);
+    svgEl.selectAll('*').remove();
+
+    const containerWidth = svgRef.current.parentElement.clientWidth - margin.left - margin.right;
+    const width = containerWidth > 0 ? containerWidth : 0;
+    const height = dimensions.height - margin.top - margin.bottom;
+
+    const parseDate = d3.timeParse('%Y-%m-%d');
+
     const xScale = d3
       .scaleTime()
-      .domain(d3.extent(data[0].items, (d) => d.date))
+      .domain(d3.extent(data[0].items, (d) => parseDate(d.date)))
       .range([0, width]);
 
     const yScale = d3
       .scaleLinear()
-      .domain([
-        0,
-        12.5,
-      ])
+      .domain([0, 12.5])
       .range([height, 0]);
 
     const y2Scale = d3
       .scaleLinear()
-      .domain([0,
-        1.25,
-      ])
+      .domain([0, 1.25])
       .range([height, 0]);
 
-    const svgEl = d3.select(svgRef.current);
-    svgEl.selectAll('*').remove();
+    const barYScale = d3
+      .scaleLinear()
+      .domain([0, 12.5])
+      .range([height, 0]);
+
     const svg = svgEl.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
 
-    const xAxis = d3
-      .axisBottom(xScale)
-      .ticks(5)
-      .tickSize(-height);
+    const xAxis = d3.axisBottom(xScale).ticks(12).tickSize(-height);
 
     const xAxisGroup = svg
       .append('g')
-      .attr('transform', `translate(0, ${height + 10})`)
+      .attr('transform', `translate(0, ${height})`)
       .call(xAxis);
 
-    xAxisGroup.select('.domain').remove();
+    // xAxisGroup.select('.domain').remove();
     xAxisGroup.selectAll('line').remove();
-    xAxisGroup.selectAll('text').attr('opacity', 0.5).attr('font-size', '0.75rem');
+    xAxisGroup.selectAll('text').attr('font-size', '0.75rem');
 
-    const yAxis = d3
-      .axisLeft(yScale)
-      .ticks(5)
-      .tickSize(-width);
+    const yAxis = d3.axisLeft(yScale).ticks(5).tickSize(-width);
 
     const yAxisGroup = svg.append('g').call(yAxis);
     yAxisGroup.select('.domain').remove();
     yAxisGroup.selectAll('line').remove();
-    yAxisGroup.selectAll('text').attr('opacity', 0.5).attr('font-size', '0.75rem');
+    yAxisGroup.selectAll('text').attr('font-size', '0.75rem');
 
     const yAxis2 = d3.axisRight(y2Scale).ticks(5).tickSize(width);
     const yAxis2Group = svg.append('g').call(yAxis2);
     yAxis2Group.select('.domain').remove();
     yAxis2Group.selectAll('line').remove();
-    yAxis2Group.selectAll('text').attr('opacity', 0.5).attr('font-size', '0.75rem');
+    yAxis2Group.selectAll('text').attr('font-size', '0.75rem');
 
-    const line = d3.line().x((d) => xScale(d.date)).y((d) => yScale(d.value));
+    const line = d3.line().x((d) => xScale(parseDate(d.date))).y((d) => yScale(d.value));
 
-    const lines = svg
+    svg
       .selectAll('.line')
-      .data(data)
+      .data(lineData)
       .enter()
       .append('path')
+      .attr('class', 'line')
       .attr('fill', 'none')
       .attr('stroke', (d) => d.color)
-      .attr('stroke-width', 3)
-      .attr('d', (d) => line(d.items));
+      .attr('stroke-width', 2)
+      .attr('d', (d) => line(d.items))
+      .attr('stroke-dasharray', (d) => (d.dashed ? 10 : 0))
+      .transition()
+      .duration(750)
+      .ease(d3.easeLinear)
+      .attr('stroke-dashoffset', 0);
 
-    lines.each((d, i, nodes) => {
-      const element = nodes[i];
-      const length = element.getTotalLength();
-      if (!prevItems.includes(d.name)) {
-        d3.select(element)
-          .attr('stroke-dasharray', `${length},${length}`)
-          .attr('stroke-dashoffset', length)
-          .transition()
-          .duration(750)
-          .ease(d3.easeLinear)
-          .attr('stroke-dashoffset', 0);
-      }
-    });
-    setPrevItems(data.map(({ name }) => name));
-  }, [data]);
+    // Add bars
+    for (let i = 0; i < barData.length; i += 1) {
+      const barWidth = width / barData[i].items.length;
 
-  return <svg ref={svgRef} width={svgWidth} height={svgHeight} />;
+      svg
+        .selectAll(`.bar${i}`)
+        .data(barData[i].items)
+        .enter()
+        .append('rect')
+        .attr('class', 'bar')
+        // .attr('x', (d) => xScale(parseDate(d.items[0].date)) - barWidth / 2)
+        .attr('x', (d) => xScale(parseDate(d.date)) - barWidth)
+        .attr('y', (d) => barYScale(d.value))
+        .attr('width', barWidth)
+        .attr('height', (d) => height - barYScale(d.value))
+        .attr('fill', barData[i].color);
+    }
+
+    // const lines = svg
+    //   .selectAll('.line')
+    //   .data(lineData)
+    //   .enter()
+    //   .append('path')
+    //   .attr('fill', 'none')
+    //   .attr('stroke', (d) => d.color)
+    //   .attr('stroke-width', 2)
+    //   .attr('stroke-dasharray', 5)
+    //   .attr('d', (d) => line(d.items));
+
+    // const barWidth = width / data[0].length;
+
+    // const bars = svg
+    //   .selectAll('.bar')
+    //   .data(barData)
+    //   .enter()
+    //   .append('rect')
+    //   .attr('class', 'bar')
+    //   .attr('x', (d) => xScale(d.date) - barWidth / 2)
+    //   .attr('y', (d) => barYScale(d.value))
+    //   .attr('width', barWidth)
+    //   .attr('height', (d) => height - barYScale(d.value))
+    //   .attr('fill', 'steelblue');
+
+    // lines.each((d, i, nodes) => {
+    //   const element = nodes[i];
+    //   const length = element.getTotalLength();
+    //   // if (!prevItems.includes(d.name)) {
+    //   d3.select(element)
+    //     .attr('stroke-dasharray', `${length},${length}`)
+    //     .attr('stroke-dashoffset', length)
+    //     .transition()
+    //     .duration(750)
+    //     .ease(d3.easeLinear)
+    //     .attr('stroke-dashoffset', 0);
+    //   // }
+    // });
+  }, [data, dimensions]);
+
+  return <svg ref={svgRef} width="100%" height={dimensions.height} />;
 }
 
 export default MultilineChart;
