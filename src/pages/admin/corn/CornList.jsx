@@ -102,7 +102,7 @@ export default function CornList() {
                   Date of planting
                 </Heading>
                 <Text pt="2" fontSize="sm">
-                  {item.plantingDate.toString().split('T')[0]}
+                  {new Date(item.plantingDate).toLocaleDateString()}
                 </Text>
               </Box>
               <Box>

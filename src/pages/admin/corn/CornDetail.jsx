@@ -413,8 +413,7 @@ export default function CornDetail() {
                       <Text fontSize="lg">
                         <strong>Planting Date:</strong>
                         {' '}
-                        {(new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(fieldInfo.plantingDate)
-                        )}
+                        {new Date(fieldInfo.plantingDate).toLocaleDateString()}
                       </Text>
                       <Text fontSize="lg">
                         <strong>Relative Group:</strong>
@@ -497,7 +496,7 @@ export default function CornDetail() {
                   <Table variant="simple">
                     <Thead>
                       <Tr>
-                        <Th>Amount</Th>
+                        <Th>Amount (inches)</Th>
                         <Th>Date</Th>
                         <Th>Actions</Th>
                       </Tr>
@@ -506,7 +505,7 @@ export default function CornDetail() {
                       {fieldInfo.irrigations && fieldInfo.irrigations.map((item) => (
                         <Tr key={item.id}>
                           <Td>{item.amount}</Td>
-                          <Td>{item.date.toString().split('T')[0]}</Td>
+                          <Td>{new Date(item.date).toLocaleDateString()}</Td>
                           <Td>
                             <Stack direction="row" spacing={1}>
                               <Button
