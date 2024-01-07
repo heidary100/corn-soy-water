@@ -11,14 +11,26 @@ export default function Sidebar(props) {
   const sidebar = useDisclosure();
   const [isLargerThanMd] = useMediaQuery('(min-width: 48em)'); // Detect screen size
 
+  const setSidebarState = () => {
+    localStorage.setItem('sidebarState', !sidebar.isOpen ? 'open' : 'closed');
+  };
+
   useEffect(() => {
+    const storedSidebarState = localStorage.getItem('sidebarState');
+    const initialState = storedSidebarState === 'open';
+
     // Set isListMode to false on smaller screens
-    if (isLargerThanMd) {
+    if (initialState && isLargerThanMd) {
       sidebar.onOpen();
-    } else {
+    } else if (sidebar.isOpen) {
       sidebar.onClose();
     }
   }, [isLargerThanMd]);
+
+  const handleToggle = () => {
+    sidebar.onToggle();
+    setSidebarState();
+  };
 
   return (
     <Box
@@ -44,8 +56,8 @@ export default function Sidebar(props) {
           color: 'whiteAlpha.700',
         }}
         color="whiteAlpha.900"
-        onClick={sidebar.onToggle}
-        icon={sidebar.isOpen ? <FiMenu /> : <FiArrowLeft />}
+        onClick={handleToggle}
+        icon={sidebar.isOpen ? <FiArrowLeft /> : <FiMenu />}
         size="lg"
       />
 
