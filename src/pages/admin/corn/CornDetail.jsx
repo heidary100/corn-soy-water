@@ -291,7 +291,7 @@ export default function CornDetail() {
               if no substantial rainfall is forecasted. */}
                 </Box>
                 <br />
-                <Box position="relative">
+                <Box position="relative" w="fit-content">
                   <Text h="25" position="absolute" fontWeight="semibold" left="0" right="0" margin="auto" textAlign="center">
                     Estimated soil water status & crop water stress for the field
                     &quot;
@@ -317,7 +317,7 @@ export default function CornDetail() {
                   />
                 </Box>
               </GridItem>
-              <GridItem colSpan={4}>
+              <GridItem colSpan={[12, 12, 12, 4]}>
                 <Card>
                   <CardHeader>
                     <Heading size="md">Result Summary</Heading>

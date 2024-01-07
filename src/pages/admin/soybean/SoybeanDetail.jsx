@@ -27,46 +27,70 @@ import MultilineChart from '../../../components/admin/MultilineChart';
 import Legend from '../../../components/admin/Legend';
 import SoybeanService from '../../../services/soybean.service';
 import waterstress from '../../../data/waterstress.json';
+import totalAvailableWater from '../../../data/totalAvailableWater.json';
+import availableSoilWater from '../../../data/availableSoilWater.json';
+import rainfallAmount from '../../../data/rainfallAmount.json';
+import irrigationAmount from '../../../data/irrigationAmount.json';
 import AddIrrigation from '../AddIrrigation';
 
 const totalAvailableWaterData = {
   name: 'Total available water within active rooting zone',
-  color: 'turquoise',
-  items: waterstress.records.records.map((d) => ({ value: d.value - 1, date: new Date(d.date) })),
+  type: 'line',
+  dashed: false,
+  color: '#F17183',
+  legendShape: 'line',
+  checked: false,
+  items: totalAvailableWater
+    .records.records.map((d) => ({ value: d.value, date: d.date })),
 };
 
 const waterStressData = {
   name: 'Crop Water Stress',
-  color: 'deeppink',
-  items: waterstress.records.records.map((d) => ({ value: d.value, date: new Date(d.date) })),
+  type: 'line',
+  dashed: true,
+  color: '#F17183',
+  legendShape: 'line',
+  checked: true,
+  items: waterstress.records.records.map((d) => ({ value: d.value, date: d.date })),
 };
 
 const availableSoilWaterData = {
   name: 'Available soil water at a 50% depletion',
-  color: 'skyblue',
-  items: waterstress.records.records.map((d) => ({ value: d.value + 1, date: new Date(d.date) })),
+  type: 'line',
+  dashed: false,
+  color: '#E1CF5D',
+  legendShape: 'line',
+  checked: false,
+  items: availableSoilWater
+    .records.records.map((d) => ({ value: d.value, date: d.date })),
 };
 
 const rainfallAmountData = {
   name: 'Rainfall amount (inch)',
-  color: 'blue',
-  items: waterstress.records.records.map((d) => ({ value: d.value - 2, date: new Date(d.date) })),
+  type: 'bar',
+  color: '#6799C4',
+  legendShape: 'circle',
+  checked: false,
+  items: rainfallAmount.records.records.map((d) => ({ value: d.value, date: d.date })),
 };
 
 const irrigationAmountData = {
   name: 'Irrigation amount (inch)',
-  color: 'green',
-  items: waterstress.records.records.map((d) => ({ value: d.value - 3, date: new Date(d.date) })),
+  type: 'bar',
+  color: '#80BA70',
+  legendShape: 'circle',
+  checked: false,
+  items: irrigationAmount.records.records.map((d) => ({ value: d.value, date: d.date })),
 };
 
 const dimensions = {
   width: 500,
-  height: 300,
+  height: 400,
   margin: {
     top: 30,
-    right: 30,
+    right: 50,
     bottom: 30,
-    left: 60,
+    left: 70,
   },
 };
 
@@ -84,7 +108,7 @@ export default function SoybeanDetail() {
     // availableSoilWater: 50,
     // averageSoilTexture: 'eh',
   });
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([waterStressData.name]);
   const legendData = [
     totalAvailableWaterData,
     waterStressData,
@@ -169,7 +193,6 @@ export default function SoybeanDetail() {
     async function fetchData(soybeanId) {
       const soybean = await SoybeanService.getSoybeanById(soybeanId);
       setFieldInfo(soybean);
-      console.log(soybean);
       setLoading(false);
     }
 
@@ -207,7 +230,7 @@ export default function SoybeanDetail() {
   };
 
   return (
-    <Container minHeight="100vh" maxW="container.lg">
+    <Container minHeight="100vh" maxW="90%">
       <Heading marginTop={10}>Soybean Detail</Heading>
       <Stack direction="row" spacing={4} marginTop={10}>
         <Button as={NavLink} to="/admin/" float="right" leftIcon={<MdArrowBack />} colorScheme="blue" variant="outline">
@@ -216,66 +239,116 @@ export default function SoybeanDetail() {
       </Stack>
       <Tabs isFitted marginTop={10}>
         <TabList>
-          <Tab fontWeight="bold">Irrigation Records</Tab>
-          <Tab fontWeight="bold">Field Information</Tab>
           <Tab fontWeight="bold">Result</Tab>
+          <Tab fontWeight="bold">Field Information</Tab>
+          <Tab fontWeight="bold">Irrigation Records</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
-            <Box p={4}>
-              <Stack direction="row" spacing={4}>
-                <Heading float="left" as="h3" size="lg" mb={2}>
-                  Irrigation Records
-                </Heading>
-                <Button float="right" leftIcon={<MdAdd />} colorScheme="green" variant="solid" onClick={openModal}>
-                  Add new record
-                </Button>
-              </Stack>
-              <AddIrrigation
-                onSubmit={handleIrrigationSubmit}
-                isOpen={isModalOpen}
-                onClose={closeModal}
-              />
-              <TableContainer marginTop={10}>
-                <Progress hidden={!loading} size="xs" isIndeterminate />
-                {fieldInfo.irrigations && (
-                  <Table variant="simple">
-                    <Thead>
-                      <Tr>
-                        <Th>Amount</Th>
-                        <Th>Date</Th>
-                        <Th>Actions</Th>
-                      </Tr>
-                    </Thead>
-                    <Tbody>
-                      {fieldInfo.irrigations && fieldInfo.irrigations.map((item) => (
-                        <Tr key={item.id}>
-                          <Td>{item.amount}</Td>
-                          <Td>{item.date.toString().split('T')[0]}</Td>
-                          <Td>
-                            <Stack direction="row" spacing={1}>
-                              <Button
-                                onClick={() => {
-                                  setSelectedIrrigationRecord(item);
-                                  setIsDeleteModalOpen(true);
-                                }}
-                                leftIcon={<MdDelete />}
-                                colorScheme="red"
-                                variant="solid"
-                              >
-                                Delete
-                              </Button>
-                            </Stack>
-                          </Td>
-                        </Tr>
-                      ))}
-                    </Tbody>
-                  </Table>
-                )}
-              </TableContainer>
-              {!fieldInfo.irrigations
-                && <Text fontWeight="bold">No irrigation records were found!</Text>}
-            </Box>
+            <Grid templateColumns={['repeat(8, 1fr)', 'repeat(8, 1fr)', 'repeat(8, 1fr)', 'repeat(12, 1fr)']}>
+              <GridItem colSpan={8}>
+                <Box border={1} w="fit-content">
+                  <Heading fontSize="2xl" textAlign="center" fontWeight="semibold" color="green" marginTop={5}>
+                    No crop water stress is projected for the next 10 days.
+                  </Heading>
+                  <Text fontSize="md" marginTop={5}>
+                    Crop water stress scales from 0 to 1,
+                    with 0 being no water stress and 1 being severe water stress.
+                    When simulated water stress has occurred or is
+                    predicted to occur within next three days,
+                    irrigation is recommended if no substantial rainfall is forecasted.
+                  </Text>
+                  {/* <Heading as="h5" color="red">
+                Crop is currently under water stress.
+                Irrigation is recommended if no significant
+                rainfall is expected for the next 3 days.
+              </Heading>
+              Crop water stress scales from 0 to 1,
+              with O being no water stress and 1 being severe water stress.
+              When simulated water stress has occurred or is predicted
+              to occur within next three days, irrigation is recommended
+              if no substantial rainfall is forecasted. */}
+                </Box>
+                <br />
+                <Box position="relative">
+                  <Text h="25" position="absolute" fontWeight="semibold" left="0" right="0" margin="auto" textAlign="center">
+                    Estimated soil water status & crop water stress for the field
+                    &quot;
+                    {fieldInfo.name}
+                    &quot;
+                  </Text>
+
+                  <Text h="50" position="absolute" fontWeight="semibold" left="0" top="0" margin="auto" textAlign="center" transform="rotate(-90deg) translateY(-110px) translateX(-165px)">
+                    Total soil available water,
+                    <br />
+                    irrigation amount and rainfall (inch)
+                  </Text>
+
+                  <Text h="25" position="absolute" fontWeight="semibold" right="0" top="0" margin="auto" textAlign="center" transform="rotate(90deg) translateY(-85px) translateX(165px)">
+                    Crop water stress (0 to 1)
+                  </Text>
+
+                  <MultilineChart data={chartData} dimensions={dimensions} />
+                  <Legend
+                    data={legendData}
+                    selectedItems={selectedItems}
+                    onChange={onChangeSelection}
+                  />
+                </Box>
+              </GridItem>
+              <GridItem colSpan={[12, 12, 12, 4]}>
+                <Card>
+                  <CardHeader>
+                    <Heading size="md">Result Summary</Heading>
+                  </CardHeader>
+
+                  <CardBody>
+                    <Stack divider={<StackDivider />} spacing="4">
+                      <Box>
+                        <Heading size="xs">
+                          Current available water balance within the active rooting zone:
+                        </Heading>
+                        <Text pt="2" fontSize="sm">
+                          0
+                        </Text>
+                      </Box>
+                      <Box>
+                        <Heading size="xs">
+                          Initial available water in 0 - 12 inch soil zone at planting:
+                        </Heading>
+                        <Text pt="2" fontSize="sm">
+                          2.1
+                        </Text>
+                      </Box>
+                      <Box>
+                        <Heading size="xs">
+                          Total rainfall amount since planting:
+                        </Heading>
+                        <Text pt="2" fontSize="sm">
+                          2
+                        </Text>
+                      </Box>
+                      <Box>
+                        <Heading size="xs">
+                          Total irrigation amount:
+                        </Heading>
+                        <Text pt="2" fontSize="sm">
+                          12
+                        </Text>
+                      </Box>
+                      <Box>
+                        <Heading size="xs">
+                          Water consumption (i.e., total crop ET) since planting:
+                        </Heading>
+                        <Text pt="2" fontSize="sm">
+                          29
+                        </Text>
+                      </Box>
+                    </Stack>
+                  </CardBody>
+                </Card>
+              </GridItem>
+            </Grid>
           </TabPanel>
           <TabPanel>
             <Box p={4}>
@@ -288,7 +361,7 @@ export default function SoybeanDetail() {
                       && (
                         <MapContainer
                           center={[fieldInfo.lat, fieldInfo.lng]}
-                          zoom={6}
+                          zoom={4}
                           scrollWheelZoom
                         >
                           <TileLayer
@@ -357,108 +430,62 @@ export default function SoybeanDetail() {
             </Box>
           </TabPanel>
           <TabPanel>
-            <Grid templateColumns="repeat(12, 1fr)">
-              <GridItem colSpan={8}>
-                <Box border={1}>
-                  <Heading color="green" marginTop={5}>
-                    No crop water stress is projected for the next 10 days.
-                  </Heading>
-                  <Text fontSize="md" marginTop={5}>
-                    Crop water stress scales from 0 to 1,
-                    with 0 being no water stress and 1 being severe water stress.
-                    When simulated water stress has occurred or is
-                    predicted to occur within next three days,
-                    irrigation is recommended if no substantial rainfall is forecasted.
-                  </Text>
-                  {/* <Heading as="h5" color="red">
-                Crop is currently under water stress.
-                Irrigation is recommended if no significant
-                rainfall is expected for the next 3 days.
-              </Heading>
-              Crop water stress scales from 0 to 1,
-              with O being no water stress and 1 being severe water stress.
-              When simulated water stress has occurred or is predicted
-              to occur within next three days, irrigation is recommended
-              if no substantial rainfall is forecasted. */}
-                </Box>
-                <br />
-                <Box p={4} position="relative">
-                  <Text position="absolute" fontWeight="bold" left="0" right="0" margin="auto" textAlign="center">
-                    Estimated soil water status & crop water stress
-                  </Text>
-
-                  <Text position="absolute" fontWeight="bold" left="0" top="0" margin="auto" textAlign="center" transform="rotate(-90deg) translateY(-125px) translateX(-165px)">
-                    Total soil available water,
-                    <br />
-                    irrigation amount and rainfall (inch)
-                  </Text>
-
-                  <Text position="absolute" fontWeight="bold" right="0" top="0" margin="auto" textAlign="center" transform="rotate(90deg) translateY(-70px) translateX(165px)">
-                    Crop water stress (0 to 1)
-                  </Text>
-
-                  <MultilineChart data={chartData} dimensions={dimensions} />
-                  <Legend
-                    data={legendData}
-                    selectedItems={selectedItems}
-                    onChange={onChangeSelection}
-                  />
-                </Box>
-              </GridItem>
-              <GridItem colSpan={4}>
-                <Card>
-                  <CardHeader>
-                    <Heading size="md">Result Summary</Heading>
-                  </CardHeader>
-
-                  <CardBody>
-                    <Stack divider={<StackDivider />} spacing="4">
-                      <Box>
-                        <Heading size="xs">
-                          Current available water balance within the active rooting zone:
-                        </Heading>
-                        <Text pt="2" fontSize="sm">
-                          0
-                        </Text>
-                      </Box>
-                      <Box>
-                        <Heading size="xs">
-                          Initial available water in 0 - 12 inch soil zone at planting:
-                        </Heading>
-                        <Text pt="2" fontSize="sm">
-                          2.1
-                        </Text>
-                      </Box>
-                      <Box>
-                        <Heading size="xs">
-                          Total rainfall amount since planting:
-                        </Heading>
-                        <Text pt="2" fontSize="sm">
-                          2
-                        </Text>
-                      </Box>
-                      <Box>
-                        <Heading size="xs">
-                          Total irrigation amount:
-                        </Heading>
-                        <Text pt="2" fontSize="sm">
-                          12
-                        </Text>
-                      </Box>
-                      <Box>
-                        <Heading size="xs">
-                          Water consumption (i.e., total crop ET) since planting:
-                        </Heading>
-                        <Text pt="2" fontSize="sm">
-                          29
-                        </Text>
-                      </Box>
-                    </Stack>
-                  </CardBody>
-                </Card>
-              </GridItem>
-            </Grid>
+            <Box p={4}>
+              <Stack direction="row" spacing={4}>
+                <Heading float="left" as="h3" size="lg" mb={2}>
+                  Irrigation Records
+                </Heading>
+                <Button float="right" leftIcon={<MdAdd />} colorScheme="green" variant="solid" onClick={openModal}>
+                  Add new record
+                </Button>
+              </Stack>
+              <AddIrrigation
+                onSubmit={handleIrrigationSubmit}
+                isOpen={isModalOpen}
+                onClose={closeModal}
+              />
+              <TableContainer marginTop={10}>
+                <Progress hidden={!loading} size="xs" isIndeterminate />
+                {fieldInfo.irrigations && (
+                  <Table variant="simple">
+                    <Thead>
+                      <Tr>
+                        <Th>Amount</Th>
+                        <Th>Date</Th>
+                        <Th>Actions</Th>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                      {fieldInfo.irrigations && fieldInfo.irrigations.map((item) => (
+                        <Tr key={item.id}>
+                          <Td>{item.amount}</Td>
+                          <Td>{item.date.toString().split('T')[0]}</Td>
+                          <Td>
+                            <Stack direction="row" spacing={1}>
+                              <Button
+                                onClick={() => {
+                                  setSelectedIrrigationRecord(item);
+                                  setIsDeleteModalOpen(true);
+                                }}
+                                leftIcon={<MdDelete />}
+                                colorScheme="red"
+                                variant="solid"
+                              >
+                                Delete
+                              </Button>
+                            </Stack>
+                          </Td>
+                        </Tr>
+                      ))}
+                    </Tbody>
+                  </Table>
+                )}
+              </TableContainer>
+              {!fieldInfo.irrigations
+                && <Text fontWeight="bold">No irrigation records were found!</Text>}
+            </Box>
           </TabPanel>
+
         </TabPanels>
       </Tabs>
       <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)}>
