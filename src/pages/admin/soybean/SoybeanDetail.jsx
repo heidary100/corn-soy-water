@@ -445,43 +445,39 @@ export default function SoybeanDetail() {
               />
               <TableContainer marginTop={10}>
                 <Progress hidden={!loading} size="xs" isIndeterminate />
-                {fieldInfo.irrigations && (
-                  <Table variant="simple">
-                    <Thead>
-                      <Tr>
-                        <Th>Amount (inches)</Th>
-                        <Th>Date</Th>
-                        <Th>Actions</Th>
+                <Table variant="simple">
+                  <Thead>
+                    <Tr>
+                      <Th>Amount (inches)</Th>
+                      <Th>Date</Th>
+                      <Th>Actions</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {fieldInfo.irrigations && fieldInfo.irrigations.map((item) => (
+                      <Tr key={item.id}>
+                        <Td>{item.amount}</Td>
+                        <Td>{new Date(item.date).toLocaleDateString()}</Td>
+                        <Td>
+                          <Stack direction="row" spacing={1}>
+                            <Button
+                              onClick={() => {
+                                setSelectedIrrigationRecord(item);
+                                setIsDeleteModalOpen(true);
+                              }}
+                              leftIcon={<MdDelete />}
+                              colorScheme="red"
+                              variant="solid"
+                            >
+                              Delete
+                            </Button>
+                          </Stack>
+                        </Td>
                       </Tr>
-                    </Thead>
-                    <Tbody>
-                      {fieldInfo.irrigations && fieldInfo.irrigations.map((item) => (
-                        <Tr key={item.id}>
-                          <Td>{item.amount}</Td>
-                          <Td>{new Date(item.date).toLocaleDateString()}</Td>
-                          <Td>
-                            <Stack direction="row" spacing={1}>
-                              <Button
-                                onClick={() => {
-                                  setSelectedIrrigationRecord(item);
-                                  setIsDeleteModalOpen(true);
-                                }}
-                                leftIcon={<MdDelete />}
-                                colorScheme="red"
-                                variant="solid"
-                              >
-                                Delete
-                              </Button>
-                            </Stack>
-                          </Td>
-                        </Tr>
-                      ))}
-                    </Tbody>
-                  </Table>
-                )}
+                    ))}
+                  </Tbody>
+                </Table>
               </TableContainer>
-              {!fieldInfo.irrigations
-                && <Text fontWeight="bold">No irrigation records were found!</Text>}
             </Box>
           </TabPanel>
 
