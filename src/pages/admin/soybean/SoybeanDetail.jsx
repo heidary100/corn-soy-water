@@ -23,9 +23,8 @@ import { MdAdd, MdArrowBack, MdDelete } from 'react-icons/md';
 import {
   MapContainer, Marker, Popup, TileLayer,
 } from 'react-leaflet';
-// import { timeParse } from 'd3';
-import MultilineChart from '../../../components/admin/MultilineChart';
-import Legend from '../../../components/admin/Legend';
+import MultilineChart from '../../../components/admin/Chart/MultilineChart';
+import Legend from '../../../components/admin/Chart/Legend';
 import SoybeanService from '../../../services/soybean.service';
 import waterstress from '../../../data/waterstress.json';
 import totalAvailableWater from '../../../data/totalAvailableWater.json';
@@ -33,8 +32,6 @@ import availableSoilWater from '../../../data/availableSoilWater.json';
 import rainfallAmount from '../../../data/rainfallAmount.json';
 import irrigationAmount from '../../../data/irrigationAmount.json';
 import AddIrrigation from '../AddIrrigation';
-
-// const parseDate = timeParse('%m/%d/%Y');
 
 const totalAvailableWaterData = {
   name: 'Total available water within active rooting zone',
