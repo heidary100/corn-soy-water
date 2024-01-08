@@ -39,6 +39,8 @@ import {
 import { NavLink, useParams } from 'react-router-dom';
 import { MdAdd, MdArrowBack, MdDelete } from 'react-icons/md';
 import {
+  LayerGroup,
+  LayersControl,
   MapContainer, Marker, Popup, TileLayer,
 } from 'react-leaflet';
 import waterstress from '../../../data/waterstress.json';
@@ -385,10 +387,24 @@ export default function CornDetail() {
                           zoom={4}
                           scrollWheelZoom
                         >
-                          <TileLayer
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                          />
+                          <LayersControl>
+                            <LayersControl.BaseLayer checked name="Satellite">
+                              <LayerGroup>
+                                <TileLayer
+                                  attribution="Google Maps Satellite"
+                                  url="https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}"
+                                />
+                                <TileLayer url="https://www.google.cn/maps/vt?lyrs=y@189&gl=cn&x={x}&y={y}&z={z}" />
+                              </LayerGroup>
+                            </LayersControl.BaseLayer>
+                            <LayersControl.BaseLayer name="Street View">
+                              <TileLayer
+                                attribution="Google Maps"
+                                url="https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}"
+                              />
+                            </LayersControl.BaseLayer>
+
+                          </LayersControl>
                           <Marker
                             position={[fieldInfo.lat, fieldInfo.lng]}
                           >

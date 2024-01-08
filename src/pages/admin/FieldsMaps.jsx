@@ -7,7 +7,7 @@ import {
 } from '@chakra-ui/react';
 import { MdEdit, MdInfo } from 'react-icons/md';
 import {
-  MapContainer, TileLayer, Popup, Marker,
+  MapContainer, TileLayer, Popup, Marker, LayersControl, LayerGroup,
 } from 'react-leaflet';
 import L from 'leaflet';
 import { NavLink } from 'react-router-dom';
@@ -67,10 +67,25 @@ export default function FieldsMap() {
       <Progress hidden={!loading} size="xs" isIndeterminate />
       {!loading && (
         <MapContainer center={[38, -90]} zoom={4} scrollWheelZoom>
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
+          <LayersControl>
+            <LayersControl.BaseLayer checked name="Satellite">
+              <LayerGroup>
+                <TileLayer
+                  attribution="Google Maps Satellite"
+                  url="https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}"
+                />
+                <TileLayer url="https://www.google.cn/maps/vt?lyrs=y@189&gl=cn&x={x}&y={y}&z={z}" />
+              </LayerGroup>
+            </LayersControl.BaseLayer>
+            <LayersControl.BaseLayer name="Street View">
+              <TileLayer
+                attribution="Google Maps"
+                url="https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}"
+              />
+            </LayersControl.BaseLayer>
+
+          </LayersControl>
+
           {data.corns.map((item) => {
             const latitude = parseFloat(item.lat);
             const longitude = parseFloat(item.lng);

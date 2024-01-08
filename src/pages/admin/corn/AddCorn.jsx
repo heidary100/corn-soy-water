@@ -206,14 +206,7 @@ export default function AddCorn({ edit }) {
                 scrollWheelZoom
               >
                 <LayersControl>
-                  <LayersControl.BaseLayer checked name="Street View">
-                    <TileLayer
-                      attribution="Google Maps"
-                      url="https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}"
-                    />
-                  </LayersControl.BaseLayer>
-
-                  <LayersControl.BaseLayer name="Satellite">
+                  <LayersControl.BaseLayer checked name="Satellite">
                     <LayerGroup>
                       <TileLayer
                         attribution="Google Maps Satellite"
@@ -221,6 +214,13 @@ export default function AddCorn({ edit }) {
                       />
                       <TileLayer url="https://www.google.cn/maps/vt?lyrs=y@189&gl=cn&x={x}&y={y}&z={z}" />
                     </LayerGroup>
+                  </LayersControl.BaseLayer>
+
+                  <LayersControl.BaseLayer name="Street View">
+                    <TileLayer
+                      attribution="Google Maps"
+                      url="https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}"
+                    />
                   </LayersControl.BaseLayer>
                 </LayersControl>
 
