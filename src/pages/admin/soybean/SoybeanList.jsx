@@ -1,5 +1,5 @@
 import {
-  Container,
+  Box,
   Heading,
   Button,
   Modal,
@@ -11,15 +11,14 @@ import {
   ModalFooter,
   useToast,
   Progress,
-  CardBody,
-  Text,
-  Card,
-  CardHeader,
-  CardFooter,
-  Box,
-  StackDivider,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
   ButtonGroup,
-  HStack,
+  IconButton,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import {
@@ -35,24 +34,24 @@ export default function SoybeanList() {
 
   useEffect(() => {
     async function fetchData() {
-      const soybeans = await SoybeanService.getSoybeans();
-      setData(soybeans);
-      setLoading(false);
+      try {
+        setLoading(true);
+        const soybeans = await SoybeanService.getSoybeans();
+        setData(soybeans);
+      } catch (error) {
+        toast({
+          title: 'Failed to load data. Try again.',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        });
+      } finally {
+        setLoading(false);
+      }
     }
 
-    try {
-      setLoading(true);
-      fetchData();
-    } catch (error) {
-      // Handle submission error here
-      toast({
-        title: 'Failed to load data, Try again.',
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      });
-    }
-  }, []);
+    fetchData();
+  }, [toast]);
 
   const [selectedItem, setSelectedItem] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -60,22 +59,20 @@ export default function SoybeanList() {
   const handleDelete = async () => {
     setIsDeleteModalOpen(false);
     setLoading(true);
-    try {
-      // eslint-disable-next-line no-console
-      await SoybeanService.deleteSoybeanById(selectedItem.id);
-      setData(data.filter((item) => item.id !== selectedItem.id));
 
-      // Handle successful submission here
+    try {
+      await SoybeanService.deleteSoybeanById(selectedItem.id);
+      setData((prevData) => prevData.filter((item) => item.id !== selectedItem.id));
+
       toast({
-        title: 'Deleted Soybean Field Successfuly.',
+        title: 'Deleted Soybean Field Successfully.',
         status: 'success',
         duration: 9000,
         isClosable: true,
       });
     } catch (error) {
-      // Handle submission error here
       toast({
-        title: 'Failure, Try again.',
+        title: 'Failure. Try again.',
         status: 'error',
         duration: 9000,
         isClosable: true,
@@ -86,66 +83,62 @@ export default function SoybeanList() {
   };
 
   return (
-    <Container maxW="container.lg">
-      <Heading marginTop={10}>Soybean Fields</Heading>
+    <Box w="100%">
+      <Heading fontWeight="normal" margin={2}>Soybean Fields</Heading>
       <Progress hidden={!loading} size="xs" isIndeterminate />
 
-      {data.map((item) => (
-        <Card marginTop={5}>
-          <CardHeader>
-            <Heading size="md">{item.name}</Heading>
-          </CardHeader>
-          <CardBody>
-            <HStack divider={<StackDivider />} spacing="4">
-              <Box>
-                <Heading size="xs" textTransform="uppercase">
-                  Date of planting
-                </Heading>
-                <Text pt="2" fontSize="sm">
-                  {new Date(item.plantingDate).toLocaleDateString()}
-                </Text>
-              </Box>
-              <Box>
-                <Heading size="xs" textTransform="uppercase">
-                  Maturity Group
-                </Heading>
-                <Text pt="2" fontSize="sm">
-                  {item.maturityGroup}
-                </Text>
-              </Box>
-              <Box>
-                <Heading size="xs" textTransform="uppercase">
-                  Crop Status
-                </Heading>
-                <Text pt="2" fontSize="sm" color="green">
-                  No water stress
-                </Text>
-              </Box>
-            </HStack>
-          </CardBody>
-          <CardFooter>
-            <ButtonGroup spacing="2">
-              <Button as={NavLink} to={`/admin/result/soybean/${item.id}`} leftIcon={<MdInfo />} colorScheme="blue" variant="ghost">
-                Detail
-              </Button>
-              <Button as={NavLink} to={`/admin/edit/soybean/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="ghost">
-                Edit
-              </Button>
-              <Button
-                onClick={() => {
-                  setSelectedItem(item);
-                  setIsDeleteModalOpen(true);
-                }}
-                leftIcon={<MdDelete />}
-                colorScheme="red"
-                variant="ghost"
-              >
-                Delete
-              </Button>
-            </ButtonGroup>
-          </CardFooter>
-        </Card>
-      ))}
+      <Table w="100%" colorScheme="gray" variant="striped" size="sm">
+        <Thead>
+          <Tr>
+            <Th>Name</Th>
+            <Th>Date of Planting</Th>
+            <Th>Maturity Group</Th>
+            <Th>Crop Status</Th>
+            <Th>Actions</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {data.map((item) => (
+            <Tr key={item.id}>
+              <Td>{item.name}</Td>
+              <Td>{new Date(item.plantingDate).toLocaleDateString()}</Td>
+              <Td>{item.maturityGroup}</Td>
+              <Td color="green">No water stress</Td>
+              <Td>
+                <ButtonGroup spacing="2">
+                  <IconButton
+                    as={NavLink}
+                    to={`/admin/result/soybean/${item.id}`}
+                    leftIcon={<MdInfo />}
+                    colorScheme="blue"
+                    variant="ghost"
+                    title="Detail"
+                  />
+
+                  <IconButton
+                    as={NavLink}
+                    to={`/admin/edit/soybean/${item.id}`}
+                    leftIcon={<MdEdit />}
+                    colorScheme="blue"
+                    variant="ghost"
+                    title="Edit"
+                  />
+                  <IconButton
+                    onClick={() => {
+                      setSelectedItem(item);
+                      setIsDeleteModalOpen(true);
+                    }}
+                    icon={<MdDelete />}
+                    colorScheme="red"
+                    variant="ghost"
+                    title="Delete"
+                  />
+                </ButtonGroup>
+              </Td>
+            </Tr>
+          ))}
+        </Tbody>
+      </Table>
 
       <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)}>
         <ModalOverlay />
@@ -168,6 +161,6 @@ export default function SoybeanList() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </Container>
+    </Box>
   );
 }

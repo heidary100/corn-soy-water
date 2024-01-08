@@ -9,7 +9,7 @@ import FieldsMap from './FieldsMaps';
 
 export default function Dashboard() {
   return (
-    <Container maxW="7xl">
+    <Container maxW="100%">
       <Tabs isFitted marginTop={10}>
         <TabList>
           <Tab fontWeight="bold">Fields Map</Tab>
@@ -20,7 +20,7 @@ export default function Dashboard() {
             <FieldsMap />
           </TabPanel>
           <TabPanel>
-            <SimpleGrid minChildWidth="400px" columns={2} spacing={1}>
+            <SimpleGrid minChildWidth="500px" columns={2} spacing={1}>
               <Box>
                 <SoybeanList />
               </Box>

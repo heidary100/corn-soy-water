@@ -335,7 +335,7 @@ export default function AddCorn({ edit }) {
                 w="full"
                 rounded="md"
                 showIcon
-                dateFormat="dd/MM/yyyy"
+                dateFormat="MM/dd/yyyy"
               />
               {formik.touched.plantingDate && formik.errors.plantingDate && (
                 <Text color="red">{formik.errors.plantingDate}</Text>

@@ -1,5 +1,5 @@
 import {
-  Container,
+  Box,
   Heading,
   Button,
   Modal,
@@ -11,15 +11,14 @@ import {
   ModalFooter,
   useToast,
   Progress,
-  Box,
-  Text,
-  HStack,
-  StackDivider,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
   ButtonGroup,
+  IconButton,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import {
@@ -35,24 +34,24 @@ export default function CornList() {
 
   useEffect(() => {
     async function fetchData() {
-      const corns = await CornService.getCorns();
-      setData(corns);
-      setLoading(false);
+      try {
+        setLoading(true);
+        const corns = await CornService.getCorns();
+        setData(corns);
+      } catch (error) {
+        toast({
+          title: 'Failed to load data. Try again.',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        });
+      } finally {
+        setLoading(false);
+      }
     }
 
-    try {
-      setLoading(true);
-      fetchData();
-    } catch (error) {
-      // Handle submission error here
-      toast({
-        title: 'Failed to load data, Try again.',
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      });
-    }
-  }, []);
+    fetchData();
+  }, [toast]);
 
   const [selectedItem, setSelectedItem] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -60,22 +59,20 @@ export default function CornList() {
   const handleDelete = async () => {
     setIsDeleteModalOpen(false);
     setLoading(true);
-    try {
-      // eslint-disable-next-line no-console
-      await CornService.deleteCornById(selectedItem.id);
-      setData(data.filter((item) => item.id !== selectedItem.id));
 
-      // Handle successful submission here
+    try {
+      await CornService.deleteCornById(selectedItem.id);
+      setData((prevData) => prevData.filter((item) => item.id !== selectedItem.id));
+
       toast({
-        title: 'Deleted Corn Field Successfuly.',
+        title: 'Deleted Corn Field Successfully.',
         status: 'success',
         duration: 9000,
         isClosable: true,
       });
     } catch (error) {
-      // Handle submission error here
       toast({
-        title: 'Failure, Try again.',
+        title: 'Failure. Try again.',
         status: 'error',
         duration: 9000,
         isClosable: true,
@@ -86,66 +83,62 @@ export default function CornList() {
   };
 
   return (
-    <Container maxW="container.lg">
-      <Heading marginTop={10}>Corn Fields</Heading>
+    <Box w="100%">
+      <Heading fontWeight="normal" margin={2}>Corn Fields</Heading>
       <Progress hidden={!loading} size="xs" isIndeterminate />
 
-      {data.map((item) => (
-        <Card marginTop={5}>
-          <CardHeader>
-            <Heading size="md">{item.name}</Heading>
-          </CardHeader>
-          <CardBody>
-            <HStack divider={<StackDivider />} spacing="4">
-              <Box>
-                <Heading size="xs" textTransform="uppercase">
-                  Date of planting
-                </Heading>
-                <Text pt="2" fontSize="sm">
-                  {new Date(item.plantingDate).toLocaleDateString()}
-                </Text>
-              </Box>
-              <Box>
-                <Heading size="xs" textTransform="uppercase">
-                  Relative maturity
-                </Heading>
-                <Text pt="2" fontSize="sm">
-                  {item.relativeMaturity}
-                </Text>
-              </Box>
-              <Box>
-                <Heading size="xs" textTransform="uppercase">
-                  Crop Status
-                </Heading>
-                <Text pt="2" fontSize="sm" color="red">
-                  Water stressed
-                </Text>
-              </Box>
-            </HStack>
-          </CardBody>
-          <CardFooter>
-            <ButtonGroup spacing="2">
-              <Button as={NavLink} to={`/admin/result/corn/${item.id}`} leftIcon={<MdInfo />} colorScheme="blue" variant="ghost">
-                Detail
-              </Button>
-              <Button as={NavLink} to={`/admin/edit/corn/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="ghost">
-                Edit
-              </Button>
-              <Button
-                onClick={() => {
-                  setSelectedItem(item);
-                  setIsDeleteModalOpen(true);
-                }}
-                leftIcon={<MdDelete />}
-                colorScheme="red"
-                variant="ghost"
-              >
-                Delete
-              </Button>
-            </ButtonGroup>
-          </CardFooter>
-        </Card>
-      ))}
+      <Table w="100%" colorScheme="gray" variant="striped" size="sm">
+        <Thead>
+          <Tr>
+            <Th>Name</Th>
+            <Th>Date of Planting</Th>
+            <Th>Relative Maturity</Th>
+            <Th>Crop Status</Th>
+            <Th>Actions</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {data.map((item) => (
+            <Tr key={item.id}>
+              <Td>{item.name}</Td>
+              <Td>{new Date(item.plantingDate).toLocaleDateString()}</Td>
+              <Td>{item.relativeMaturity}</Td>
+              <Td color="red">Under water stress</Td>
+              <Td>
+                <ButtonGroup spacing="2">
+                  <IconButton
+                    as={NavLink}
+                    to={`/admin/result/corn/${item.id}`}
+                    leftIcon={<MdInfo />}
+                    colorScheme="blue"
+                    variant="ghost"
+                    title="Detail"
+                  />
+
+                  <IconButton
+                    as={NavLink}
+                    to={`/admin/edit/corn/${item.id}`}
+                    leftIcon={<MdEdit />}
+                    colorScheme="blue"
+                    variant="ghost"
+                    title="Edit"
+                  />
+                  <IconButton
+                    onClick={() => {
+                      setSelectedItem(item);
+                      setIsDeleteModalOpen(true);
+                    }}
+                    icon={<MdDelete />}
+                    colorScheme="red"
+                    variant="ghost"
+                    title="Delete"
+                  />
+                </ButtonGroup>
+              </Td>
+            </Tr>
+          ))}
+        </Tbody>
+      </Table>
 
       <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)}>
         <ModalOverlay />
@@ -168,6 +161,6 @@ export default function CornList() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </Container>
+    </Box>
   );
 }
