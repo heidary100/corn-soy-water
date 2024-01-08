@@ -27,7 +27,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import {
-  MapContainer, TileLayer, useMapEvents, Marker,
+  MapContainer, TileLayer, useMapEvents, Marker, LayersControl, LayerGroup, FeatureGroup,
 } from 'react-leaflet';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { MdArrowBack } from 'react-icons/md';
@@ -35,9 +35,13 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import DatePicker from 'react-datepicker';
 import { InfoIcon } from '@chakra-ui/icons';
+import { EditControl } from 'react-leaflet-draw';
+import { FullscreenControl } from 'react-leaflet-fullscreen';
 import SoybeanService from '../../../services/soybean.service';
 import 'react-datepicker/dist/react-datepicker.css';
 import LeafletgeoSearch from '../../../components/LeafletgeoSearch';
+import 'leaflet-draw/dist/leaflet.draw.css';
+import 'react-leaflet-fullscreen/styles.css';
 
 function LocationFinderDummy({ onClick }) {
   // eslint-disable-next-line no-unused-vars
@@ -84,6 +88,7 @@ export default function AddSoybean({ edit }) {
   const [progress, setProgress] = useState(33.33);
   const [soilTexture, setSoilTexture] = useState('automatic');
   const [loading, setLoading] = useState(false);
+  const [drawing, setDrawing] = useState(false);
   const { onOpen, isOpen, onClose } = useDisclosure();
 
   const handleSubmit = async (values) => {
@@ -184,18 +189,51 @@ export default function AddSoybean({ edit }) {
                 zoom={4}
                 scrollWheelZoom
               >
-                <TileLayer
-                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
+                <LayersControl>
+                  <LayersControl.BaseLayer checked name="Street View">
+                    <TileLayer
+                      attribution="Google Maps"
+                      url="https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}"
+                    />
+                  </LayersControl.BaseLayer>
+
+                  <LayersControl.BaseLayer name="Satellite">
+                    <LayerGroup>
+                      <TileLayer
+                        attribution="Google Maps Satellite"
+                        url="https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}"
+                      />
+                      <TileLayer url="https://www.google.cn/maps/vt?lyrs=y@189&gl=cn&x={x}&y={y}&z={z}" />
+                    </LayerGroup>
+                  </LayersControl.BaseLayer>
+                </LayersControl>
+
                 <Marker position={[formik.values.lat, formik.values.lng]} />
                 <LocationFinderDummy
                   onClick={(point) => {
-                    formik.setValues({ ...formik.values, ...point });
-                    onOpen();
+                    if (!drawing) {
+                      formik.setValues({ ...formik.values, ...point });
+                      onOpen();
+                    }
                   }}
                 />
                 <LeafletgeoSearch />
+                <FeatureGroup>
+                  <EditControl
+                    position="topright"
+                    onDrawStart={() => { setDrawing(true); }}
+                    onDrawStop={() => { setDrawing(false); }}
+                    // onEdited={this._onEditPath}
+                    // onCreated={this._onCreate}
+                    // onDeleted={this._onDeleted}
+                    draw={{
+                      rectangle: false,
+                    }}
+                  />
+                </FeatureGroup>
+                <FullscreenControl
+                  position="topleft"
+                />
               </MapContainer>
             </Box>
 
@@ -663,7 +701,7 @@ export default function AddSoybean({ edit }) {
   };
 
   return (
-    <Container minHeight="100vh" maxW="container.lg">
+    <Container minHeight="100vh" maxW="90%">
       <Heading marginTop={10}>
         {edit === true ? 'Edit Soybean Field' : 'Add Soybean Field'}
       </Heading>
