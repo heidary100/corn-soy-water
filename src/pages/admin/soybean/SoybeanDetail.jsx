@@ -122,6 +122,11 @@ export default function SoybeanDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedIrrigationRecord, setSelectedIrrigationRecord] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [tabIndex, setTabIndex] = useState(0); // Initial tab index is set to 0
+
+  const handleTabChange = (index) => {
+    setTabIndex(index);
+  };
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -239,7 +244,7 @@ export default function SoybeanDetail() {
           Back to List
         </Button>
       </Stack>
-      <Tabs isFitted marginTop={10}>
+      <Tabs onChange={handleTabChange} index={tabIndex} isFitted marginTop={10}>
         <TabList>
           <Tab fontWeight="bold">Result</Tab>
           <Tab fontWeight="bold">Field Information</Tab>
@@ -358,12 +363,12 @@ export default function SoybeanDetail() {
               {!loading && (
                 <Box>
                   <Box height="50vh" marginBottom="10">
-                    {!Number.isNaN(parseFloat(fieldInfo.lat))
+                    {tabIndex === 1 && !Number.isNaN(parseFloat(fieldInfo.lat))
                       && !Number.isNaN(parseFloat(fieldInfo.lng))
                       && (
                         <MapContainer
-                          center={[fieldInfo.lat, fieldInfo.lng]}
-                          zoom={4}
+                          center={[parseFloat(fieldInfo.lat), parseFloat(fieldInfo.lng)]}
+                          zoom={6}
                           scrollWheelZoom
                         >
                           <LayersControl>
@@ -386,7 +391,7 @@ export default function SoybeanDetail() {
                           </LayersControl>
 
                           <Marker
-                            position={[fieldInfo.lat, fieldInfo.lng]}
+                            position={[parseFloat(fieldInfo.lat), parseFloat(fieldInfo.lng)]}
                           >
                             <Popup>
                               {fieldInfo.name}
