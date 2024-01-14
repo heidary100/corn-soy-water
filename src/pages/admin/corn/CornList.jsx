@@ -92,7 +92,6 @@ export default function CornList() {
           <Tr>
             <Th>Name</Th>
             <Th>Date of Planting</Th>
-            <Th>Relative Maturity</Th>
             <Th>Crop Status</Th>
             <Th>Actions</Th>
           </Tr>
@@ -102,7 +101,6 @@ export default function CornList() {
             <Tr key={item.id}>
               <Td>{item.name}</Td>
               <Td>{new Date(item.plantingDate).toLocaleDateString()}</Td>
-              <Td>{item.relativeMaturity}</Td>
               <Td color="red">Under water stress</Td>
               <Td>
                 <ButtonGroup spacing="2">

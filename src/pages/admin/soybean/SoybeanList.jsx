@@ -92,7 +92,6 @@ export default function SoybeanList() {
           <Tr>
             <Th>Name</Th>
             <Th>Date of Planting</Th>
-            <Th>Maturity Group</Th>
             <Th>Crop Status</Th>
             <Th>Actions</Th>
           </Tr>
@@ -102,7 +101,6 @@ export default function SoybeanList() {
             <Tr key={item.id}>
               <Td>{item.name}</Td>
               <Td>{new Date(item.plantingDate).toLocaleDateString()}</Td>
-              <Td>{item.maturityGroup}</Td>
               <Td color="green">No water stress</Td>
               <Td>
                 <ButtonGroup spacing="2">
