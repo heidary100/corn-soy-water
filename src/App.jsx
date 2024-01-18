@@ -9,11 +9,12 @@ import NoPage from './pages/NoPage';
 import AdminLayout from './pages/admin/AdminLayout';
 import Profile from './pages/admin/Profile';
 import AddSoybean from './pages/admin/soybean/AddSoybean';
-import Dashboard from './pages/admin/Dashboard';
+import FieldsList from './pages/admin/FieldsList';
 import AddCorn from './pages/admin/corn/AddCorn';
 import SoybeanDetail from './pages/admin/soybean/SoybeanDetail';
 import CornDetail from './pages/admin/corn/CornDetail';
 import New from './pages/admin/New';
+import FieldsMap from './pages/admin/FieldsMap';
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
           <Route path="*" element={<NoPage />} />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<Dashboard />} />
+          <Route path="" index element={<FieldsMap />} />
           <Route path="new">
             <Route index element={<New />} />
             <Route path="soybean" element={<AddSoybean />} />
@@ -39,7 +40,7 @@ function App() {
           </Route>
           <Route path="profile" element={<Profile />} />
           <Route path="result">
-            <Route index element={<Dashboard />} />
+            <Route index element={<FieldsList />} />
             <Route path="soybean/:id" element={<SoybeanDetail />} />
             <Route path="corn/:id" element={<CornDetail />} />
           </Route>

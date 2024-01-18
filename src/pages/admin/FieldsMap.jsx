@@ -11,8 +11,10 @@ import {
 } from 'react-leaflet';
 import L from 'leaflet';
 import { NavLink } from 'react-router-dom';
+import { FullscreenControl } from 'react-leaflet-fullscreen';
 import SoybeanService from '../../services/soybean.service';
 import CornService from '../../services/corn.service';
+import LeafletgeoSearch from '../../components/LeafletgeoSearch';
 
 export default function FieldsMap() {
   const cornIcon = L.divIcon({
@@ -63,10 +65,10 @@ export default function FieldsMap() {
   }, []);
 
   return (
-    <Box height="70vh" marginTop="10">
+    <Box height="80vh">
       <Progress hidden={!loading} size="xs" isIndeterminate />
       {!loading && (
-        <MapContainer center={[38, -90]} zoom={4} scrollWheelZoom>
+        <MapContainer center={[38, -90]} zoom={5} scrollWheelZoom>
           <LayersControl>
             <LayersControl.BaseLayer checked name="Satellite">
               <LayerGroup>
@@ -149,6 +151,11 @@ export default function FieldsMap() {
 
             return null; // Ignore markers with invalid coordinates
           })}
+
+          <LeafletgeoSearch />
+          <FullscreenControl
+            position="topleft"
+          />
         </MapContainer>
       )}
     </Box>
