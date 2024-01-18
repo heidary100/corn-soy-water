@@ -18,8 +18,8 @@ import {
   Table, TableContainer, Tabs, Tbody, Td, Text,
   Th, Thead, Tr, VStack, useToast,
 } from '@chakra-ui/react';
-import { NavLink, useParams } from 'react-router-dom';
-import { MdAdd, MdArrowBack, MdDelete } from 'react-icons/md';
+import { useParams } from 'react-router-dom';
+import { MdAdd, MdDelete } from 'react-icons/md';
 import {
   LayerGroup,
   LayersControl,
@@ -239,11 +239,6 @@ export default function SoybeanDetail() {
   return (
     <Container minHeight="100vh" maxW="90%">
       <Heading marginTop={10}>Soybean Detail</Heading>
-      <Stack direction="row" spacing={4} marginTop={10}>
-        <Button as={NavLink} to="/admin/" float="right" leftIcon={<MdArrowBack />} colorScheme="blue" variant="outline">
-          Back to List
-        </Button>
-      </Stack>
       <Tabs onChange={handleTabChange} index={tabIndex} isFitted marginTop={10}>
         <TabList>
           <Tab fontWeight="bold">Result</Tab>
@@ -368,7 +363,7 @@ export default function SoybeanDetail() {
                       && (
                         <MapContainer
                           center={[parseFloat(fieldInfo.lat), parseFloat(fieldInfo.lng)]}
-                          zoom={6}
+                          zoom={13}
                           scrollWheelZoom
                         >
                           <LayersControl>

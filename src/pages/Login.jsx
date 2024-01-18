@@ -77,7 +77,7 @@ export default function Login() {
           p={8}
         >
           <form onSubmit={formik.handleSubmit}>
-            <FormControl id="email" isInvalid={formik.touched.email && formik.errors.email}>
+            <FormControl id="email" isInvalid={formik.touched.email && formik.errors.email} m={3}>
               <FormLabel>Email address</FormLabel>
               <Input
                 type="email"
@@ -91,7 +91,7 @@ export default function Login() {
               )}
             </FormControl>
 
-            <FormControl id="password" isInvalid={formik.touched.password && formik.errors.password}>
+            <FormControl id="password" isInvalid={formik.touched.password && formik.errors.password} m={3}>
               <FormLabel>Password</FormLabel>
               <Input
                 type="password"
@@ -105,7 +105,7 @@ export default function Login() {
               )}
             </FormControl>
 
-            <Stack spacing={10}>
+            <Stack spacing={10} m={3}>
               <Stack
                 direction={{ base: 'column', sm: 'row' }}
                 align="start"
@@ -130,9 +130,7 @@ export default function Login() {
 
           <Stack pt={6}>
             <Text align="center">
-              Don
-              &lsquo;
-              t have an account?
+              Don&lsquo;t have an account?
               {' '}
               <Link color="blue.400" href="/register">
                 Sign up

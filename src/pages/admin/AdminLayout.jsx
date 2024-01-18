@@ -3,10 +3,11 @@ import {
   Box,
   Button,
   Flex,
+  IconButton,
   Image,
   Text,
 } from '@chakra-ui/react';
-import { HiOutlineLogout } from 'react-icons/hi';
+import { HiOutlineLogout, HiOutlineUser } from 'react-icons/hi';
 import { NavLink, Outlet } from 'react-router-dom';
 import Sidebar from '../../components/admin/Sidebar';
 import ColorModeSwitcher from '../../components/ColorModeSwitcher';
@@ -31,29 +32,59 @@ function AdminLayout() {
             h="14"
             overflow="hidden"
           >
-            <Flex px="4" py="5" align="center">
+            <Flex marginLeft={{ base: '0', md: '4' }} align="center">
               <Image
                 w={30}
                 h={30}
                 src="/logo.png"
                 alt="Corn Soy Water"
               />
-              <Text fontSize="xl" ml="2" fontWeight="semibold">
+              <Text fontSize={{ base: 'sm', md: 'lg' }} ml="2" fontWeight="semibold">
                 Corn Soy Water
               </Text>
             </Flex>
 
             <Flex align="center">
-              {/* Toggle button for switching between list and icon mode */}
 
-              <Button fontWeight="bold" as={NavLink} to="/admin/profile" variant="outline" _hover={{ color: 'black' }}>
+              <Button
+                display={{ base: 'none', md: 'inline-flex' }}
+                fontSize="md"
+                fontWeight="semibold"
+                as={NavLink}
+                leftIcon={<HiOutlineUser />}
+                to="/admin/profile"
+                variant="outline"
+                _hover={{ color: 'black' }}
+              >
                 Welcome back, Jon
               </Button>
+              <IconButton
+                display={{ base: 'inline-flex', md: 'none' }}
+                aria-label="User Profile"
+                variant="outline"
+                as={NavLink}
+                to="/admin/profile"
+                icon={<HiOutlineUser />}
+              />
               <ColorModeSwitcher />
               &nbsp;
-              <Button as="a" href="/login" leftIcon={<HiOutlineLogout />} colorScheme="red" variant="solid">
+              <Button
+                display={{ base: 'none', md: 'inline-flex' }}
+                as="a"
+                href="/login"
+                leftIcon={<HiOutlineLogout />}
+                colorScheme="red"
+                variant="solid"
+              >
                 Log out
               </Button>
+              <IconButton
+                display={{ base: 'inline-flex', md: 'none' }}
+                aria-label="Log Out"
+                colorScheme="red"
+                variant="solid"
+                icon={<HiOutlineLogout />}
+              />
 
             </Flex>
           </Flex>

@@ -9,7 +9,7 @@ import {
   Box,
   Button,
   Checkbox,
-  Container, HStack, Heading, Image, useDisclosure,
+  Container, Heading, Image, Progress, SimpleGrid, useDisclosure,
 } from '@chakra-ui/react';
 import { NavLink } from 'react-router-dom';
 
@@ -27,44 +27,61 @@ export default function New() {
   };
 
   return (
-    <Container justifyItems="center">
-      <Heading textAlign="center" marginTop={10}>Choose a Crop Type:</Heading>
-
-      <HStack marginTop={10} alignContent="center">
-        <Box
-          as={NavLink}
-          to="/admin/new/corn"
-          bg="#61b0b7"
-          borderRadius="lg"
-          padding={10}
-          paddingBottom={0}
+    <Container justifyItems="center" maxW="100%">
+      <Heading my={5} fontSize={{ base: 'xl', md: '2xl' }}>Add New Field</Heading>
+      <Box
+        rounded="lg"
+        shadow="1px 1px 3px rgba(0,0,0,0.3)"
+        p={3}
+      >
+        <Progress hasStripe value={25} isAnimated my={3} />
+        <Heading w="100%" textAlign="center" fontWeight="normal" my={3} fontSize={{ base: 'xl', md: '2xl' }}>
+          Step 1: Select Crop Type
+        </Heading>
+        <SimpleGrid
+          minChildWidth="200px"
+          columns={2}
+          spacing={1}
+          rounded="lg"
+          p={3}
         >
-          <Image
-            boxSize="200px"
-            src="/img/corn.png"
-            alt="Corn"
-          />
-          <Heading textAlign="center" margin={5} color="white">Corn</Heading>
+          <Box
+            textAlign="center"
+            as={NavLink}
+            to="/admin/new/corn"
+            bg="#61b0b7"
+            borderRadius="lg"
+            padding={10}
+            paddingBottom={0}
+          >
+            <Image
+              boxSize="150px"
+              src="/img/corn.png"
+              alt="Corn"
+              margin="0px auto"
+            />
+            <Heading fontSize="2xl" textAlign="center" margin={5} color="white">Corn</Heading>
 
-        </Box>
-        <Box
-          as={NavLink}
-          to="/admin/new/soybean"
-          bg="#61b0b7"
-          borderRadius="lg"
-          padding={10}
-          paddingBottom={0}
-        >
-          <Image
-            boxSize="200px"
-            src="/img/soybean.png"
-            alt="Soybean"
-          />
+          </Box>
+          <Box
+            as={NavLink}
+            to="/admin/new/soybean"
+            bg="#61b0b7"
+            borderRadius="lg"
+            padding={10}
+            paddingBottom={0}
+          >
+            <Image
+              boxSize="150px"
+              src="/img/soybean.png"
+              alt="Soybean"
+              margin="0px auto"
+            />
 
-          <Heading textAlign="center" margin={5} color="white">Soybean</Heading>
-        </Box>
-      </HStack>
-
+            <Heading fontSize="2xl" textAlign="center" margin={5} color="white">Soybean</Heading>
+          </Box>
+        </SimpleGrid>
+      </Box>
       <AlertDialog
         isOpen={isOpen}
         onClose={onClose}

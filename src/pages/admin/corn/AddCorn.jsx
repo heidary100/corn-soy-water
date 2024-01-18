@@ -33,7 +33,6 @@ import {
   LayerGroup,
 } from 'react-leaflet';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
-import { MdArrowBack } from 'react-icons/md';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import DatePicker from 'react-datepicker';
@@ -96,7 +95,7 @@ export default function AddCorn({ edit }) {
   const navigate = useNavigate();
   const toast = useToast();
   const [step, setStep] = useState(1);
-  const [progress, setProgress] = useState(33.33);
+  const [progress, setProgress] = useState(50);
   const [soilTexture, setSoilTexture] = useState('automatic');
   const [loading, setLoading] = useState(false);
   const [drawing, setDrawing] = useState(false);
@@ -163,7 +162,7 @@ export default function AddCorn({ edit }) {
         handleSubmit(values);
       } else {
         setStep(step + 1);
-        setProgress(progress + 33.33);
+        setProgress(progress + 25);
       }
     },
   });
@@ -196,13 +195,13 @@ export default function AddCorn({ edit }) {
       case 1:
         return (
           <form onSubmit={formik.handleSubmit}>
-            <Heading w="100%" textAlign="center" fontWeight="normal" mb="2%">
-              Step 1: Choose Location
+            <Heading w="100%" textAlign="center" fontWeight="normal" my={3} fontSize={{ base: 'xl', md: '2xl' }}>
+              Step 2: Choose Location
             </Heading>
-            <Box height="50vh" marginTop="10">
+            <Box height="50vh">
               <MapContainer
                 center={[formik.values.lat, formik.values.lng]}
-                zoom={4}
+                zoom={7}
                 scrollWheelZoom
               >
                 <LayersControl>
@@ -253,15 +252,12 @@ export default function AddCorn({ edit }) {
               </MapContainer>
             </Box>
 
-            <ButtonGroup mt="5%" w="100%">
+            <ButtonGroup mt={5} w="100%">
               <Flex w="100%" justifyContent="space-between">
                 <Flex>
                   <Button
-                    onClick={() => {
-                      setStep(step - 1);
-                      setProgress(progress - 33.33);
-                    }}
-                    isDisabled={step === 1}
+                    as={NavLink}
+                    to={edit === true ? '/admin/' : '/admin/new'}
                     colorScheme="blue"
                     variant="solid"
                     w="7rem"
@@ -310,8 +306,8 @@ export default function AddCorn({ edit }) {
       case 2:
         return (
           <form onSubmit={formik.handleSubmit}>
-            <Heading w="100%" textAlign="center" fontWeight="normal" mb="2%">
-              Step 2: Crop Management Info
+            <Heading w="100%" textAlign="center" fontWeight="normal" my={3} fontSize={{ base: 'xl', md: '2xl' }}>
+              Step 3: Crop Management Info
             </Heading>
 
             <FormControl as={GridItem}>
@@ -542,15 +538,14 @@ export default function AddCorn({ edit }) {
               )}
             </FormControl>
 
-            <ButtonGroup mt="5%" w="100%">
+            <ButtonGroup mt={5} w="100%">
               <Flex w="100%" justifyContent="space-between">
                 <Flex>
                   <Button
                     onClick={() => {
                       setStep(step - 1);
-                      setProgress(progress - 33.33);
+                      setProgress(progress - 25);
                     }}
-                    isDisabled={step === 1}
                     colorScheme="blue"
                     variant="solid"
                     w="7rem"
@@ -575,8 +570,8 @@ export default function AddCorn({ edit }) {
       case 3:
         return (
           <form onSubmit={formik.handleSubmit}>
-            <Heading w="100%" textAlign="center" fontWeight="normal">
-              Step 3: Soil Properties
+            <Heading w="100%" textAlign="center" fontWeight="normal" fontSize={{ base: 'xl', md: '2xl' }}>
+              Step 4: Soil Properties
             </Heading>
 
             <FormControl as={GridItem}>
@@ -939,15 +934,14 @@ export default function AddCorn({ edit }) {
               )}
             </FormControl>
 
-            <ButtonGroup mt="5%" w="100%">
+            <ButtonGroup mt={5} w="100%">
               <Flex w="100%" justifyContent="space-between">
                 <Flex>
                   <Button
                     onClick={() => {
                       setStep(step - 1);
-                      setProgress(progress - 33.33);
+                      setProgress(progress - 25);
                     }}
-                    isDisabled={step === 1}
                     colorScheme="blue"
                     variant="solid"
                     w="7rem"
@@ -986,33 +980,19 @@ export default function AddCorn({ edit }) {
   };
 
   return (
-    <Container minHeight="100vh" maxW="90%">
-      <Heading marginTop={10}>
-        {edit === true ? 'Edit Corn Field' : 'Add Corn Field'}
+    <Container maxW="100%">
+      <Heading my={5} fontSize={{ base: 'xl', md: '2xl' }}>
+        {edit === true ? 'Edit Corn Field' : 'Add New Corn Field'}
       </Heading>
-      <Stack direction="row" spacing={4} marginTop={10}>
-        {edit === true ? (
-          <Button as={NavLink} to="/admin/" float="right" leftIcon={<MdArrowBack />} colorScheme="blue" variant="outline">
-            Back to List
-          </Button>
-        )
-          : (
-            <Button as={NavLink} to="/admin/new" float="right" leftIcon={<MdArrowBack />} colorScheme="blue" variant="outline">
-              Select Crop Type
-            </Button>
-          )}
-      </Stack>
+
       <Progress hidden={!loading} size="xs" isIndeterminate marginTop={10} />
       <Box
-        borderWidth="1px"
         rounded="lg"
         shadow="1px 1px 3px rgba(0,0,0,0.3)"
-        p={6}
-        m="10px auto"
-        marginTop={10}
+        p={3}
         disabled={loading}
       >
-        <Progress hasStripe value={progress} mb="5%" mx="5%" isAnimated />
+        <Progress hasStripe value={progress} isAnimated my={3} />
         {currentForm()}
       </Box>
     </Container>

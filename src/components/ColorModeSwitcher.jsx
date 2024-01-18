@@ -12,7 +12,7 @@ export default function ColorModeSwitcher() {
       size="md"
       fontSize="lg"
       aria-label={`Switch to ${text} mode`}
-      variant="ghost"
+      variant="outline"
       color="current"
       marginLeft="2"
       onClick={toggleColorMode}
