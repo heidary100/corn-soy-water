@@ -115,7 +115,7 @@ export default function SoybeanList() {
 
                   <IconButton
                     as={NavLink}
-                    to={`/admin/edit/soybean/${item.id}`}
+                    to={`/admin/result/edit/soybean/${item.id}`}
                     leftIcon={<MdEdit />}
                     colorScheme="blue"
                     variant="ghost"

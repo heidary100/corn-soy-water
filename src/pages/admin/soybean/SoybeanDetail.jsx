@@ -363,7 +363,7 @@ export default function SoybeanDetail() {
                       && (
                         <MapContainer
                           center={[parseFloat(fieldInfo.lat), parseFloat(fieldInfo.lng)]}
-                          zoom={13}
+                          zoom={16}
                           scrollWheelZoom
                         >
                           <LayersControl>

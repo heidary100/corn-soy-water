@@ -7,7 +7,7 @@ import {
 } from '@chakra-ui/react';
 import { MdEdit, MdInfo } from 'react-icons/md';
 import {
-  MapContainer, TileLayer, Popup, Marker, LayersControl, LayerGroup,
+  MapContainer, TileLayer, Popup, Marker, LayersControl, LayerGroup, useMap,
 } from 'react-leaflet';
 import L from 'leaflet';
 import { NavLink } from 'react-router-dom';
@@ -15,6 +15,30 @@ import { FullscreenControl } from 'react-leaflet-fullscreen';
 import SoybeanService from '../../services/soybean.service';
 import CornService from '../../services/corn.service';
 import LeafletgeoSearch from '../../components/LeafletgeoSearch';
+
+function AdjustMapBounds({ data, loading }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!loading && map && data.corns.length > 0 && data.soybeans.length > 0) {
+      const markers = [
+        ...data.corns.map((corn) => [corn.lat, corn.lng]),
+        ...data.soybeans.map((soybean) => [soybean.lat, soybean.lng]),
+      ];
+
+      const validMarkers = markers.filter(
+        ([lat, lng]) => !Number.isNaN(lat) && !Number.isNaN(lng),
+      );
+
+      if (validMarkers.length > 0) {
+        const bounds = L.latLngBounds(validMarkers).pad(0.5);
+        map.fitBounds(bounds);
+      }
+    }
+  }, [data, loading, map]);
+
+  return null;
+}
 
 export default function FieldsMap() {
   const cornIcon = L.divIcon({
@@ -108,7 +132,7 @@ export default function FieldsMap() {
                       Detail
                     </Button>
                     { }
-                    <Button as={NavLink} to={`/admin/edit/corn/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="ghost" size="sm">
+                    <Button as={NavLink} to={`/admin/result/edit/corn/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="ghost" size="sm">
                       Edit
                     </Button>
                   </Popup>
@@ -141,7 +165,7 @@ export default function FieldsMap() {
                       Detail
                     </Button>
                     { }
-                    <Button as={NavLink} to={`/admin/edit/soybean/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="ghost" size="sm">
+                    <Button as={NavLink} to={`/admin/result/edit/soybean/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="ghost" size="sm">
                       Edit
                     </Button>
                   </Popup>
@@ -156,6 +180,7 @@ export default function FieldsMap() {
           <FullscreenControl
             position="topleft"
           />
+          <AdjustMapBounds data={data} loading={loading} />
         </MapContainer>
       )}
     </Box>

@@ -385,7 +385,7 @@ export default function CornDetail() {
                       && (
                         <MapContainer
                           center={[parseFloat(fieldInfo.lat), parseFloat(fieldInfo.lng)]}
-                          zoom={13}
+                          zoom={16}
                           scrollWheelZoom
                         >
                           <LayersControl>

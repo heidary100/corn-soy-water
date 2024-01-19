@@ -115,7 +115,7 @@ export default function CornList() {
 
                   <IconButton
                     as={NavLink}
-                    to={`/admin/edit/corn/${item.id}`}
+                    to={`/admin/result/edit/corn/${item.id}`}
                     leftIcon={<MdEdit />}
                     colorScheme="blue"
                     variant="ghost"

@@ -184,8 +184,8 @@ export default function AddSoybean({ edit }) {
             </Heading>
             <Box height="50vh">
               <MapContainer
-                center={[formik.values.lat, formik.values.lng]}
-                zoom={7}
+                center={[parseFloat(formik.values.lat), parseFloat(formik.values.lng)]}
+                zoom={edit === true ? 16 : 10}
                 scrollWheelZoom
               >
                 <LayersControl>
@@ -207,7 +207,7 @@ export default function AddSoybean({ edit }) {
                   </LayersControl.BaseLayer>
                 </LayersControl>
 
-                <Marker position={[formik.values.lat, formik.values.lng]} />
+                <Marker position={[parseFloat(formik.values.lat), parseFloat(formik.values.lng)]} />
                 <LocationFinderDummy
                   onClick={(point) => {
                     if (!drawing) {

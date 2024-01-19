@@ -34,15 +34,15 @@ function App() {
             <Route path="soybean" element={<AddSoybean />} />
             <Route path="corn" element={<AddCorn />} />
           </Route>
-          <Route path="edit">
-            <Route path="soybean/:id" element={<AddSoybean edit />} />
-            <Route path="corn/:id" element={<AddCorn edit />} />
-          </Route>
           <Route path="profile" element={<Profile />} />
           <Route path="result">
             <Route index element={<FieldsList />} />
             <Route path="soybean/:id" element={<SoybeanDetail />} />
             <Route path="corn/:id" element={<CornDetail />} />
+            <Route path="edit">
+              <Route path="soybean/:id" element={<AddSoybean edit />} />
+              <Route path="corn/:id" element={<AddCorn edit />} />
+            </Route>
           </Route>
 
           <Route path="*" element={<NoPage />} />
