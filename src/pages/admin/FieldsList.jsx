@@ -8,7 +8,7 @@ import CornList from './corn/CornList';
 
 export default function FieldsList() {
   return (
-    <Container maxW="100%">
+    <Container maxW="100%" overflowX="scroll">
       <SimpleGrid minChildWidth="500px" columns={2} spacing={1}>
         <Box>
           <SoybeanList />
