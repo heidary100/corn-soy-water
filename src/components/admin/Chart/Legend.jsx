@@ -3,7 +3,7 @@ import React from 'react';
 
 function Legend({ data, onChange }) {
   return (
-    <Grid templateColumns="repeat(12, 1fr)" gap={1} p={5}>
+    <Grid templateColumns={['repeat(6, 1fr)', 'repeat(6, 1fr)', 'repeat(6, 1fr)', 'repeat(12, 1fr)']} gap={1} p={5}>
       {data.map((d) => (
         <GridItem key={d.name} colSpan={6}>
           <Checkbox

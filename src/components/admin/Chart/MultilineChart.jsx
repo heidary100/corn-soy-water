@@ -1,10 +1,26 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import * as d3 from 'd3';
 
 function MultilineChart({ data = [], dimensions = {} }) {
   const svgRef = useRef(null);
   // const [prevItems, setPrevItems] = useState([]);
   const { margin = {} } = dimensions;
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const containerWidth = svgRef.current.parentElement.clientWidth - margin.left - margin.right;
+      setWidth(containerWidth > 0 ? containerWidth : 0);
+    };
+
+    handleResize(); // Initial call to set the initial width
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [margin.left, margin.right]);
 
   useEffect(() => {
     const lineData = data.filter((each) => each.type === 'line');
@@ -13,8 +29,8 @@ function MultilineChart({ data = [], dimensions = {} }) {
     const svgEl = d3.select(svgRef.current);
     svgEl.selectAll('*').remove();
 
-    const containerWidth = svgRef.current.parentElement.clientWidth - margin.left - margin.right;
-    const width = containerWidth > 0 ? containerWidth : 0;
+    // const containerWidth = svgRef.current.parentElement.clientWidth - margin.left - margin.right;
+    // const width = containerWidth > 0 ? containerWidth : 0;
     const height = dimensions.height - margin.top - margin.bottom;
 
     const parseDate = d3.timeParse('%Y-%m-%d');
@@ -41,12 +57,24 @@ function MultilineChart({ data = [], dimensions = {} }) {
 
     const svg = svgEl.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
 
-    const xAxis = d3.axisBottom(xScale).ticks(12).tickSize(-height);
+    const xAxisTicks = width < 400 ? 4 : 12;
+
+    const xAxis = d3.axisBottom(xScale)
+      .ticks(xAxisTicks)
+      .tickSize(-height)
+      .tickFormat((date, i) => (i === 0 ? '' : d3.timeFormat('%m/%d')(date)));
 
     const xAxisGroup = svg
       .append('g')
       .attr('transform', `translate(0, ${height})`)
       .call(xAxis);
+
+    xAxisGroup
+      .selectAll('text')
+      .attr('transform', 'rotate(-45)')
+      .style('text-anchor', 'end')
+      .attr('dx', '-.8em')
+      .attr('dy', '.15em');
 
     // xAxisGroup.select('.domain').remove();
     xAxisGroup.selectAll('line').remove();
@@ -100,46 +128,7 @@ function MultilineChart({ data = [], dimensions = {} }) {
         .attr('height', (d) => height - barYScale(d.value))
         .attr('fill', barData[i].color);
     }
-
-    // const lines = svg
-    //   .selectAll('.line')
-    //   .data(lineData)
-    //   .enter()
-    //   .append('path')
-    //   .attr('fill', 'none')
-    //   .attr('stroke', (d) => d.color)
-    //   .attr('stroke-width', 2)
-    //   .attr('stroke-dasharray', 5)
-    //   .attr('d', (d) => line(d.items));
-
-    // const barWidth = width / data[0].length;
-
-    // const bars = svg
-    //   .selectAll('.bar')
-    //   .data(barData)
-    //   .enter()
-    //   .append('rect')
-    //   .attr('class', 'bar')
-    //   .attr('x', (d) => xScale(d.date) - barWidth / 2)
-    //   .attr('y', (d) => barYScale(d.value))
-    //   .attr('width', barWidth)
-    //   .attr('height', (d) => height - barYScale(d.value))
-    //   .attr('fill', 'steelblue');
-
-    // lines.each((d, i, nodes) => {
-    //   const element = nodes[i];
-    //   const length = element.getTotalLength();
-    //   // if (!prevItems.includes(d.name)) {
-    //   d3.select(element)
-    //     .attr('stroke-dasharray', `${length},${length}`)
-    //     .attr('stroke-dashoffset', length)
-    //     .transition()
-    //     .duration(750)
-    //     .ease(d3.easeLinear)
-    //     .attr('stroke-dashoffset', 0);
-    //   // }
-    // });
-  }, [data, dimensions]);
+  }, [data, dimensions, width]);
 
   return <svg ref={svgRef} width="100%" height={dimensions.height} />;
 }

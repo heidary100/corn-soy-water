@@ -117,21 +117,7 @@ const dimensions = {
 
 export default function CornDetail() {
   const { id } = useParams();
-  const [fieldInfo, setFieldInfo] = useState({
-    // lat: '40.505664',
-    // lng: '-98.966389',
-    // name: '',
-    // plantingDate: '',
-    // relativeMaturity: '',
-    // plantPopulation: '',
-    // soilRootingDepth: '',
-    // soilSurfaceResiduesCoverage: '',
-    // topSoilBulkDensity: '',
-    // topSoilMoistureAtPlanting: '',
-    // subSoilMoistureAtPlanting: '',
-    // topSoilTexture: '',
-    // subSoilTexture: '',
-  });
+  const [fieldInfo, setFieldInfo] = useState({});
   const [selectedItems, setSelectedItems] = useState([waterStressData.name]);
   const legendData = [
     totalAvailableWaterData,
@@ -258,21 +244,21 @@ export default function CornDetail() {
   };
 
   return (
-    <Container minHeight="100vh" maxW="90%">
-      <Heading marginTop={10}>Corn Detail</Heading>
+    <Container minHeight="100vh" maxW="100%">
+      <Heading my={5} fontSize={{ base: 'xl', md: '2xl' }}>Corn Detail</Heading>
 
-      <Tabs onChange={handleTabChange} index={tabIndex} isFitted marginTop={10}>
+      <Tabs onChange={handleTabChange} index={tabIndex} isFitted p={0} m={0}>
         <TabList>
           <Tab fontWeight="bold">Result</Tab>
           <Tab fontWeight="bold">Field Information</Tab>
           <Tab fontWeight="bold">Irrigation Records</Tab>
         </TabList>
         <TabPanels>
-          <TabPanel>
+          <TabPanel p={0}>
             <Grid templateColumns={['repeat(8, 1fr)', 'repeat(8, 1fr)', 'repeat(8, 1fr)', 'repeat(12, 1fr)']}>
               <GridItem colSpan={8}>
-                <Box pr={3}>
-                  <Heading fontSize="2xl" textAlign="center" fontWeight="semibold" color="green" marginTop={5}>
+                <Box border={1} w="fit-content">
+                  <Heading fontSize="2xl" fontWeight="semibold" color="green" marginTop={5}>
                     No crop water stress is projected for the next 10 days.
                   </Heading>
                   <Text fontSize="md" marginTop={5}>
@@ -294,25 +280,25 @@ export default function CornDetail() {
               if no substantial rainfall is forecasted. */}
                 </Box>
                 <br />
-                <Box position="relative" w="fit-content">
-                  <Text h="25" position="absolute" fontWeight="semibold" left="0" right="0" margin="auto" textAlign="center">
+                <Box position="relative">
+                  <Text h="25" position="absolute" fontWeight="light" left="0" right="0" top="-5" margin="auto" textAlign="center">
                     Estimated soil water status & crop water stress for the field
                     &quot;
                     {fieldInfo.name}
                     &quot;
                   </Text>
 
-                  <Text h="50" position="absolute" fontWeight="semibold" left="0" top="0" margin="auto" textAlign="center" transform="rotate(-90deg) translateY(-110px) translateX(-165px)">
+                  <Text h="50" position="absolute" fontWeight="light" left="0" top="0" margin="auto" textAlign="center" transform="rotate(-90deg) translateY(-115px) translateX(-165px)">
                     Total soil available water,
                     <br />
                     irrigation amount and rainfall (inch)
                   </Text>
 
-                  <Text h="25" position="absolute" fontWeight="semibold" right="0" top="0" margin="auto" textAlign="center" transform="rotate(90deg) translateY(-85px) translateX(165px)">
+                  <Text h="25" position="absolute" fontWeight="light" right="0" top="0" margin="auto" textAlign="center" transform="rotate(90deg) translateY(-85px) translateX(165px)">
                     Crop water stress (0 to 1)
                   </Text>
 
-                  <MultilineChart data={chartData} dimensions={dimensions} />
+                  {tabIndex === 0 && (<MultilineChart data={chartData} dimensions={dimensions} />)}
                   <Legend
                     data={legendData}
                     selectedItems={selectedItems}
@@ -321,7 +307,7 @@ export default function CornDetail() {
                 </Box>
               </GridItem>
               <GridItem colSpan={[12, 12, 12, 4]}>
-                <Card>
+                <Card bg="rgba(0,0,0,0)" boxShadow="0 0 0">
                   <CardHeader>
                     <Heading size="md">Result Summary</Heading>
                   </CardHeader>
@@ -329,44 +315,44 @@ export default function CornDetail() {
                   <CardBody>
                     <Stack divider={<StackDivider />} spacing="4">
                       <Box>
-                        <Heading size="xs">
+                        <Heading size="sm" fontWeight="light">
                           Current available water balance within the active rooting zone:
+                          <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
+                          &nbsp; 0
+                          </Text>
                         </Heading>
-                        <Text pt="2" fontSize="sm">
-                          0
-                        </Text>
                       </Box>
                       <Box>
-                        <Heading size="xs">
+                        <Heading size="sm" fontWeight="light">
                           Initial available water in 0 - 12 inch soil zone at planting:
+                          <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
+                          &nbsp; 2.1
+                          </Text>
                         </Heading>
-                        <Text pt="2" fontSize="sm">
-                          2.1
-                        </Text>
                       </Box>
                       <Box>
-                        <Heading size="xs">
+                        <Heading size="sm" fontWeight="light">
                           Total rainfall amount since planting:
+                          <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
+                          &nbsp; 2
+                          </Text>
                         </Heading>
-                        <Text pt="2" fontSize="sm">
-                          2
-                        </Text>
                       </Box>
                       <Box>
-                        <Heading size="xs">
+                        <Heading size="sm" fontWeight="light">
                           Total irrigation amount:
+                          <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
+                          &nbsp; 12
+                          </Text>
                         </Heading>
-                        <Text pt="2" fontSize="sm">
-                          12
-                        </Text>
                       </Box>
                       <Box>
-                        <Heading size="xs">
+                        <Heading size="sm" fontWeight="light">
                           Water consumption (i.e., total crop ET) since planting:
+                          <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
+                          &nbsp; 29
+                          </Text>
                         </Heading>
-                        <Text pt="2" fontSize="sm">
-                          29
-                        </Text>
                       </Box>
                     </Stack>
                   </CardBody>
@@ -374,7 +360,7 @@ export default function CornDetail() {
               </GridItem>
             </Grid>
           </TabPanel>
-          <TabPanel>
+          <TabPanel p={0}>
             <Box p={4}>
               <Progress hidden={!loading} size="xs" isIndeterminate marginTop={10} />
               {!loading && (
@@ -495,8 +481,8 @@ export default function CornDetail() {
               )}
             </Box>
           </TabPanel>
-          <TabPanel>
-            <Box p={4}>
+          <TabPanel p={0}>
+            <Box p={2}>
               <Stack direction="row" spacing={4}>
                 <Button float="right" leftIcon={<MdAdd />} colorScheme="green" variant="solid" onClick={openModal}>
                   Add new record
