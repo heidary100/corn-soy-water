@@ -28,10 +28,9 @@ const registerUser = async (user) => {
 // };
 // eslint-disable-next-line no-unused-vars
 const loginUser = async (username, password) => {
-  await sleep(200);
-  if (localStorage.user !== undefined) {
-    return JSON.parse(localStorage.user);
-  } return {};
+  const user = { accessToken: 'hey', username };
+  localStorage.setItem('user', JSON.stringify(user));
+  return user;
 };
 
 const logout = () => {
@@ -40,11 +39,20 @@ const logout = () => {
 
 const getCurrentUser = () => JSON.parse(localStorage.getItem('user'));
 
+const isAuthenticated = () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  if (user && user.accessToken) {
+    return true;
+  } return false;
+};
+
 const AuthService = {
   registerUser,
   loginUser,
   logout,
   getCurrentUser,
+  isAuthenticated,
 };
 
 export default AuthService;

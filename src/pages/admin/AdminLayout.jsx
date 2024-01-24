@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Box,
   Button,
@@ -6,14 +6,36 @@ import {
   IconButton,
   Image,
   Text,
+  useToast,
 } from '@chakra-ui/react';
 import { HiOutlineLogout, HiOutlineUser } from 'react-icons/hi';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import Sidebar from '../../components/admin/Sidebar';
 import ColorModeSwitcher from '../../components/ColorModeSwitcher';
 import Footer from '../../components/admin/Footer';
+import AuthService from '../../services/auth.service';
 
 function AdminLayout() {
+  const navigate = useNavigate();
+  const toast = useToast();
+
+  useEffect(() => {
+    if (!AuthService.isAuthenticated()) {
+      toast({
+        title: 'Access denied! Please Log In.',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
+      navigate('/login');
+    }
+  });
+
+  const handleLogOut = () => {
+    AuthService.logout();
+    navigate('/login');
+  };
+
   return (
     <Box as="section" bg="gray.50" _dark={{ bg: 'gray.700' }} maxW="100vw">
       <Flex>
@@ -70,8 +92,7 @@ function AdminLayout() {
               &nbsp;
               <Button
                 display={{ base: 'none', md: 'inline-flex' }}
-                as="a"
-                href="/login"
+                onClick={handleLogOut}
                 leftIcon={<HiOutlineLogout />}
                 colorScheme="red"
                 variant="solid"
