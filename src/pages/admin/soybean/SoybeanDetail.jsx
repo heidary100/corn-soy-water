@@ -232,127 +232,18 @@ export default function SoybeanDetail() {
       </Heading>
       <Tabs onChange={handleTabChange} index={tabIndex} isFitted p={0} m={0}>
         <TabList>
-          <Tab fontWeight="bold">Result</Tab>
           <Tab fontWeight="bold">Field Information</Tab>
           <Tab fontWeight="bold">Irrigation Records</Tab>
+          <Tab fontWeight="bold">Result</Tab>
         </TabList>
         <TabPanels>
-          <TabPanel p={0}>
-            <Grid templateColumns={['repeat(8, 1fr)', 'repeat(8, 1fr)', 'repeat(8, 1fr)', 'repeat(12, 1fr)']}>
-              <GridItem colSpan={8}>
-                <Box border={1} w="fit-content">
-                  <Heading fontSize="2xl" fontWeight="semibold" color="green" marginTop={5}>
-                    No crop water stress is projected for the next 10 days.
-                  </Heading>
-                  <Text fontSize="md" marginTop={5}>
-                    Crop water stress scales from 0 to 1,
-                    with 0 being no water stress and 1 being severe water stress.
-                    When simulated water stress has occurred or is
-                    predicted to occur within next three days,
-                    irrigation is recommended if no substantial rainfall is forecasted.
-                  </Text>
-                  {/* <Heading as="h5" color="red">
-                Crop is currently under water stress.
-                Irrigation is recommended if no significant
-                rainfall is expected for the next 3 days.
-              </Heading>
-              Crop water stress scales from 0 to 1,
-              with O being no water stress and 1 being severe water stress.
-              When simulated water stress has occurred or is predicted
-              to occur within next three days, irrigation is recommended
-              if no substantial rainfall is forecasted. */}
-                </Box>
-                <br />
-                <Box position="relative">
-                  <Text h="25" position="absolute" fontWeight="light" left="0" right="0" top="-5" margin="auto" textAlign="center">
-                    Estimated soil water status & crop water stress for the field
-                    &quot;
-                    {fieldInfo.name}
-                    &quot;
-                  </Text>
-
-                  <Text h="50" position="absolute" fontWeight="light" left="0" top="0" margin="auto" textAlign="center" transform="rotate(-90deg) translateY(-115px) translateX(-165px)">
-                    Total soil available water,
-                    <br />
-                    irrigation amount and rainfall (inch)
-                  </Text>
-
-                  <Text h="25" position="absolute" fontWeight="light" right="0" top="0" margin="auto" textAlign="center" transform="rotate(90deg) translateY(-85px) translateX(165px)">
-                    Crop water stress (0 to 1)
-                  </Text>
-
-                  {tabIndex === 0 && (
-                    <MultilineChart data={chartData} dimensions={dimensions} />
-                  )}
-
-                  <Legend
-                    data={legendData}
-                    selectedItems={selectedItems}
-                    onChange={onChangeSelection}
-                  />
-                </Box>
-              </GridItem>
-              <GridItem colSpan={[12, 12, 12, 4]}>
-                <Card bg="rgba(0,0,0,0)" boxShadow="0 0 0">
-                  <CardHeader>
-                    <Heading size="md">Result Summary</Heading>
-                  </CardHeader>
-
-                  <CardBody>
-                    <Stack divider={<StackDivider />} spacing="4">
-                      <Box>
-                        <Heading size="sm" fontWeight="light">
-                          Current available water balance within the active rooting zone:
-                          <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
-                          &nbsp; 0
-                          </Text>
-                        </Heading>
-                      </Box>
-                      <Box>
-                        <Heading size="sm" fontWeight="light">
-                          Initial available water in 0 - 12 inch soil zone at planting:
-                          <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
-                          &nbsp; 2.1
-                          </Text>
-                        </Heading>
-                      </Box>
-                      <Box>
-                        <Heading size="sm" fontWeight="light">
-                          Total rainfall amount since planting:
-                          <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
-                          &nbsp; 2
-                          </Text>
-                        </Heading>
-                      </Box>
-                      <Box>
-                        <Heading size="sm" fontWeight="light">
-                          Total irrigation amount:
-                          <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
-                          &nbsp; 12
-                          </Text>
-                        </Heading>
-                      </Box>
-                      <Box>
-                        <Heading size="sm" fontWeight="light">
-                          Water consumption (i.e., total crop ET) since planting:
-                          <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
-                          &nbsp; 29
-                          </Text>
-                        </Heading>
-                      </Box>
-                    </Stack>
-                  </CardBody>
-                </Card>
-              </GridItem>
-            </Grid>
-          </TabPanel>
           <TabPanel p={0}>
             <Box p={4}>
               <Progress hidden={!loading} size="xs" isIndeterminate marginTop={10} />
               {!loading && (
                 <Box>
                   <Box height="50vh" marginBottom="10">
-                    {tabIndex === 1 && !Number.isNaN(parseFloat(fieldInfo.lat))
+                    {tabIndex === 0 && !Number.isNaN(parseFloat(fieldInfo.lat))
                       && !Number.isNaN(parseFloat(fieldInfo.lng))
                       && (
                         <MapContainer
@@ -488,7 +379,115 @@ export default function SoybeanDetail() {
               </TableContainer>
             </Box>
           </TabPanel>
+          <TabPanel p={0}>
+            <Grid templateColumns={['repeat(8, 1fr)', 'repeat(8, 1fr)', 'repeat(8, 1fr)', 'repeat(12, 1fr)']}>
+              <GridItem colSpan={8}>
+                <Box border={1} w="fit-content">
+                  <Heading fontSize="2xl" fontWeight="semibold" color="green" marginTop={5}>
+                    No crop water stress is projected for the next 10 days.
+                  </Heading>
+                  <Text fontSize="md" marginTop={5}>
+                    Crop water stress scales from 0 to 1,
+                    with 0 being no water stress and 1 being severe water stress.
+                    When simulated water stress has occurred or is
+                    predicted to occur within next three days,
+                    irrigation is recommended if no substantial rainfall is forecasted.
+                  </Text>
+                  {/* <Heading as="h5" color="red">
+                Crop is currently under water stress.
+                Irrigation is recommended if no significant
+                rainfall is expected for the next 3 days.
+              </Heading>
+              Crop water stress scales from 0 to 1,
+              with O being no water stress and 1 being severe water stress.
+              When simulated water stress has occurred or is predicted
+              to occur within next three days, irrigation is recommended
+              if no substantial rainfall is forecasted. */}
+                </Box>
+                <br />
+                <Box position="relative">
+                  <Text h="25" position="absolute" fontWeight="light" left="0" right="0" top="-5" margin="auto" textAlign="center">
+                    Estimated soil water status & crop water stress for the field
+                    &quot;
+                    {fieldInfo.name}
+                    &quot;
+                  </Text>
 
+                  <Text h="50" position="absolute" fontWeight="light" left="0" top="0" margin="auto" textAlign="center" transform="rotate(-90deg) translateY(-115px) translateX(-165px)">
+                    Total soil available water,
+                    <br />
+                    irrigation amount and rainfall (inch)
+                  </Text>
+
+                  <Text h="25" position="absolute" fontWeight="light" right="0" top="0" margin="auto" textAlign="center" transform="rotate(90deg) translateY(-85px) translateX(165px)">
+                    Crop water stress (0 to 1)
+                  </Text>
+
+                  {tabIndex === 2 && (
+                    <MultilineChart data={chartData} dimensions={dimensions} />
+                  )}
+
+                  <Legend
+                    data={legendData}
+                    selectedItems={selectedItems}
+                    onChange={onChangeSelection}
+                  />
+                </Box>
+              </GridItem>
+              <GridItem colSpan={[12, 12, 12, 4]}>
+                <Card bg="rgba(0,0,0,0)" boxShadow="0 0 0">
+                  <CardHeader>
+                    <Heading size="md">Result Summary</Heading>
+                  </CardHeader>
+
+                  <CardBody>
+                    <Stack divider={<StackDivider />} spacing="4">
+                      <Box>
+                        <Heading size="sm" fontWeight="light">
+                          Current available water balance within the active rooting zone:
+                          <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
+                          &nbsp; 0
+                          </Text>
+                        </Heading>
+                      </Box>
+                      <Box>
+                        <Heading size="sm" fontWeight="light">
+                          Initial available water in 0 - 12 inch soil zone at planting:
+                          <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
+                          &nbsp; 2.1
+                          </Text>
+                        </Heading>
+                      </Box>
+                      <Box>
+                        <Heading size="sm" fontWeight="light">
+                          Total rainfall amount since planting:
+                          <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
+                          &nbsp; 2
+                          </Text>
+                        </Heading>
+                      </Box>
+                      <Box>
+                        <Heading size="sm" fontWeight="light">
+                          Total irrigation amount:
+                          <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
+                          &nbsp; 12
+                          </Text>
+                        </Heading>
+                      </Box>
+                      <Box>
+                        <Heading size="sm" fontWeight="light">
+                          Water consumption (i.e., total crop ET) since planting:
+                          <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
+                          &nbsp; 29
+                          </Text>
+                        </Heading>
+                      </Box>
+                    </Stack>
+                  </CardBody>
+                </Card>
+              </GridItem>
+            </Grid>
+          </TabPanel>
         </TabPanels>
       </Tabs>
       <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)}>
