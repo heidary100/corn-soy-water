@@ -15,6 +15,7 @@ import SoybeanDetail from './pages/admin/soybean/SoybeanDetail';
 import CornDetail from './pages/admin/corn/CornDetail';
 import New from './pages/admin/New';
 import FieldsMap from './pages/admin/FieldsMap';
+import About from './pages/About';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="about" element={<About />} />
           <Route path="forget-password" element={<ForgetPassword />} />
           <Route path="*" element={<NoPage />} />
         </Route>

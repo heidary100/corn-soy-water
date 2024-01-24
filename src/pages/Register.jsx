@@ -162,7 +162,7 @@ export default function Register() {
                       </FormControl>
                     )}
                   </Field>
-                  <Stack spacing={10} pt={2}>
+                  <Stack spacing={10} pt={6}>
                     <Button
                       type="submit"
                       loadingText="Submitting"
