@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import {
+  Avatar,
   Box,
   Button,
   Flex,
@@ -8,7 +9,7 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
-import { HiOutlineLogout, HiOutlineUser } from 'react-icons/hi';
+import { HiOutlineLogout } from 'react-icons/hi';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import Sidebar from '../../components/admin/Sidebar';
 import ColorModeSwitcher from '../../components/ColorModeSwitcher';
@@ -73,12 +74,14 @@ function AdminLayout() {
                 fontSize="md"
                 fontWeight="semibold"
                 as={NavLink}
-                leftIcon={<HiOutlineUser />}
                 to="/admin/profile"
                 variant="outline"
                 _hover={{ color: 'black' }}
               >
-                Welcome back, Jon
+                Welcome back, Jon!
+                &nbsp;
+                &nbsp;
+                <Avatar size="sm" name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
               </Button>
               <IconButton
                 display={{ base: 'inline-flex', md: 'none' }}
@@ -86,7 +89,7 @@ function AdminLayout() {
                 variant="outline"
                 as={NavLink}
                 to="/admin/profile"
-                icon={<HiOutlineUser />}
+                icon={<Avatar size="sm" name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />}
               />
               <ColorModeSwitcher />
               &nbsp;
@@ -95,7 +98,7 @@ function AdminLayout() {
                 onClick={handleLogOut}
                 leftIcon={<HiOutlineLogout />}
                 colorScheme="red"
-                variant="solid"
+                variant="outline"
               >
                 Log out
               </Button>

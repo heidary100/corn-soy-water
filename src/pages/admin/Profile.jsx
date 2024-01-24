@@ -14,21 +14,32 @@ import {
   Text,
   useToast,
   Checkbox,
+  Avatar,
+  Icon,
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { HiOutlineUser } from 'react-icons/hi';
 import UserService from '../../services/user.service';
 
 export default function Profile() {
   const toast = useToast();
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [avatar, setAvatar] = useState(null);
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setAvatar(selectedFile);
+    // onAvatarUpload(selectedFile);
+  };
 
   const validationSchema = Yup.object().shape({
     firstName: Yup.string()
       .required('First Name is required'),
     lastName: Yup.string()
       .required('Last Name is required'),
+    email: Yup.string().email('Invalid email address').required('Email is required'),
     phone: Yup.string(),
     address: Yup.string(),
     state: Yup.string(),
@@ -103,7 +114,7 @@ export default function Profile() {
       <Box
         borderWidth="1px"
         rounded="lg"
-        shadow="1px 1px 3px rgba(0,0,0,0.3)"
+        // shadow="1px 1px 3px rgba(0,0,0,0.3)"
         p={6}
         m="10px auto"
         marginTop={10}
@@ -111,6 +122,85 @@ export default function Profile() {
 
         <form onSubmit={formik.handleSubmit}>
           <fieldset disabled={loading}>
+            <FormControl>
+              <FormLabel
+                htmlFor="avatar-upload"
+                fontSize="sm"
+                fontWeight="md"
+                color="gray.700"
+                _dark={{
+                  color: 'gray.50',
+                }}
+              >
+                Photo
+              </FormLabel>
+              <Flex alignItems="center" mt={1}>
+                <label htmlFor="avatar-upload">
+                  {avatar ? (
+                    <Avatar
+                      boxSize={12}
+                      bg="gray.100"
+                      _dark={{
+                        bg: 'gray.800',
+                      }}
+                      icon={(
+                        <Icon
+                          as={HiOutlineUser}
+                          boxSize={9}
+                          mt={3}
+                          rounded="full"
+                          color="gray.300"
+                          _dark={{
+                            color: 'gray.700',
+                          }}
+                        />
+                )}
+                      src={URL.createObjectURL(avatar)}
+                    />
+                  ) : (
+                    <Avatar
+                      boxSize={12}
+                      bg="gray.100"
+                      _dark={{
+                        bg: 'gray.800',
+                      }}
+                      icon={(
+                        <Icon
+                          as={HiOutlineUser}
+                          boxSize={9}
+                          mt={3}
+                          rounded="full"
+                          color="gray.300"
+                          _dark={{
+                            color: 'gray.700',
+                          }}
+                        />
+                )}
+                    />
+                  )}
+                </label>
+                <input
+                  id="avatar-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  style={{ display: 'none' }}
+                />
+                <Button
+                  type="button"
+                  ml={5}
+                  variant="outline"
+                  size="sm"
+                  fontWeight="medium"
+                  _focus={{
+                    shadow: 'none',
+                  }}
+                  onClick={() => document.getElementById('avatar-upload').click()}
+                >
+                  Change
+                </Button>
+              </Flex>
+            </FormControl>
             <FormControl as={GridItem}>
               <FormLabel
                 htmlFor="firstName"
@@ -170,6 +260,37 @@ export default function Profile() {
               />
               {formik.touched.lastName && formik.errors.lastName && (
                 <Text color="red">{formik.errors.lastName}</Text>
+              )}
+            </FormControl>
+
+            <FormControl as={GridItem}>
+              <FormLabel
+                htmlFor="email"
+                fontSize="sm"
+                fontWeight="md"
+                color="gray.700"
+                _dark={{
+                  color: 'gray.50',
+                }}
+                mt="2%"
+              >
+                Email
+              </FormLabel>
+              <Input
+                type="email"
+                name="email"
+                id="email"
+                focusBorderColor="brand.400"
+                shadow="sm"
+                size="sm"
+                w="full"
+                rounded="md"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.email}
+              />
+              {formik.touched.email && formik.errors.email && (
+                <Text color="red">{formik.errors.email}</Text>
               )}
             </FormControl>
 
@@ -252,7 +373,7 @@ export default function Profile() {
                 name="hideAlerts"
                 id="hideAlerts"
                 focusBorderColor="brand.400"
-                shadow="sm"
+                // shadow="sm"
                 size="sm"
                 w="full"
                 rounded="md"
