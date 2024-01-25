@@ -683,15 +683,7 @@ export default function AddSoybean({ edit }) {
                   >
                     Back
                   </Button>
-                  <Button
-                    type="submit"
-                    w="7rem"
-                    isDisabled={step === 3}
-                    colorScheme="blue"
-                    variant="outline"
-                  >
-                    Next
-                  </Button>
+
                 </Flex>
                 <Button
                   type="submit"
