@@ -25,6 +25,7 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
   useDisclosure,
+  Avatar,
 } from '@chakra-ui/react';
 import {
   MapContainer, TileLayer, useMapEvents, Marker,
@@ -44,6 +45,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import LeafletgeoSearch from '../../../components/LeafletgeoSearch';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import 'react-leaflet-fullscreen/styles.css';
+import WeatherStations from '../../../components/admin/WeatherStations';
 
 function LocationFinderDummy({ onClick }) {
   // eslint-disable-next-line no-unused-vars
@@ -100,6 +102,7 @@ export default function AddCorn({ edit }) {
   const [loading, setLoading] = useState(false);
   const [drawing, setDrawing] = useState(false);
   const { onOpen, isOpen, onClose } = useDisclosure();
+  const [showWS, setShowWS] = useState(false);
 
   const handleSubmit = async (values) => {
     setLoading(true);
@@ -199,7 +202,7 @@ export default function AddCorn({ edit }) {
             <Heading w="100%" textAlign="center" fontWeight="normal" my={3} fontSize={{ base: 'xl', md: '2xl' }}>
               Step 2: Choose Location
             </Heading>
-            <Box height="50vh">
+            <Box height="50vh" position="relative">
               <MapContainer
                 center={[parseFloat(formik.values.lat), parseFloat(formik.values.lng)]}
                 zoom={edit === true ? 16 : 10}
@@ -223,7 +226,7 @@ export default function AddCorn({ edit }) {
                     />
                   </LayersControl.BaseLayer>
                 </LayersControl>
-
+                {showWS && <WeatherStations />}
                 <Marker position={[parseFloat(formik.values.lat), parseFloat(formik.values.lng)]} />
                 <LocationFinderDummy
                   onClick={(point) => {
@@ -251,6 +254,21 @@ export default function AddCorn({ edit }) {
                   position="topleft"
                 />
               </MapContainer>
+              <Button
+                pos="absolute"
+                bottom="5"
+                left="5"
+                zIndex={10000}
+                onClick={() => {
+                  setShowWS(!showWS);
+                }}
+              >
+                <Avatar borderRadius={0} size="sm" name="Weather Station" src="/img/climatology.png" />
+        &nbsp;
+                {showWS ? 'Hide' : 'Show'}
+                &nbsp;
+                Weather Stations
+              </Button>
             </Box>
 
             <ButtonGroup mt={5} w="100%">
