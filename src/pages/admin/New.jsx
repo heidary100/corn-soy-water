@@ -18,6 +18,8 @@ export default function New() {
   const shouldShowModal = !dontShowAgain && !localStorage.getItem('dontShowAgain');
   const { isOpen, onClose } = useDisclosure({ defaultIsOpen: shouldShowModal });
 
+  localStorage.removeItem('dontShowAgainWS');
+
   const handleClose = () => {
     if (dontShowAgain) {
       localStorage.setItem('dontShowAgain', 'true');

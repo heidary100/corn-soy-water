@@ -26,6 +26,7 @@ import {
   AlertDialogFooter,
   useDisclosure,
   Avatar,
+  Checkbox,
 } from '@chakra-ui/react';
 import {
   MapContainer, TileLayer, useMapEvents, Marker, LayersControl, LayerGroup, FeatureGroup,
@@ -90,8 +91,18 @@ export default function AddSoybean({ edit }) {
   const [soilTexture, setSoilTexture] = useState('automatic');
   const [loading, setLoading] = useState(false);
   const [drawing, setDrawing] = useState(false);
-  const { onOpen, isOpen, onClose } = useDisclosure();
   const [showWS, setShowWS] = useState(false);
+  const [dontShowAgain, setDontShowAgain] = useState(false);
+  const shouldShowModal = !dontShowAgain && !localStorage.getItem('dontShowAgainWS');
+  const { isOpen, onClose, onOpen } = useDisclosure();
+
+  const handleClose = () => {
+    if (dontShowAgain) {
+      localStorage.setItem('dontShowAgainWS', 'true');
+    }
+
+    onClose();
+  };
 
   const handleSubmit = async (values) => {
     setLoading(true);
@@ -215,7 +226,9 @@ export default function AddSoybean({ edit }) {
                   onClick={(point) => {
                     if (!drawing) {
                       formik.setValues({ ...formik.values, ...point });
-                      onOpen();
+                      if (shouldShowModal) {
+                        onOpen();
+                      }
                     }
                   }}
                 />
@@ -293,10 +306,18 @@ export default function AddSoybean({ edit }) {
                   <AlertDialogBody>
                     Your field is 43 miles away from the nearest weather station.
                     The result of the program may not accurately represent your field.
+                    <br />
+                    <Checkbox
+                      marginTop={5}
+                      isChecked={dontShowAgain}
+                      onChange={(e) => setDontShowAgain(e.target.checked)}
+                    >
+                      Don&lsquo;t show again
+                    </Checkbox>
                   </AlertDialogBody>
 
                   <AlertDialogFooter>
-                    <Button colorScheme="green" onClick={onClose} ml={3}>
+                    <Button colorScheme="green" onClick={handleClose} ml={3}>
                       Proceed
                     </Button>
                   </AlertDialogFooter>
