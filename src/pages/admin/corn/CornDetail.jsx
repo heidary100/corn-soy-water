@@ -35,6 +35,7 @@ import {
   CardBody,
   StackDivider,
   Grid,
+  SimpleGrid,
 } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { MdAdd, MdDelete } from 'react-icons/md';
@@ -259,118 +260,119 @@ export default function CornDetail() {
               <Progress hidden={!loading} size="xs" isIndeterminate marginTop={10} />
               {!loading && (
                 <Box>
-                  <Box height="50vh" marginBottom="10">
-                    {tabIndex === 0 && !Number.isNaN(parseFloat(fieldInfo.lat))
-                      && !Number.isNaN(parseFloat(fieldInfo.lng))
-                      && (
-                        <MapContainer
-                          center={[parseFloat(fieldInfo.lat), parseFloat(fieldInfo.lng)]}
-                          zoom={16}
-                          scrollWheelZoom
-                        >
-                          <LayersControl>
-                            <LayersControl.BaseLayer checked name="Satellite">
-                              <LayerGroup>
-                                <TileLayer
-                                  attribution="Google Maps Satellite"
-                                  url="https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}"
-                                />
-                                <TileLayer url="https://www.google.cn/maps/vt?lyrs=y@189&gl=cn&x={x}&y={y}&z={z}" />
-                              </LayerGroup>
-                            </LayersControl.BaseLayer>
-                            <LayersControl.BaseLayer name="Street View">
-                              <TileLayer
-                                attribution="Google Maps"
-                                url="https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}"
-                              />
-                            </LayersControl.BaseLayer>
-
-                          </LayersControl>
-                          <Marker
-                            position={[parseFloat(fieldInfo.lat), parseFloat(fieldInfo.lng)]}
+                  <SimpleGrid minChildWidth="500px" columns={2} spacing={1}>
+                    <HStack align="top">
+                      <VStack spacing={4} align="left" padding={3}>
+                        <Heading as="h3" size="lg" mb={2}>
+                          Crop Management
+                        </Heading>
+                        <Text fontSize="lg">
+                          <strong>Name:</strong>
+                          {' '}
+                          {fieldInfo.name}
+                        </Text>
+                        <Text fontSize="lg">
+                          <strong>Planting Date:</strong>
+                          {' '}
+                          {new Date(fieldInfo.plantingDate).toLocaleDateString()}
+                        </Text>
+                        <Text fontSize="lg">
+                          <strong>Relative Group:</strong>
+                          {' '}
+                          {fieldInfo.relativeMaturity}
+                        </Text>
+                        <Text fontSize="lg">
+                          <strong>Plant Population (x1000/acre):</strong>
+                          {' '}
+                          {fieldInfo.plantPopulation}
+                        </Text>
+                      </VStack>
+                      <VStack spacing={4} align="left" padding={3}>
+                        <Heading as="h3" size="lg" mb={2}>
+                          Soil Properties
+                        </Heading>
+                        <Text fontSize="lg">
+                          <strong>Soil Rooting Depth:</strong>
+                          {' '}
+                          {fieldInfo.soilRootingDepth}
+                          {' '}
+                          inches
+                        </Text>
+                        <Text fontSize="lg">
+                          <strong>Soil Surface Residues Coverage (%):</strong>
+                          {' '}
+                          {fieldInfo.soilSurfaceResiduesCoverage}
+                        </Text>
+                        <Text fontSize="lg">
+                          <strong>Top Soil Bulk Density:</strong>
+                          {' '}
+                          {fieldInfo.topSoilBulkDensity}
+                        </Text>
+                        <Text fontSize="lg">
+                          <strong>Top Soil (1 foot) Moisture at Planting:</strong>
+                          {' '}
+                          {fieldInfo.topSoilMoistureAtPlanting}
+                        </Text>
+                        <Text fontSize="lg">
+                          <strong>Top Soil (1 foot) Moisture at Planting:</strong>
+                          {' '}
+                          {fieldInfo.topSoilMoistureAtPlanting}
+                        </Text>
+                        <Text fontSize="lg">
+                          <strong>Sub Soil (below 1 foot) Moisture at Planting:</strong>
+                          {' '}
+                          {fieldInfo.subSoilMoistureAtPlanting}
+                        </Text>
+                        <Text fontSize="lg">
+                          <strong>Top Soil (1 foot) Texture:</strong>
+                          {' '}
+                          {fieldInfo.topSoilTexture}
+                        </Text>
+                        <Text fontSize="lg">
+                          <strong>Sub Soil (below 1 foot) Texture:</strong>
+                          {' '}
+                          {fieldInfo.subSoilTexture}
+                        </Text>
+                      </VStack>
+                    </HStack>
+                    <Box height="50vh" marginBottom="10">
+                      {tabIndex === 0 && !Number.isNaN(parseFloat(fieldInfo.lat))
+                        && !Number.isNaN(parseFloat(fieldInfo.lng))
+                        && (
+                          <MapContainer
+                            center={[parseFloat(fieldInfo.lat), parseFloat(fieldInfo.lng)]}
+                            zoom={16}
+                            scrollWheelZoom
                           >
-                            <Popup>
-                              {fieldInfo.name}
-                            </Popup>
-                          </Marker>
-                        </MapContainer>
-                      )}
-                  </Box>
+                            <LayersControl>
+                              <LayersControl.BaseLayer checked name="Satellite">
+                                <LayerGroup>
+                                  <TileLayer
+                                    attribution="Google Maps Satellite"
+                                    url="https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}"
+                                  />
+                                  <TileLayer url="https://www.google.cn/maps/vt?lyrs=y@189&gl=cn&x={x}&y={y}&z={z}" />
+                                </LayerGroup>
+                              </LayersControl.BaseLayer>
+                              <LayersControl.BaseLayer name="Street View">
+                                <TileLayer
+                                  attribution="Google Maps"
+                                  url="https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}"
+                                />
+                              </LayersControl.BaseLayer>
 
-                  <HStack align="top">
-                    <VStack spacing={4} align="left" padding={3}>
-                      <Heading as="h3" size="lg" mb={2}>
-                        Crop Management
-                      </Heading>
-                      <Text fontSize="lg">
-                        <strong>Name:</strong>
-                        {' '}
-                        {fieldInfo.name}
-                      </Text>
-                      <Text fontSize="lg">
-                        <strong>Planting Date:</strong>
-                        {' '}
-                        {new Date(fieldInfo.plantingDate).toLocaleDateString()}
-                      </Text>
-                      <Text fontSize="lg">
-                        <strong>Relative Group:</strong>
-                        {' '}
-                        {fieldInfo.relativeMaturity}
-                      </Text>
-                      <Text fontSize="lg">
-                        <strong>Plant Population (x1000/acre):</strong>
-                        {' '}
-                        {fieldInfo.plantPopulation}
-                      </Text>
-                    </VStack>
-                    <VStack spacing={4} align="left" padding={3}>
-                      <Heading as="h3" size="lg" mb={2}>
-                        Soil Properties
-                      </Heading>
-                      <Text fontSize="lg">
-                        <strong>Soil Rooting Depth:</strong>
-                        {' '}
-                        {fieldInfo.soilRootingDepth}
-                        {' '}
-                        inches
-                      </Text>
-                      <Text fontSize="lg">
-                        <strong>Soil Surface Residues Coverage (%):</strong>
-                        {' '}
-                        {fieldInfo.soilSurfaceResiduesCoverage}
-                      </Text>
-                      <Text fontSize="lg">
-                        <strong>Top Soil Bulk Density:</strong>
-                        {' '}
-                        {fieldInfo.topSoilBulkDensity}
-                      </Text>
-                      <Text fontSize="lg">
-                        <strong>Top Soil (1 foot) Moisture at Planting:</strong>
-                        {' '}
-                        {fieldInfo.topSoilMoistureAtPlanting}
-                      </Text>
-                      <Text fontSize="lg">
-                        <strong>Top Soil (1 foot) Moisture at Planting:</strong>
-                        {' '}
-                        {fieldInfo.topSoilMoistureAtPlanting}
-                      </Text>
-                      <Text fontSize="lg">
-                        <strong>Sub Soil (below 1 foot) Moisture at Planting:</strong>
-                        {' '}
-                        {fieldInfo.subSoilMoistureAtPlanting}
-                      </Text>
-                      <Text fontSize="lg">
-                        <strong>Top Soil (1 foot) Texture:</strong>
-                        {' '}
-                        {fieldInfo.topSoilTexture}
-                      </Text>
-                      <Text fontSize="lg">
-                        <strong>Sub Soil (below 1 foot) Texture:</strong>
-                        {' '}
-                        {fieldInfo.subSoilTexture}
-                      </Text>
-                    </VStack>
-                  </HStack>
+                            </LayersControl>
+                            <Marker
+                              position={[parseFloat(fieldInfo.lat), parseFloat(fieldInfo.lng)]}
+                            >
+                              <Popup>
+                                {fieldInfo.name}
+                              </Popup>
+                            </Marker>
+                          </MapContainer>
+                        )}
+                    </Box>
+                  </SimpleGrid>
                 </Box>
               )}
             </Box>
@@ -481,7 +483,7 @@ export default function CornDetail() {
                         <Heading size="sm" fontWeight="light">
                           Current available water balance within the active rooting zone:
                           <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
-                          &nbsp; 0
+                            &nbsp; 0
                           </Text>
                         </Heading>
                       </Box>
@@ -489,7 +491,7 @@ export default function CornDetail() {
                         <Heading size="sm" fontWeight="light">
                           Initial available water in 0 - 12 inch soil zone at planting:
                           <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
-                          &nbsp; 2.1
+                            &nbsp; 2.1
                           </Text>
                         </Heading>
                       </Box>
@@ -497,7 +499,7 @@ export default function CornDetail() {
                         <Heading size="sm" fontWeight="light">
                           Total rainfall amount since planting:
                           <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
-                          &nbsp; 2
+                            &nbsp; 2
                           </Text>
                         </Heading>
                       </Box>
@@ -505,7 +507,7 @@ export default function CornDetail() {
                         <Heading size="sm" fontWeight="light">
                           Total irrigation amount:
                           <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
-                          &nbsp; 12
+                            &nbsp; 12
                           </Text>
                         </Heading>
                       </Box>
@@ -513,7 +515,7 @@ export default function CornDetail() {
                         <Heading size="sm" fontWeight="light">
                           Water consumption (i.e., total crop ET) since planting:
                           <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
-                          &nbsp; 29
+                            &nbsp; 29
                           </Text>
                         </Heading>
                       </Box>

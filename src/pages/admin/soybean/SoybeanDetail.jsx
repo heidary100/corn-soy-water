@@ -12,7 +12,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Progress, Stack,
+  Progress, SimpleGrid, Stack,
   StackDivider,
   Tab, TabList, TabPanel, TabPanels,
   Table, TableContainer, Tabs, Tbody, Td, Text,
@@ -242,8 +242,54 @@ export default function SoybeanDetail() {
               <Progress hidden={!loading} size="xs" isIndeterminate marginTop={10} />
               {!loading && (
                 <Box>
-                  <Box height="50vh" marginBottom="10">
-                    {tabIndex === 0 && !Number.isNaN(parseFloat(fieldInfo.lat))
+                  <SimpleGrid minChildWidth="500px" columns={2} spacing={1}>
+                    <HStack>
+                      <VStack spacing={4} align="left" padding={3}>
+                        <Heading as="h3" size="lg" mb={2}>
+                          Crop Management
+                        </Heading>
+                        <Text fontSize="lg">
+                          <strong>Name:</strong>
+                          {' '}
+                          {fieldInfo.name}
+                        </Text>
+                        <Text fontSize="lg">
+                          <strong>Planting Date:</strong>
+                          {' '}
+                          {new Date(fieldInfo.plantingDate).toLocaleDateString()}
+                        </Text>
+                        <Text fontSize="lg">
+                          <strong>Maturity Group:</strong>
+                          {' '}
+                          {fieldInfo.maturityGroup}
+                        </Text>
+                      </VStack>
+                      <VStack spacing={4} align="left" padding={3}>
+                        <Heading as="h3" size="lg" mb={2}>
+                          Soil Properties
+                        </Heading>
+                        <Text fontSize="lg">
+                          <strong>Soil Rooting Depth:</strong>
+                          {' '}
+                          {fieldInfo.soilRootingDepth}
+                          {' '}
+                          inches
+                        </Text>
+                        <Text fontSize="lg">
+                          <strong>Available Soil Water at Planting Day:</strong>
+                          {' '}
+                          {fieldInfo.availableSoilWater}
+                          %
+                        </Text>
+                        <Text fontSize="lg">
+                          <strong>Average Soil Texture to the Rooting Depth:</strong>
+                          {' '}
+                          {fieldInfo.averageSoilTexture}
+                        </Text>
+                      </VStack>
+                    </HStack>
+                    <Box height="50vh" marginBottom="10">
+                      {tabIndex === 0 && !Number.isNaN(parseFloat(fieldInfo.lat))
                       && !Number.isNaN(parseFloat(fieldInfo.lng))
                       && (
                         <MapContainer
@@ -279,53 +325,8 @@ export default function SoybeanDetail() {
                           </Marker>
                         </MapContainer>
                       )}
-                  </Box>
-
-                  <HStack>
-                    <VStack spacing={4} align="left" padding={3}>
-                      <Heading as="h3" size="lg" mb={2}>
-                        Crop Management
-                      </Heading>
-                      <Text fontSize="lg">
-                        <strong>Name:</strong>
-                        {' '}
-                        {fieldInfo.name}
-                      </Text>
-                      <Text fontSize="lg">
-                        <strong>Planting Date:</strong>
-                        {' '}
-                        {new Date(fieldInfo.plantingDate).toLocaleDateString()}
-                      </Text>
-                      <Text fontSize="lg">
-                        <strong>Maturity Group:</strong>
-                        {' '}
-                        {fieldInfo.maturityGroup}
-                      </Text>
-                    </VStack>
-                    <VStack spacing={4} align="left" padding={3}>
-                      <Heading as="h3" size="lg" mb={2}>
-                        Soil Properties
-                      </Heading>
-                      <Text fontSize="lg">
-                        <strong>Soil Rooting Depth:</strong>
-                        {' '}
-                        {fieldInfo.soilRootingDepth}
-                        {' '}
-                        inches
-                      </Text>
-                      <Text fontSize="lg">
-                        <strong>Available Soil Water at Planting Day:</strong>
-                        {' '}
-                        {fieldInfo.availableSoilWater}
-                        %
-                      </Text>
-                      <Text fontSize="lg">
-                        <strong>Average Soil Texture to the Rooting Depth:</strong>
-                        {' '}
-                        {fieldInfo.averageSoilTexture}
-                      </Text>
-                    </VStack>
-                  </HStack>
+                    </Box>
+                  </SimpleGrid>
                 </Box>
               )}
             </Box>
