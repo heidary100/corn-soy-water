@@ -44,6 +44,7 @@ import LeafletgeoSearch from '../../../components/LeafletgeoSearch';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import 'react-leaflet-fullscreen/styles.css';
 import WeatherStations from '../../../components/admin/WeatherStations';
+import { soybeanIcon } from '../../../components/admin/MarkerIcons';
 
 function LocationFinderDummy({ onClick }) {
   // eslint-disable-next-line no-unused-vars
@@ -221,7 +222,10 @@ export default function AddSoybean({ edit }) {
                   </LayersControl.BaseLayer>
                 </LayersControl>
                 {showWS && <WeatherStations />}
-                <Marker position={[parseFloat(formik.values.lat), parseFloat(formik.values.lng)]} />
+                <Marker
+                  icon={soybeanIcon}
+                  position={[parseFloat(formik.values.lat), parseFloat(formik.values.lng)]}
+                />
                 <LocationFinderDummy
                   onClick={(point) => {
                     if (!drawing) {

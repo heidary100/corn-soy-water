@@ -34,6 +34,7 @@ import rainfallAmount from '../../../data/rainfallAmount.json';
 import irrigationAmount from '../../../data/irrigationAmount.json';
 import AddIrrigation from '../AddIrrigation';
 import EditSoybean from './EditSoybean';
+import { soybeanIcon } from '../../../components/admin/MarkerIcons';
 
 const totalAvailableWaterData = {
   name: 'Total available water within active rooting zone',
@@ -334,6 +335,7 @@ export default function SoybeanDetail() {
                           </LayersControl>
 
                           <Marker
+                            icon={soybeanIcon}
                             position={[parseFloat(fieldInfo.lat), parseFloat(fieldInfo.lng)]}
                           >
                             <Popup>

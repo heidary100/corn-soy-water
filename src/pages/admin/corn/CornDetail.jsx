@@ -54,6 +54,7 @@ import CornService from '../../../services/corn.service';
 import 'react-datepicker/dist/react-datepicker.css';
 import AddIrrigation from '../AddIrrigation';
 import EditCorn from './EditCorn';
+import { cornIcon } from '../../../components/admin/MarkerIcons';
 
 const totalAvailableWaterData = {
   name: 'Total available water within active rooting zone',
@@ -380,6 +381,7 @@ export default function CornDetail() {
 
                             </LayersControl>
                             <Marker
+                              icon={cornIcon}
                               position={[parseFloat(fieldInfo.lat), parseFloat(fieldInfo.lng)]}
                             >
                               <Popup>

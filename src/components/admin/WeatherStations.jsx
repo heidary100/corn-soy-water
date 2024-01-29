@@ -20,6 +20,7 @@ export default function WeatherStations() {
         if (ws.stnStatus !== '0') {
           return (
             <Marker
+              key={ws.idAWDN}
               icon={weatherStationIcon}
               weight="12"
               position={[ws.stnLat, ws.stnLong]}
