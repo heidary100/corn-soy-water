@@ -105,7 +105,7 @@ const updateSoybean = async (soybeanId, soybean) => {
   const updatedSoybeans = soybeans.map(
     (p) => {
       if (Number.parseInt(p.id, 10) === Number.parseInt(soybeanId, 10)) {
-        return soybean;
+        return { ...soybean, id: soybeanId };
       }
       return p;
     },

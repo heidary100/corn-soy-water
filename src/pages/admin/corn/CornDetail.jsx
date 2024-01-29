@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Container,
-  HStack,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -54,6 +53,7 @@ import Legend from '../../../components/admin/Chart/Legend';
 import CornService from '../../../services/corn.service';
 import 'react-datepicker/dist/react-datepicker.css';
 import AddIrrigation from '../AddIrrigation';
+import EditCorn from './EditCorn';
 
 const totalAvailableWaterData = {
   name: 'Total available water within active rooting zone',
@@ -127,6 +127,7 @@ export default function CornDetail() {
     rainfallAmountData,
     irrigationAmountData];
   const [loading, setLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const toast = useToast();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedIrrigationRecord, setSelectedIrrigationRecord] = useState(null);
@@ -261,80 +262,96 @@ export default function CornDetail() {
               {!loading && (
                 <Box>
                   <SimpleGrid minChildWidth="500px" columns={2} spacing={1}>
-                    <HStack align="top">
-                      <VStack spacing={4} align="left" padding={3}>
-                        <Heading as="h3" size="lg" mb={2}>
-                          Crop Management
-                        </Heading>
-                        <Text fontSize="lg">
-                          <strong>Name:</strong>
-                          {' '}
-                          {fieldInfo.name}
-                        </Text>
-                        <Text fontSize="lg">
-                          <strong>Planting Date:</strong>
-                          {' '}
-                          {new Date(fieldInfo.plantingDate).toLocaleDateString()}
-                        </Text>
-                        <Text fontSize="lg">
-                          <strong>Relative Group:</strong>
-                          {' '}
-                          {fieldInfo.relativeMaturity}
-                        </Text>
-                        <Text fontSize="lg">
-                          <strong>Plant Population (x1000/acre):</strong>
-                          {' '}
-                          {fieldInfo.plantPopulation}
-                        </Text>
-                      </VStack>
-                      <VStack spacing={4} align="left" padding={3}>
-                        <Heading as="h3" size="lg" mb={2}>
-                          Soil Properties
-                        </Heading>
-                        <Text fontSize="lg">
-                          <strong>Soil Rooting Depth:</strong>
-                          {' '}
-                          {fieldInfo.soilRootingDepth}
-                          {' '}
-                          inches
-                        </Text>
-                        <Text fontSize="lg">
-                          <strong>Soil Surface Residues Coverage (%):</strong>
-                          {' '}
-                          {fieldInfo.soilSurfaceResiduesCoverage}
-                        </Text>
-                        <Text fontSize="lg">
-                          <strong>Top Soil Bulk Density:</strong>
-                          {' '}
-                          {fieldInfo.topSoilBulkDensity}
-                        </Text>
-                        <Text fontSize="lg">
-                          <strong>Top Soil (1 foot) Moisture at Planting:</strong>
-                          {' '}
-                          {fieldInfo.topSoilMoistureAtPlanting}
-                        </Text>
-                        <Text fontSize="lg">
-                          <strong>Top Soil (1 foot) Moisture at Planting:</strong>
-                          {' '}
-                          {fieldInfo.topSoilMoistureAtPlanting}
-                        </Text>
-                        <Text fontSize="lg">
-                          <strong>Sub Soil (below 1 foot) Moisture at Planting:</strong>
-                          {' '}
-                          {fieldInfo.subSoilMoistureAtPlanting}
-                        </Text>
-                        <Text fontSize="lg">
-                          <strong>Top Soil (1 foot) Texture:</strong>
-                          {' '}
-                          {fieldInfo.topSoilTexture}
-                        </Text>
-                        <Text fontSize="lg">
-                          <strong>Sub Soil (below 1 foot) Texture:</strong>
-                          {' '}
-                          {fieldInfo.subSoilTexture}
-                        </Text>
-                      </VStack>
-                    </HStack>
+                    <Box>
+                      {!isEditing && (
+                      <SimpleGrid minChildWidth="300px" columns={2} spacing={1}>
+                        <VStack spacing={4} align="top">
+                          <Heading as="h3" size="lg" mb={2}>
+                            Crop Management
+                          </Heading>
+                          <Text fontSize="lg">
+                            <strong>Name:</strong>
+                            {' '}
+                            {fieldInfo.name}
+                          </Text>
+                          <Text fontSize="lg">
+                            <strong>Planting Date:</strong>
+                            {' '}
+                            {new Date(fieldInfo.plantingDate).toLocaleDateString()}
+                          </Text>
+                          <Text fontSize="lg">
+                            <strong>Relative Group:</strong>
+                            {' '}
+                            {fieldInfo.relativeMaturity}
+                          </Text>
+                          <Text fontSize="lg">
+                            <strong>Plant Population (x1000/acre):</strong>
+                            {' '}
+                            {fieldInfo.plantPopulation}
+                          </Text>
+                        </VStack>
+                        <VStack spacing={4} align="top">
+                          <Heading as="h3" size="lg" mb={2}>
+                            Soil Properties
+                          </Heading>
+                          <Text fontSize="lg">
+                            <strong>Soil Rooting Depth:</strong>
+                            {' '}
+                            {fieldInfo.soilRootingDepth}
+                            {' '}
+                            inches
+                          </Text>
+                          <Text fontSize="lg">
+                            <strong>Soil Surface Residues Coverage (%):</strong>
+                            {' '}
+                            {fieldInfo.soilSurfaceResiduesCoverage}
+                          </Text>
+                          <Text fontSize="lg">
+                            <strong>Top Soil Bulk Density:</strong>
+                            {' '}
+                            {fieldInfo.topSoilBulkDensity}
+                          </Text>
+                          <Text fontSize="lg">
+                            <strong>Top Soil (1 foot) Moisture at Planting:</strong>
+                            {' '}
+                            {fieldInfo.topSoilMoistureAtPlanting}
+                          </Text>
+                          <Text fontSize="lg">
+                            <strong>Top Soil (1 foot) Moisture at Planting:</strong>
+                            {' '}
+                            {fieldInfo.topSoilMoistureAtPlanting}
+                          </Text>
+                          <Text fontSize="lg">
+                            <strong>Sub Soil (below 1 foot) Moisture at Planting:</strong>
+                            {' '}
+                            {fieldInfo.subSoilMoistureAtPlanting}
+                          </Text>
+                          <Text fontSize="lg">
+                            <strong>Top Soil (1 foot) Texture:</strong>
+                            {' '}
+                            {fieldInfo.topSoilTexture}
+                          </Text>
+                          <Text fontSize="lg">
+                            <strong>Sub Soil (below 1 foot) Texture:</strong>
+                            {' '}
+                            {fieldInfo.subSoilTexture}
+                          </Text>
+                        </VStack>
+                      </SimpleGrid>
+                      )}
+                      {isEditing
+                      && (
+                      <EditCorn
+                        fieldInfo={fieldInfo}
+                        onCancel={() => setIsEditing(false)}
+                        onSuccess={(newValues) => {
+                          setFieldInfo(newValues);
+                          setIsEditing(false);
+                        }}
+                      />
+                      )}
+                      <Button hidden={isEditing} varient="solid" colorScheme="blue" onClick={() => setIsEditing(true)}>Edit</Button>
+                    </Box>
                     <Box height="50vh" marginBottom="10">
                       {tabIndex === 0 && !Number.isNaN(parseFloat(fieldInfo.lat))
                         && !Number.isNaN(parseFloat(fieldInfo.lng))

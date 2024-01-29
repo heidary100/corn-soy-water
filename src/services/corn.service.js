@@ -109,7 +109,7 @@ const updateCorn = async (cornId, corn) => {
   const updatedCorns = corns.map(
     (p) => {
       if (Number.parseInt(p.id, 10) === Number.parseInt(cornId, 10)) {
-        return corn;
+        return { ...corn, id: cornId };
       }
       return p;
     },

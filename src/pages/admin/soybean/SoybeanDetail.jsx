@@ -3,7 +3,6 @@ import {
   Box, Button, Card, CardBody, CardHeader, Container,
   Grid,
   GridItem,
-  HStack,
   Heading,
   Modal,
   ModalBody,
@@ -34,6 +33,7 @@ import availableSoilWater from '../../../data/availableSoilWater.json';
 import rainfallAmount from '../../../data/rainfallAmount.json';
 import irrigationAmount from '../../../data/irrigationAmount.json';
 import AddIrrigation from '../AddIrrigation';
+import EditSoybean from './EditSoybean';
 
 const totalAvailableWaterData = {
   name: 'Total available water within active rooting zone',
@@ -107,6 +107,7 @@ export default function SoybeanDetail() {
     rainfallAmountData,
     irrigationAmountData];
   const [loading, setLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const toast = useToast();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedIrrigationRecord, setSelectedIrrigationRecord] = useState(null);
@@ -242,52 +243,68 @@ export default function SoybeanDetail() {
               <Progress hidden={!loading} size="xs" isIndeterminate marginTop={10} />
               {!loading && (
                 <Box>
-                  <SimpleGrid minChildWidth="500px" columns={2} spacing={1}>
-                    <HStack>
-                      <VStack spacing={4} align="left" padding={3}>
-                        <Heading as="h3" size="lg" mb={2}>
-                          Crop Management
-                        </Heading>
-                        <Text fontSize="lg">
-                          <strong>Name:</strong>
-                          {' '}
-                          {fieldInfo.name}
-                        </Text>
-                        <Text fontSize="lg">
-                          <strong>Planting Date:</strong>
-                          {' '}
-                          {new Date(fieldInfo.plantingDate).toLocaleDateString()}
-                        </Text>
-                        <Text fontSize="lg">
-                          <strong>Maturity Group:</strong>
-                          {' '}
-                          {fieldInfo.maturityGroup}
-                        </Text>
-                      </VStack>
-                      <VStack spacing={4} align="left" padding={3}>
-                        <Heading as="h3" size="lg" mb={2}>
-                          Soil Properties
-                        </Heading>
-                        <Text fontSize="lg">
-                          <strong>Soil Rooting Depth:</strong>
-                          {' '}
-                          {fieldInfo.soilRootingDepth}
-                          {' '}
-                          inches
-                        </Text>
-                        <Text fontSize="lg">
-                          <strong>Available Soil Water at Planting Day:</strong>
-                          {' '}
-                          {fieldInfo.availableSoilWater}
-                          %
-                        </Text>
-                        <Text fontSize="lg">
-                          <strong>Average Soil Texture to the Rooting Depth:</strong>
-                          {' '}
-                          {fieldInfo.averageSoilTexture}
-                        </Text>
-                      </VStack>
-                    </HStack>
+                  <SimpleGrid minChildWidth="300px" columns={2} spacing={1}>
+                    <Box>
+                      {!isEditing && (
+                      <SimpleGrid minChildWidth="300px" columns={2} spacing={1}>
+                        <VStack spacing={4} align="top">
+                          <Heading as="h3" size="lg" mb={2}>
+                            Crop Management
+                          </Heading>
+                          <Text fontSize="lg">
+                            <strong>Name:</strong>
+                            {' '}
+                            {fieldInfo.name}
+                          </Text>
+                          <Text fontSize="lg">
+                            <strong>Planting Date:</strong>
+                            {' '}
+                            {new Date(fieldInfo.plantingDate).toLocaleDateString()}
+                          </Text>
+                          <Text fontSize="lg">
+                            <strong>Maturity Group:</strong>
+                            {' '}
+                            {fieldInfo.maturityGroup}
+                          </Text>
+                        </VStack>
+                        <VStack spacing={4} align="top">
+                          <Heading as="h3" size="lg" mb={2}>
+                            Soil Properties
+                          </Heading>
+                          <Text fontSize="lg">
+                            <strong>Soil Rooting Depth:</strong>
+                            {' '}
+                            {fieldInfo.soilRootingDepth}
+                            {' '}
+                            inches
+                          </Text>
+                          <Text fontSize="lg">
+                            <strong>Available Soil Water at Planting Day:</strong>
+                            {' '}
+                            {fieldInfo.availableSoilWater}
+                            %
+                          </Text>
+                          <Text fontSize="lg">
+                            <strong>Average Soil Texture to the Rooting Depth:</strong>
+                            {' '}
+                            {fieldInfo.averageSoilTexture}
+                          </Text>
+                        </VStack>
+                      </SimpleGrid>
+                      )}
+                      {isEditing
+                      && (
+                      <EditSoybean
+                        fieldInfo={fieldInfo}
+                        onCancel={() => setIsEditing(false)}
+                        onSuccess={(newValues) => {
+                          setFieldInfo(newValues);
+                          setIsEditing(false);
+                        }}
+                      />
+                      )}
+                      <Button hidden={isEditing} varient="solid" colorScheme="blue" onClick={() => setIsEditing(true)}>Edit</Button>
+                    </Box>
                     <Box height="50vh" marginBottom="10">
                       {tabIndex === 0 && !Number.isNaN(parseFloat(fieldInfo.lat))
                       && !Number.isNaN(parseFloat(fieldInfo.lng))
