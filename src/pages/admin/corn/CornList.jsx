@@ -22,7 +22,7 @@ import {
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import {
-  MdEdit, MdDelete, MdInfo,
+  MdDelete, MdInfo,
 } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 import CornService from '../../../services/corn.service';
@@ -113,14 +113,6 @@ export default function CornList() {
                     title="Detail"
                   />
 
-                  <IconButton
-                    as={NavLink}
-                    to={`/admin/result/edit/corn/${item.id}`}
-                    leftIcon={<MdEdit />}
-                    colorScheme="blue"
-                    variant="ghost"
-                    title="Edit"
-                  />
                   <IconButton
                     onClick={() => {
                       setSelectedItem(item);

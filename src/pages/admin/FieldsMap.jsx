@@ -6,7 +6,7 @@ import {
   Progress,
   Avatar,
 } from '@chakra-ui/react';
-import { MdEdit, MdInfo } from 'react-icons/md';
+import { MdInfo } from 'react-icons/md';
 import {
   MapContainer, TileLayer, Popup, Marker, LayersControl, LayerGroup, useMap,
 } from 'react-leaflet';
@@ -121,10 +121,6 @@ export default function FieldsMap() {
                     <Button as={NavLink} to={`/admin/result/corn/${item.id}`} leftIcon={<MdInfo />} colorScheme="blue" variant="ghost" size="sm">
                       Detail
                     </Button>
-                    { }
-                    <Button as={NavLink} to={`/admin/result/edit/corn/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="ghost" size="sm">
-                      Edit
-                    </Button>
                   </Popup>
                 </Marker>
               );
@@ -153,10 +149,6 @@ export default function FieldsMap() {
                     <br />
                     <Button as={NavLink} to={`/admin/result/soybean/${item.id}`} leftIcon={<MdInfo />} colorScheme="blue" variant="ghost" size="sm">
                       Detail
-                    </Button>
-                    { }
-                    <Button as={NavLink} to={`/admin/result/edit/soybean/${item.id}`} leftIcon={<MdEdit />} colorScheme="blue" variant="ghost" size="sm">
-                      Edit
                     </Button>
                   </Popup>
                 </Marker>
