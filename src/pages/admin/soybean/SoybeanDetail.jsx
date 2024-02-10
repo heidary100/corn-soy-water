@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Box, Button, Card, CardBody, CardHeader, Container,
+  Box, Button, ButtonGroup, Card, CardBody, CardHeader, Container,
+  Divider,
   Grid,
   GridItem,
   Heading,
@@ -18,7 +19,7 @@ import {
   Th, Thead, Tr, VStack, useToast,
 } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
-import { MdAdd, MdDelete } from 'react-icons/md';
+import { MdAdd, MdDelete, MdEdit } from 'react-icons/md';
 import {
   LayerGroup,
   LayersControl,
@@ -304,7 +305,10 @@ export default function SoybeanDetail() {
                         }}
                       />
                       )}
-                      <Button hidden={isEditing} varient="solid" colorScheme="blue" onClick={() => setIsEditing(true)}>Edit</Button>
+                      <Divider mt="5" hidden={isEditing} />
+                      <ButtonGroup mt={5} w="100%">
+                        <Button leftIcon={<MdEdit />} size="lg" hidden={isEditing} varient="solid" colorScheme="blue" onClick={() => setIsEditing(true)}>Edit</Button>
+                      </ButtonGroup>
                     </Box>
                     <Box height="50vh" marginBottom="10">
                       {tabIndex === 0 && !Number.isNaN(parseFloat(fieldInfo.lat))

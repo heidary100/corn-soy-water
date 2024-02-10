@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Divider,
   Flex,
   FormControl,
   FormLabel,
@@ -710,6 +711,7 @@ export default function EditCorn({ fieldInfo, onCancel, onSuccess }) {
             </FormControl>
           </VStack>
         </SimpleGrid>
+        <Divider mt="5" />
         <ButtonGroup mt={5} w="100%">
           <Flex w="100%" justifyContent="space-between">
             <Flex>
