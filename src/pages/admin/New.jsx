@@ -11,9 +11,10 @@ import {
   Checkbox,
   Container, Heading, Image, Progress, SimpleGrid, useDisclosure,
 } from '@chakra-ui/react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 export default function New() {
+  const navigate = useNavigate();
   const [dontShowAgain, setDontShowAgain] = useState(false);
   const shouldShowModal = !dontShowAgain && !localStorage.getItem('dontShowAgain');
   const { isOpen, onClose } = useDisclosure({ defaultIsOpen: shouldShowModal });
@@ -26,6 +27,13 @@ export default function New() {
     }
 
     onClose();
+  };
+  const handleGoBack = () => {
+    if (dontShowAgain) {
+      localStorage.setItem('dontShowAgain', 'true');
+    }
+
+    navigate(-1);
   };
 
   return (
@@ -108,7 +116,7 @@ export default function New() {
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button as={NavLink} to="/admin/" onClick={onClose}>
+              <Button onClick={handleGoBack}>
                 Go back!
               </Button>
               <Button colorScheme="blue" onClick={handleClose} ml={3}>
