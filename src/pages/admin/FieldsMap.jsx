@@ -5,6 +5,8 @@ import {
   useToast,
   Progress,
   Avatar,
+  Switch,
+  Text,
 } from '@chakra-ui/react';
 import { MdInfo } from 'react-icons/md';
 import {
@@ -173,12 +175,13 @@ export default function FieldsMap() {
         onClick={() => {
           setShowWS(!showWS);
         }}
+        size="sm"
       >
-        <Avatar borderRadius={0} size="sm" name="Weather Station" src="/img/climatology.png" />
-        &nbsp;
-        {showWS ? 'Hide' : 'Show'}
-        &nbsp;
-        Weather Stations
+        <Text style={{ pointerEvents: 'none' }}>
+          <Avatar borderRadius={0} boxSize="5" name="Weather Station" src="/img/climatology.png" mr={1} />
+          Weather Stations
+          <Switch isChecked={showWS} ml={1} />
+        </Text>
       </Button>
     </Box>
   );

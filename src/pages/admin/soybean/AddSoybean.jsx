@@ -27,6 +27,7 @@ import {
   useDisclosure,
   Avatar,
   Checkbox,
+  Switch,
 } from '@chakra-ui/react';
 import {
   MapContainer, TileLayer, useMapEvents, Marker, LayersControl, LayerGroup, FeatureGroup,
@@ -262,12 +263,13 @@ export default function AddSoybean({ edit }) {
                 onClick={() => {
                   setShowWS(!showWS);
                 }}
+                size="sm"
               >
-                <Avatar borderRadius={0} size="sm" name="Weather Station" src="/img/climatology.png" />
-        &nbsp;
-                {showWS ? 'Hide' : 'Show'}
-                &nbsp;
-                Weather Stations
+                <Text style={{ pointerEvents: 'none' }}>
+                  <Avatar borderRadius={0} boxSize="5" name="Weather Station" src="/img/climatology.png" mr={1} />
+                  Weather Stations
+                  <Switch isChecked={showWS} ml={1} />
+                </Text>
               </Button>
 
             </Box>
