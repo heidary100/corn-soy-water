@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Avatar,
   Box,
@@ -13,14 +13,22 @@ import { HiOutlineLogout } from 'react-icons/hi';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import Sidebar from '../../components/admin/Sidebar';
 import ColorModeSwitcher from '../../components/ColorModeSwitcher';
-import Footer from '../../components/admin/Footer';
 import AuthService from '../../services/auth.service';
 
 function AdminLayout() {
   const navigate = useNavigate();
   const toast = useToast();
+  const [footerHeight, setFooterHeight] = useState(0);
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const [mainHeight, setMainHeight] = useState(0);
+  const headerRef = useRef(null);
+  const mainRef = useRef(null);
+  const footerRef = useRef(null);
 
   useEffect(() => {
+    setMainHeight(mainRef.current.clientHeight);
+    setHeaderHeight(headerRef.current.clientHeight);
+    setFooterHeight(footerRef.current.clientHeight);
     if (!AuthService.isAuthenticated()) {
       toast({
         title: 'Access denied! Please Log In.',
@@ -41,7 +49,7 @@ function AdminLayout() {
     <Box as="section" bg="gray.50" _dark={{ bg: 'gray.700' }} maxW="100vw">
       <Flex>
         <Sidebar />
-        <Box flex="1" transition=".3s ease" maxH="100vh" overflowY="scroll">
+        <Box ref={mainRef} flex="1" transition=".3s ease" maxH="100vh" overflowY="scroll">
           <Flex
             as="header"
             align="center"
@@ -54,6 +62,7 @@ function AdminLayout() {
             borderColor="blackAlpha.300"
             h="14"
             overflow="hidden"
+            ref={headerRef}
           >
             <Flex marginLeft={{ base: '0', md: '4' }} align="center">
               <Image
@@ -107,16 +116,49 @@ function AdminLayout() {
                 aria-label="Log Out"
                 colorScheme="red"
                 variant="solid"
+                onClick={handleLogOut}
                 icon={<HiOutlineLogout />}
               />
 
             </Flex>
           </Flex>
 
-          <Box as="main" maxH="75vh" overflow="scroll">
+          <Box as="main" h={`${(mainHeight - headerHeight - footerHeight - 20).toString()}px`} mb="5px" overflow="scroll">
             <Outlet />
           </Box>
-          <Footer />
+
+          <Flex justify="space-between" ref={footerRef}>
+            <Box w="16%">
+              <NavLink to="https://www.unl.edu/" target="_blank">
+                <Image src="/img/footer/logos/University_of_Nebraska–Lincoln.png" />
+              </NavLink>
+            </Box>
+            <Box w="16%">
+              <NavLink to="https://ncesr.unl.edu/?page_id=532" target="_blank">
+                <Image src="/img/footer/logos/nebraska_weai.png" />
+              </NavLink>
+            </Box>
+            <Box w="16%">
+              <NavLink to="https://hprcc.unl.edu/" target="_blank">
+                <Image src="/img/footer/logos/HPRCC_Bug_RGB.png" />
+              </NavLink>
+            </Box>
+            <Box w="16%">
+              <NavLink to="https://nebraskacorn.gov/" target="_blank">
+                <Image src="/img/footer/logos/nebraska_corn_board.png" />
+              </NavLink>
+            </Box>
+            <Box w="16%">
+              <NavLink to="https://waterforfood.nebraska.edu/" target="_blank">
+                <Image src="/img/footer/logos/water_for_food_Institude.svg" />
+              </NavLink>
+            </Box>
+            <Box w="16%">
+              <NavLink to="https://nebraskasoybeans.org/" target="_blank">
+                <Image src="/img/footer/logos/nebraska_soybean_board.svg" />
+              </NavLink>
+            </Box>
+          </Flex>
         </Box>
       </Flex>
     </Box>
