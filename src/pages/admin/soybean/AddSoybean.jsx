@@ -138,7 +138,12 @@ export default function AddSoybean() {
     validationSchema: step === 1 ? form1ValidationSchema : step === 2 ? form2ValidationSchema : form3ValidationSchema,
     onSubmit: (values) => {
       if (step === 1 && (shapeRef.current === null || formik.values.lat === '' || formik.values.lng === '')) {
-        alert('Please draw shape!');
+        toast({
+          title: 'Please draw shape!',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        });
       } else if (step === 3) {
         handleSubmit(values);
       } else {

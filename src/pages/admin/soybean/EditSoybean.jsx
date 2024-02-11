@@ -64,11 +64,15 @@ export default function EditSoybean({ fieldInfo, onCancel, onSuccess }) {
     },
     validationSchema,
     onSubmit: async (values) => {
-      setLoading(true);
-
       if ((shapeRef.current === null || formik.values.lat === '' || formik.values.lng === '')) {
-        alert('Please draw shape!');
+        toast({
+          title: 'Please draw shape!',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        });
       } else {
+        setLoading(true);
         try {
           await SoybeanService.updateSoybean(id, {
             ...values, shape: JSON.stringify(shapeRef.current),

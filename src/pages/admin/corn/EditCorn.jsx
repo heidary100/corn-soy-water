@@ -89,10 +89,16 @@ export default function EditCorn({ fieldInfo, onCancel, onSuccess }) {
     },
     validationSchema,
     onSubmit: async (values) => {
-      setLoading(true);
       if ((shapeRef.current === null || formik.values.lat === '' || formik.values.lng === '')) {
-        alert('Please draw shape!');
+        toast({
+          title: 'Please draw shape!',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        });
       } else {
+        setLoading(true);
+
         try {
           await CornService.updateCorn(id, {
             ...values, shape: JSON.stringify(shapeRef.current),
