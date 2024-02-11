@@ -5,151 +5,146 @@ import { FeatureGroup } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 
 function calculateCenter(e) {
-  console.log(e);
   if (e.layerType === 'circle') {
     const shapeCenter = e.layer.getLatLng();
-    return [shapeCenter.lat, shapeCenter.lng];
+    if (shapeCenter) {
+      return [shapeCenter.lat, shapeCenter.lng];
+    }
   } if (e.layerType === 'rectangle') {
     // Get the bounds of the created rectangle
     const bounds = e.layer.getBounds();
     const shapeCenter = bounds.getCenter();
-    return [shapeCenter.lat, shapeCenter.lng];
+    if (shapeCenter) {
+      return [shapeCenter.lat, shapeCenter.lng];
+    }
   } if (e.layerType === 'polygon') {
     const bounds = e.layer.getBounds();
     const shapeCenter = bounds.getCenter();
-    return [shapeCenter.lat, shapeCenter.lng];
+    if (shapeCenter) {
+      return [shapeCenter.lat, shapeCenter.lng];
+    }
   }
 
   return [null, null];
 }
 
 function getShape(e) {
-  console.log(e);
-  let newShape;
+  const geoJSON = e.layer.toGeoJSON();
+  const type = e.layerType;
 
-  if (e.layerType === 'circle') {
-    // Get the center and radius of the created circle
-    const center = e.layer.getLatLng();
+  if (type === 'circle') {
     const radius = e.layer.getRadius();
-
-    // Create GeoJSON representation of the circle
-    newShape = {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [center.lng, center.lat],
-      },
-      properties: {
-        radius,
-      },
-    };
-  } else if (e.layerType === 'rectangle') {
-    // Get the bounds of the created rectangle
-    const bounds = e.layer.getBounds();
-
-    // Create GeoJSON representation of the rectangle
-    newShape = {
-      type: 'Feature',
-      geometry: {
-        type: 'Polygon',
-        coordinates: [
-          [
-            [bounds._southWest.lng, bounds._southWest.lat],
-            [bounds._northEast.lng, bounds._southWest.lat],
-            [bounds._northEast.lng, bounds._northEast.lat],
-            [bounds._southWest.lng, bounds._northEast.lat],
-            [bounds._southWest.lng, bounds._southWest.lat],
-          ],
-        ],
-      },
-    };
-  } else if (e.layerType === 'polygon') {
-    // Get the coordinates of the created polygon
-    const coordinates = e.layer._latlngs.map((coord) => [coord.lng, coord.lat]);
-
-    // Create GeoJSON representation of the polygon
-    newShape = {
-      type: 'Feature',
-      geometry: {
-        type: 'Polygon',
-        coordinates: [coordinates],
-      },
-    };
+    const center = e.layer.getLatLng();
+    return { type, geoJSON: { center, radius } };
   }
 
-  return newShape;
+  return { type, geoJSON };
 }
 
 export default function DrawTools({ updateShape, shape }) {
   const shapeParentRef = useRef(null);
 
-  const loadShape = (newShape) => {
-    if (shapeParentRef && shapeParentRef.current) {
-      const leafletFG = shapeParentRef.current;
-      leafletFG.eachLayer((layer) => {
-        leafletFG.removeLayer(layer);
+  const addShape = ({ type, geoJSON }) => {
+    let leafletLayer;
+
+    if (type === 'circle') {
+      // leafletLayer = L.circle({ ...geoJSON });
+      leafletLayer = L.circle(geoJSON.center, { radius: geoJSON.radius });
+      shapeParentRef.current.addLayer(leafletLayer);
+    } else {
+      leafletLayer = new L.GeoJSON({
+        ...geoJSON,
       });
-      if (newShape) {
-        const leafletLayer = new L.GeoJSON({
-          ...newShape,
-        });
-        leafletFG.addLayer(leafletLayer.getLayers()[0]);
-      }
+      shapeParentRef.current.addLayer(leafletLayer.getLayers()[0]);
     }
+  };
+
+  const clearShapes = () => {
+    const drawnItems = shapeParentRef.current._layers;
+    Object.keys(drawnItems).forEach((layerid) => {
+      const layer = drawnItems[layerid];
+      shapeParentRef.current.removeLayer(layer);
+    });
   };
 
   useEffect(() => {
     if (shape) {
-      loadShape(shape);
+      clearShapes();
+      addShape(shape);
     }
   }, [shape]);
 
   const onCreated = (e) => {
-    try {
-      const [lat, lng] = calculateCenter(e);
-      const newShape = getShape(e);
-      loadShape(newShape);
-      updateShape({ shape: newShape, lat, lng });
-      // eslint-disable-next-line no-underscore-dangle
-      const drawnItems = shapeParentRef.current._layers;
-      if (Object.keys(drawnItems).length > 1) {
-        Object.keys(drawnItems).forEach((layerid, index) => {
-          if (index > 0) return;
-          const layer = drawnItems[layerid];
-          shapeParentRef.current.removeLayer(layer);
-        });
-      }
-    } catch (err) {
-      console.log(err);
-    }
+    const [lat, lng] = calculateCenter(e);
+    const newShape = getShape(e);
+    updateShape({ shape: newShape, lat, lng });
+    clearShapes();
+    addShape(newShape);
   };
 
-  const onDeleted = () => {
-    try {
-      // const layer = Object.values(shapeParentRef.current._layers)[0];
+  const onDeleted = (e) => {
+    const editedShapes = Object.values(e.layers._layers);
+    if (editedShapes.length > 1) {
+      throw Error('Invalid shapes');
+    }
+    if (editedShapes.length !== 0) {
       updateShape({ shape: null, lat: null, lng: null });
-      const drawnItems = shapeParentRef.current._layers;
-      Object.keys(drawnItems).forEach((layerid, index) => {
-        if (index > 0) return;
-        const layer = drawnItems[layerid];
-        shapeParentRef.current.removeLayer(layer);
-      });
-    } catch (err) {
-      console.log(err);
+      clearShapes();
     }
   };
 
   const onEdited = (e) => {
-    try { // const layer = Object.values(shapeParentRef.current._layers)[0];
-      const [lat, lng] = calculateCenter(e);
-      const newShape = getShape(e);
-      console.log(e);
-      // loadShape(newShape);
-      updateShape({ shape: newShape, lat, lng });
-    } catch (err) {
-      console.log(err);
+    const editedShapes = Object.values(e.layers._layers);
+    if (editedShapes.length > 1) {
+      throw Error('Invalid shapes');
     }
+    let layerType;
+    const layer = editedShapes[0];
+    if (layer?.feature?.geometry?.type) {
+      layerType = layer.feature.geometry.type;
+    } else {
+      layerType = 'circle';
+    }
+
+    const newShape = getShape({ layerType, layer });
+    const [lat, lng] = calculateCenter({ layerType, layer });
+    updateShape({ shape: newShape, lat, lng });
+    clearShapes();
+    addShape(newShape);
   };
+
+  // const onDeleted = (e) => {
+  //   const layers = e.layers._layers;
+  //   const deletedShapes = Object.values(layers)
+  //     .map((layer) => getShape({ layerType: layer.feature.geometry.type, layer }));
+
+  //   updateShape({ shape: null, lat: null, lng: null });
+  //   clearShapes();
+
+  //   // You might want to handle multiple deleted shapes differently
+  //   deletedShapes.forEach((deletedShape) => {
+  //     // Add logic to handle each deleted shape as needed
+  //     console.log('Deleted Shape:', deletedShape);
+  //   });
+  // };
+
+  // const onEdited = (e) => {
+  //   const layers = e.layers._layers;
+  //   const editedShapes = Object.values(layers)
+  //     .map((layer) => getShape({ layerType: layer.feature.geometry.type, layer }));
+
+  //   // const [lat, lng] = calculateCenter(e);
+  //   // const newShape = editedShapes.length > 0 ? editedShapes[0] : null;
+
+  //   // updateShape({ shape: newShape, lat, lng });
+  //   // clearShapes();
+
+  //   // You might want to handle multiple edited shapes differently
+  //   editedShapes.forEach((editedShape) => {
+  //     // Add logic to handle each edited shape as needed
+  //     console.log('Edited Shape:', editedShape);
+  //   });
+  // };
 
   return (
     <FeatureGroup ref={shapeParentRef}>

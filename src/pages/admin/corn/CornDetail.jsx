@@ -45,6 +45,7 @@ import {
   LayersControl,
   MapContainer, Marker, Popup, TileLayer,
   GeoJSON,
+  Circle,
 } from 'react-leaflet';
 import waterstress from '../../../data/waterstress.json';
 import totalAvailableWater from '../../../data/totalAvailableWater.json';
@@ -360,6 +361,7 @@ export default function CornDetail() {
                       </ButtonGroup>
 
                     </Box>
+                    {!isEditing && (
                     <Box height="50vh" marginBottom="10">
                       {tabIndex === 0 && !Number.isNaN(parseFloat(fieldInfo.lat))
                         && !Number.isNaN(parseFloat(fieldInfo.lng))
@@ -395,10 +397,19 @@ export default function CornDetail() {
                                 {fieldInfo.name}
                               </Popup>
                             </Marker>
-                            {fieldInfo.shape && <GeoJSON data={JSON.parse(fieldInfo.shape)} />}
+                            {fieldInfo.shape && JSON.parse(fieldInfo.shape).type !== 'circle'
+                              && <GeoJSON data={JSON.parse(fieldInfo.shape).geoJSON} />}
+                            {fieldInfo.shape && JSON.parse(fieldInfo.shape).type === 'circle'
+                              && (
+                                <Circle
+                                  center={JSON.parse(fieldInfo.shape).geoJSON.center}
+                                  radius={JSON.parse(fieldInfo.shape).geoJSON.radius}
+                                />
+                              )}
                           </MapContainer>
                         )}
                     </Box>
+                    )}
                   </SimpleGrid>
                 </Box>
               )}

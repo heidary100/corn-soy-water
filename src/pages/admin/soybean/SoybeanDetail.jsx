@@ -25,6 +25,7 @@ import {
   LayersControl,
   MapContainer, Marker, Popup, TileLayer,
   GeoJSON,
+  Circle,
 } from 'react-leaflet';
 import MultilineChart from '../../../components/admin/Chart/MultilineChart';
 import Legend from '../../../components/admin/Chart/Legend';
@@ -249,108 +250,118 @@ export default function SoybeanDetail() {
                   <SimpleGrid minChildWidth="300px" columns={2} spacing={1}>
                     <Box>
                       {!isEditing && (
-                      <SimpleGrid minChildWidth="300px" columns={2} spacing={1}>
-                        <VStack spacing={4} align="top">
-                          <Heading as="h3" size="lg" mb={2}>
-                            Crop Management
-                          </Heading>
-                          <Text fontSize="lg">
-                            <strong>Name:</strong>
-                            {' '}
-                            {fieldInfo.name}
-                          </Text>
-                          <Text fontSize="lg">
-                            <strong>Planting Date:</strong>
-                            {' '}
-                            {new Date(fieldInfo.plantingDate).toLocaleDateString()}
-                          </Text>
-                          <Text fontSize="lg">
-                            <strong>Maturity Group:</strong>
-                            {' '}
-                            {fieldInfo.maturityGroup}
-                          </Text>
-                        </VStack>
-                        <VStack spacing={4} align="top">
-                          <Heading as="h3" size="lg" mb={2}>
-                            Soil Properties
-                          </Heading>
-                          <Text fontSize="lg">
-                            <strong>Soil Rooting Depth:</strong>
-                            {' '}
-                            {fieldInfo.soilRootingDepth}
-                            {' '}
-                            inches
-                          </Text>
-                          <Text fontSize="lg">
-                            <strong>Available Soil Water at Planting Day:</strong>
-                            {' '}
-                            {fieldInfo.availableSoilWater}
-                            %
-                          </Text>
-                          <Text fontSize="lg">
-                            <strong>Average Soil Texture to the Rooting Depth:</strong>
-                            {' '}
-                            {fieldInfo.averageSoilTexture}
-                          </Text>
-                        </VStack>
-                      </SimpleGrid>
+                        <SimpleGrid minChildWidth="300px" columns={2} spacing={1}>
+                          <VStack spacing={4} align="top">
+                            <Heading as="h3" size="lg" mb={2}>
+                              Crop Management
+                            </Heading>
+                            <Text fontSize="lg">
+                              <strong>Name:</strong>
+                              {' '}
+                              {fieldInfo.name}
+                            </Text>
+                            <Text fontSize="lg">
+                              <strong>Planting Date:</strong>
+                              {' '}
+                              {new Date(fieldInfo.plantingDate).toLocaleDateString()}
+                            </Text>
+                            <Text fontSize="lg">
+                              <strong>Maturity Group:</strong>
+                              {' '}
+                              {fieldInfo.maturityGroup}
+                            </Text>
+                          </VStack>
+                          <VStack spacing={4} align="top">
+                            <Heading as="h3" size="lg" mb={2}>
+                              Soil Properties
+                            </Heading>
+                            <Text fontSize="lg">
+                              <strong>Soil Rooting Depth:</strong>
+                              {' '}
+                              {fieldInfo.soilRootingDepth}
+                              {' '}
+                              inches
+                            </Text>
+                            <Text fontSize="lg">
+                              <strong>Available Soil Water at Planting Day:</strong>
+                              {' '}
+                              {fieldInfo.availableSoilWater}
+                              %
+                            </Text>
+                            <Text fontSize="lg">
+                              <strong>Average Soil Texture to the Rooting Depth:</strong>
+                              {' '}
+                              {fieldInfo.averageSoilTexture}
+                            </Text>
+                          </VStack>
+                        </SimpleGrid>
                       )}
                       {isEditing
-                      && (
-                      <EditSoybean
-                        fieldInfo={fieldInfo}
-                        onCancel={() => setIsEditing(false)}
-                        onSuccess={(newValues) => {
-                          setFieldInfo(newValues);
-                          setIsEditing(false);
-                        }}
-                      />
-                      )}
+                        && (
+                          <EditSoybean
+                            fieldInfo={fieldInfo}
+                            onCancel={() => setIsEditing(false)}
+                            onSuccess={(newValues) => {
+                              setFieldInfo(newValues);
+                              setIsEditing(false);
+                            }}
+                          />
+                        )}
                       <Divider mt="5" hidden={isEditing} />
                       <ButtonGroup mt={5} w="100%">
                         <Button leftIcon={<MdEdit />} size="lg" hidden={isEditing} varient="solid" colorScheme="blue" onClick={() => setIsEditing(true)}>Edit</Button>
                       </ButtonGroup>
                     </Box>
-                    <Box height="50vh" marginBottom="10">
-                      {tabIndex === 0 && !Number.isNaN(parseFloat(fieldInfo.lat))
-                      && !Number.isNaN(parseFloat(fieldInfo.lng))
-                      && (
-                        <MapContainer
-                          center={[parseFloat(fieldInfo.lat), parseFloat(fieldInfo.lng)]}
-                          zoom={16}
-                          scrollWheelZoom
-                        >
-                          <LayersControl>
-                            <LayersControl.BaseLayer checked name="Satellite">
-                              <LayerGroup>
-                                <TileLayer
-                                  attribution="Google Maps Satellite"
-                                  url="https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}"
-                                />
-                                <TileLayer url="https://www.google.cn/maps/vt?lyrs=y@189&gl=cn&x={x}&y={y}&z={z}" />
-                              </LayerGroup>
-                            </LayersControl.BaseLayer>
-                            <LayersControl.BaseLayer name="Street View">
-                              <TileLayer
-                                attribution="Google Maps"
-                                url="https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}"
-                              />
-                            </LayersControl.BaseLayer>
+                    {!isEditing && (
+                      <Box height="50vh" marginBottom="10">
+                        {tabIndex === 0 && !Number.isNaN(parseFloat(fieldInfo.lat))
+                          && !Number.isNaN(parseFloat(fieldInfo.lng))
+                          && (
+                            <MapContainer
+                              center={[parseFloat(fieldInfo.lat), parseFloat(fieldInfo.lng)]}
+                              zoom={16}
+                              scrollWheelZoom
+                            >
+                              <LayersControl>
+                                <LayersControl.BaseLayer checked name="Satellite">
+                                  <LayerGroup>
+                                    <TileLayer
+                                      attribution="Google Maps Satellite"
+                                      url="https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}"
+                                    />
+                                    <TileLayer url="https://www.google.cn/maps/vt?lyrs=y@189&gl=cn&x={x}&y={y}&z={z}" />
+                                  </LayerGroup>
+                                </LayersControl.BaseLayer>
+                                <LayersControl.BaseLayer name="Street View">
+                                  <TileLayer
+                                    attribution="Google Maps"
+                                    url="https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}"
+                                  />
+                                </LayersControl.BaseLayer>
 
-                          </LayersControl>
+                              </LayersControl>
 
-                          <Marker
-                            icon={soybeanIcon}
-                            position={[parseFloat(fieldInfo.lat), parseFloat(fieldInfo.lng)]}
-                          >
-                            <Popup>
-                              {fieldInfo.name}
-                            </Popup>
-                          </Marker>
-                          {fieldInfo.shape && <GeoJSON data={JSON.parse(fieldInfo.shape)} />}
-                        </MapContainer>
-                      )}
-                    </Box>
+                              <Marker
+                                icon={soybeanIcon}
+                                position={[parseFloat(fieldInfo.lat), parseFloat(fieldInfo.lng)]}
+                              >
+                                <Popup>
+                                  {fieldInfo.name}
+                                </Popup>
+                              </Marker>
+                              {fieldInfo.shape && JSON.parse(fieldInfo.shape).type !== 'circle'
+                                && <GeoJSON data={JSON.parse(fieldInfo.shape).geoJSON} />}
+                              {fieldInfo.shape && JSON.parse(fieldInfo.shape).type === 'circle'
+                                && (
+                                  <Circle
+                                    center={JSON.parse(fieldInfo.shape).geoJSON.center}
+                                    radius={JSON.parse(fieldInfo.shape).geoJSON.radius}
+                                  />
+                                )}
+                            </MapContainer>
+                          )}
+                      </Box>
+                    )}
                   </SimpleGrid>
                 </Box>
               )}
@@ -472,7 +483,7 @@ export default function SoybeanDetail() {
                         <Heading size="sm" fontWeight="light">
                           Current available water balance within the active rooting zone:
                           <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
-                          &nbsp; 0
+                            &nbsp; 0
                           </Text>
                         </Heading>
                       </Box>
@@ -480,7 +491,7 @@ export default function SoybeanDetail() {
                         <Heading size="sm" fontWeight="light">
                           Initial available water in 0 - 12 inch soil zone at planting:
                           <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
-                          &nbsp; 2.1
+                            &nbsp; 2.1
                           </Text>
                         </Heading>
                       </Box>
@@ -488,7 +499,7 @@ export default function SoybeanDetail() {
                         <Heading size="sm" fontWeight="light">
                           Total rainfall amount since planting:
                           <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
-                          &nbsp; 2
+                            &nbsp; 2
                           </Text>
                         </Heading>
                       </Box>
@@ -496,7 +507,7 @@ export default function SoybeanDetail() {
                         <Heading size="sm" fontWeight="light">
                           Total irrigation amount:
                           <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
-                          &nbsp; 12
+                            &nbsp; 12
                           </Text>
                         </Heading>
                       </Box>
@@ -504,7 +515,7 @@ export default function SoybeanDetail() {
                         <Heading size="sm" fontWeight="light">
                           Water consumption (i.e., total crop ET) since planting:
                           <Text fontSize="sm" display="inline-flex" fontWeight="semibold">
-                          &nbsp; 29
+                            &nbsp; 29
                           </Text>
                         </Heading>
                       </Box>
