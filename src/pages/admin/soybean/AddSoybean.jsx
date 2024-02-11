@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useRef, useState,
+} from 'react';
 import {
   Container,
   Progress,
@@ -30,14 +32,13 @@ import {
   Switch,
 } from '@chakra-ui/react';
 import {
-  MapContainer, TileLayer, useMapEvents, Marker, LayersControl, LayerGroup, FeatureGroup,
+  MapContainer, TileLayer, Marker, LayersControl, LayerGroup,
 } from 'react-leaflet';
-import { NavLink, useNavigate, useParams } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import DatePicker from 'react-datepicker';
 import { InfoIcon } from '@chakra-ui/icons';
-import { EditControl } from 'react-leaflet-draw';
 import { FullscreenControl } from 'react-leaflet-fullscreen';
 import SoybeanService from '../../../services/soybean.service';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -46,16 +47,7 @@ import 'leaflet-draw/dist/leaflet.draw.css';
 import 'react-leaflet-fullscreen/styles.css';
 import WeatherStations from '../../../components/admin/WeatherStations';
 import { soybeanIcon } from '../../../components/admin/MarkerIcons';
-
-function LocationFinderDummy({ onClick }) {
-  // eslint-disable-next-line no-unused-vars
-  const map = useMapEvents({
-    click(e) {
-      onClick({ lat: e.latlng.lat, lng: e.latlng.lng });
-    },
-  });
-  return null;
-}
+import DrawTools from '../../../components/admin/DrawTools';
 
 const form1ValidationSchema = Yup.object().shape({
 });
@@ -84,19 +76,17 @@ const form3ValidationSchema = Yup.object().shape({
     .required('Average Soil Texture is required'),
 });
 
-export default function AddSoybean({ edit }) {
-  const { id } = useParams();
+export default function AddSoybean() {
   const navigate = useNavigate();
   const toast = useToast();
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(50);
   const [soilTexture, setSoilTexture] = useState('automatic');
   const [loading, setLoading] = useState(false);
-  const [drawing, setDrawing] = useState(false);
   const [showWS, setShowWS] = useState(false);
   const [dontShowAgain, setDontShowAgain] = useState(false);
-  const shouldShowModal = !dontShowAgain && !localStorage.getItem('dontShowAgainWS');
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const shapeRef = useRef(null);
 
   const handleClose = () => {
     if (dontShowAgain) {
@@ -110,27 +100,17 @@ export default function AddSoybean({ edit }) {
     setLoading(true);
 
     try {
-      // eslint-disable-next-line no-console
-      if (edit === true) {
-        await SoybeanService.updateSoybean(id, values);
-        // Handle successful submission here
-        toast({
-          title: 'Updated Soybean Field Successfuly.',
-          status: 'success',
-          duration: 9000,
-          isClosable: true,
-        });
-      } else {
-        const savedSoybean = await SoybeanService.createSoybean(values);
-        // Handle successful submission here
-        toast({
-          title: 'Created Soybean Field Successfuly.',
-          status: 'success',
-          duration: 9000,
-          isClosable: true,
-        });
-        navigate(`/admin/result/soybean/${savedSoybean.id}`);
-      }
+      const savedSoybean = await SoybeanService.createSoybean({
+        ...values, shape: JSON.stringify(shapeRef.current),
+      });
+      // Handle successful submission here
+      toast({
+        title: 'Created Soybean Field Successfuly.',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
+      navigate(`/admin/result/soybean/${savedSoybean.id}`);
     } catch (error) {
       // Handle submission error here
       toast({
@@ -143,11 +123,10 @@ export default function AddSoybean({ edit }) {
       setLoading(false);
     }
   };
-
   const formik = useFormik({
     initialValues: {
-      lat: '40.505664',
-      lng: '-98.966389',
+      lat: '',
+      lng: '',
       name: '',
       plantingDate: '',
       maturityGroup: '',
@@ -158,7 +137,9 @@ export default function AddSoybean({ edit }) {
     // eslint-disable-next-line max-len, no-nested-ternary
     validationSchema: step === 1 ? form1ValidationSchema : step === 2 ? form2ValidationSchema : form3ValidationSchema,
     onSubmit: (values) => {
-      if (step === 3) {
+      if (step === 1 && (shapeRef.current === null || formik.values.lat === '' || formik.values.lng === '')) {
+        alert('Please draw shape!');
+      } else if (step === 3) {
         handleSubmit(values);
       } else {
         setStep(step + 1);
@@ -167,28 +148,14 @@ export default function AddSoybean({ edit }) {
     },
   });
 
-  useEffect(() => {
-    async function fetchData(soybeanId) {
-      const soybean = await SoybeanService.getSoybeanById(soybeanId);
-      formik.setValues(soybean);
-      setLoading(false);
+  const onUpdateShape = ({ shape, lat, lng }) => {
+    if (shape !== null && !dontShowAgain && !localStorage.getItem('dontShowAgainWS')) {
+      onOpen();
     }
-
-    if (edit === true && id !== undefined) {
-      setLoading(true);
-      try {
-        fetchData(id);
-      } catch (error) {
-        // Handle submission error here
-        toast({
-          title: 'Failed to load data, Try again.',
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-        });
-      }
-    }
-  }, []);
+    shapeRef.current = shape;
+    formik.setFieldValue('lat', lat === null ? '' : lat);
+    formik.setFieldValue('lng', lng === null ? '' : lng);
+  };
 
   const currentForm = () => {
     switch (step) {
@@ -200,8 +167,11 @@ export default function AddSoybean({ edit }) {
             </Heading>
             <Box height="50vh" position="relative">
               <MapContainer
-                center={[parseFloat(formik.values.lat), parseFloat(formik.values.lng)]}
-                zoom={edit === true ? 16 : 10}
+                center={
+                  (formik.values.lat === '' && formik.values.lng === '') ? ['40.505664', '-98.966389']
+                    : [parseFloat(formik.values.lat), parseFloat(formik.values.lng)]
+                }
+                zoom={16}
                 scrollWheelZoom
               >
                 <LayersControl>
@@ -225,32 +195,14 @@ export default function AddSoybean({ edit }) {
                 {showWS && <WeatherStations />}
                 <Marker
                   icon={soybeanIcon}
-                  position={[parseFloat(formik.values.lat), parseFloat(formik.values.lng)]}
+                  position={
+                    (formik.values.lat === '' && formik.values.lng === '') ? ['', '']
+                      : [parseFloat(formik.values.lat), parseFloat(formik.values.lng)]
+                  }
                 />
-                <LocationFinderDummy
-                  onClick={(point) => {
-                    if (!drawing) {
-                      formik.setValues({ ...formik.values, ...point });
-                      if (shouldShowModal) {
-                        onOpen();
-                      }
-                    }
-                  }}
-                />
+
                 <LeafletgeoSearch />
-                <FeatureGroup>
-                  <EditControl
-                    position="topright"
-                    onDrawStart={() => { setDrawing(true); }}
-                    onDrawStop={() => { setDrawing(false); }}
-                    // onEdited={this._onEditPath}
-                    // onCreated={this._onCreate}
-                    // onDeleted={this._onDeleted}
-                    draw={{
-                      rectangle: false,
-                    }}
-                  />
-                </FeatureGroup>
+                {step === 1 && <DrawTools updateShape={onUpdateShape} shape={shapeRef.current} />}
                 <FullscreenControl
                   position="topleft"
                 />
@@ -279,7 +231,7 @@ export default function AddSoybean({ edit }) {
                 <Flex>
                   <Button
                     as={NavLink}
-                    to={edit === true ? '/admin/' : '/admin/new'}
+                    to="/admin/new"
                     colorScheme="blue"
                     variant="solid"
                     w="7rem"
@@ -735,7 +687,7 @@ export default function AddSoybean({ edit }) {
   return (
     <Container maxW="100%">
       <Heading my={5} fontSize={{ base: 'xl', md: '2xl' }}>
-        {edit === true ? 'Edit Soybean Field' : 'Add New Soybean Field'}
+        Add New Soybean Field
       </Heading>
 
       <Progress hidden={!loading} size="xs" isIndeterminate marginTop={10} />

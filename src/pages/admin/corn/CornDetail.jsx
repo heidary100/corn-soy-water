@@ -44,6 +44,7 @@ import {
   LayerGroup,
   LayersControl,
   MapContainer, Marker, Popup, TileLayer,
+  GeoJSON,
 } from 'react-leaflet';
 import waterstress from '../../../data/waterstress.json';
 import totalAvailableWater from '../../../data/totalAvailableWater.json';
@@ -394,6 +395,7 @@ export default function CornDetail() {
                                 {fieldInfo.name}
                               </Popup>
                             </Marker>
+                            {fieldInfo.shape && <GeoJSON data={JSON.parse(fieldInfo.shape)} />}
                           </MapContainer>
                         )}
                     </Box>

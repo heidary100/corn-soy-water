@@ -24,6 +24,7 @@ import {
   LayerGroup,
   LayersControl,
   MapContainer, Marker, Popup, TileLayer,
+  GeoJSON,
 } from 'react-leaflet';
 import MultilineChart from '../../../components/admin/Chart/MultilineChart';
 import Legend from '../../../components/admin/Chart/Legend';
@@ -346,6 +347,7 @@ export default function SoybeanDetail() {
                               {fieldInfo.name}
                             </Popup>
                           </Marker>
+                          {fieldInfo.shape && <GeoJSON data={JSON.parse(fieldInfo.shape)} />}
                         </MapContainer>
                       )}
                     </Box>
