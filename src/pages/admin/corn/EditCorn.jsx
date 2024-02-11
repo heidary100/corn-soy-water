@@ -90,29 +90,32 @@ export default function EditCorn({ fieldInfo, onCancel, onSuccess }) {
     validationSchema,
     onSubmit: async (values) => {
       setLoading(true);
-
-      try {
-        await CornService.updateCorn(id, {
-          ...values, shape: JSON.stringify(shapeRef.current),
-        });
-        // Handle successful submission here
-        toast({
-          title: 'Updated Corn Field Successfuly.',
-          status: 'success',
-          duration: 9000,
-          isClosable: true,
-        });
-        onSuccess({ id, ...values, shape: JSON.stringify(shapeRef.current) });
-      } catch (error) {
-        // Handle submission error here
-        toast({
-          title: 'Failure, Try again.',
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-        });
-      } finally {
-        setLoading(false);
+      if ((shapeRef.current === null || formik.values.lat === '' || formik.values.lng === '')) {
+        alert('Please draw shape!');
+      } else {
+        try {
+          await CornService.updateCorn(id, {
+            ...values, shape: JSON.stringify(shapeRef.current),
+          });
+          // Handle successful submission here
+          toast({
+            title: 'Updated Corn Field Successfuly.',
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+          });
+          onSuccess({ id, ...values, shape: JSON.stringify(shapeRef.current) });
+        } catch (error) {
+          // Handle submission error here
+          toast({
+            title: 'Failure, Try again.',
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          });
+        } finally {
+          setLoading(false);
+        }
       }
     },
   });
@@ -762,9 +765,9 @@ export default function EditCorn({ fieldInfo, onCancel, onSuccess }) {
           && (
             <MapContainer
               center={
-              (formik.values.lat === '' && formik.values.lng === '') ? ['40.505664', '-98.966389']
-                : [parseFloat(formik.values.lat), parseFloat(formik.values.lng)]
-            }
+                (formik.values.lat === '' && formik.values.lng === '') ? ['40.505664', '-98.966389']
+                  : [parseFloat(formik.values.lat), parseFloat(formik.values.lng)]
+              }
               zoom={16}
               scrollWheelZoom
             >

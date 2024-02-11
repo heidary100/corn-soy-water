@@ -66,28 +66,32 @@ export default function EditSoybean({ fieldInfo, onCancel, onSuccess }) {
     onSubmit: async (values) => {
       setLoading(true);
 
-      try {
-        await SoybeanService.updateSoybean(id, {
-          ...values, shape: JSON.stringify(shapeRef.current),
-        });
-        // Handle successful submission here
-        toast({
-          title: 'Updated Soybean Field Successfuly.',
-          status: 'success',
-          duration: 9000,
-          isClosable: true,
-        });
-        onSuccess({ id, ...values, shape: JSON.stringify(shapeRef.current) });
-      } catch (error) {
-        // Handle submission error here
-        toast({
-          title: 'Failure, Try again.',
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-        });
-      } finally {
-        setLoading(false);
+      if ((shapeRef.current === null || formik.values.lat === '' || formik.values.lng === '')) {
+        alert('Please draw shape!');
+      } else {
+        try {
+          await SoybeanService.updateSoybean(id, {
+            ...values, shape: JSON.stringify(shapeRef.current),
+          });
+          // Handle successful submission here
+          toast({
+            title: 'Updated Soybean Field Successfuly.',
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+          });
+          onSuccess({ id, ...values, shape: JSON.stringify(shapeRef.current) });
+        } catch (error) {
+          // Handle submission error here
+          toast({
+            title: 'Failure, Try again.',
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          });
+        } finally {
+          setLoading(false);
+        }
       }
     },
   });

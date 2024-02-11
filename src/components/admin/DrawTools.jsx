@@ -10,19 +10,10 @@ function calculateCenter(e) {
     if (shapeCenter) {
       return [shapeCenter.lat, shapeCenter.lng];
     }
-  } if (e.layerType === 'rectangle') {
-    // Get the bounds of the created rectangle
+  } else {
     const bounds = e.layer.getBounds();
     const shapeCenter = bounds.getCenter();
-    if (shapeCenter) {
-      return [shapeCenter.lat, shapeCenter.lng];
-    }
-  } if (e.layerType === 'polygon') {
-    const bounds = e.layer.getBounds();
-    const shapeCenter = bounds.getCenter();
-    if (shapeCenter) {
-      return [shapeCenter.lat, shapeCenter.lng];
-    }
+    return [shapeCenter.lat, shapeCenter.lng];
   }
 
   return [null, null];
@@ -112,39 +103,6 @@ export default function DrawTools({ updateShape, shape }) {
     clearShapes();
     addShape(newShape);
   };
-
-  // const onDeleted = (e) => {
-  //   const layers = e.layers._layers;
-  //   const deletedShapes = Object.values(layers)
-  //     .map((layer) => getShape({ layerType: layer.feature.geometry.type, layer }));
-
-  //   updateShape({ shape: null, lat: null, lng: null });
-  //   clearShapes();
-
-  //   // You might want to handle multiple deleted shapes differently
-  //   deletedShapes.forEach((deletedShape) => {
-  //     // Add logic to handle each deleted shape as needed
-  //     console.log('Deleted Shape:', deletedShape);
-  //   });
-  // };
-
-  // const onEdited = (e) => {
-  //   const layers = e.layers._layers;
-  //   const editedShapes = Object.values(layers)
-  //     .map((layer) => getShape({ layerType: layer.feature.geometry.type, layer }));
-
-  //   // const [lat, lng] = calculateCenter(e);
-  //   // const newShape = editedShapes.length > 0 ? editedShapes[0] : null;
-
-  //   // updateShape({ shape: newShape, lat, lng });
-  //   // clearShapes();
-
-  //   // You might want to handle multiple edited shapes differently
-  //   editedShapes.forEach((editedShape) => {
-  //     // Add logic to handle each edited shape as needed
-  //     console.log('Edited Shape:', editedShape);
-  //   });
-  // };
 
   return (
     <FeatureGroup ref={shapeParentRef}>
