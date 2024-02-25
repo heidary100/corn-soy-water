@@ -192,7 +192,7 @@ export default function AddCorn() {
                   (formik.values.lat === '' && formik.values.lng === '') ? ['40.505664', '-98.966389']
                     : [parseFloat(formik.values.lat), parseFloat(formik.values.lng)]
                 }
-                zoom={16}
+                zoom={8}
                 scrollWheelZoom
               >
                 <LayersControl>

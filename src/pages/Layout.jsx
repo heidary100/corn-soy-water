@@ -65,10 +65,10 @@ function Layout() {
                   src="/logo.png"
                   alt="Dan Abramov"
                 />
-                <VisuallyHidden>Corn Soy Water</VisuallyHidden>
+                <VisuallyHidden>CornSoyWater</VisuallyHidden>
               </chakra.a>
               <chakra.h1 as={NavLink} to="/" fontSize="xl" fontWeight="medium" ml="2">
-                Corn Soy Water
+                CornSoyWater
               </chakra.h1>
             </Flex>
             <HStack display="flex" alignItems="center" spacing={1}>

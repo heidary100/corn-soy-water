@@ -22,7 +22,7 @@ export default function Home() {
           fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
           lineHeight="110%"
         >
-          Corn Soy Water
+          CornSoyWater
           {' '}
           <br />
           <Text as="span" color="green.400">

@@ -69,10 +69,10 @@ function AdminLayout() {
                 w={30}
                 h={30}
                 src="/logo.png"
-                alt="Corn Soy Water"
+                alt="CornSoyWater"
               />
               <Text fontSize={{ base: 'sm', md: 'lg' }} ml="2" fontWeight="semibold">
-                Corn Soy Water
+                CornSoyWater
               </Text>
             </Flex>
 
