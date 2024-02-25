@@ -6,7 +6,10 @@ import {
   Text,
   Button,
   Stack,
+  Flex,
+  Image,
 } from '@chakra-ui/react';
+import { NavLink } from 'react-router-dom';
 
 export default function Home() {
   return (
@@ -54,6 +57,38 @@ export default function Home() {
               Sign up.
             </Button>
           </Text>
+          <Flex justify="space-between" mt={20}>
+            <Box w="16%">
+              <NavLink to="https://www.unl.edu/" target="_blank">
+                <Image src="/img/footer/logos/nebraska.png" />
+              </NavLink>
+            </Box>
+            <Box w="16%">
+              <NavLink to="https://ncesr.unl.edu/?page_id=532" target="_blank">
+                <Image src="/img/footer/logos/nebraska_weai.png" />
+              </NavLink>
+            </Box>
+            <Box w="16%">
+              <NavLink to="https://hprcc.unl.edu/" target="_blank">
+                <Image src="/img/footer/logos/HPRCC_Bug_RGB.png" />
+              </NavLink>
+            </Box>
+            <Box w="16%">
+              <NavLink to="https://nebraskacorn.gov/" target="_blank">
+                <Image src="/img/footer/logos/nebraska_corn_board.png" />
+              </NavLink>
+            </Box>
+            <Box w="16%">
+              <NavLink to="https://waterforfood.nebraska.edu/" target="_blank">
+                <Image src="/img/footer/logos/water_for_food_Institude.svg" />
+              </NavLink>
+            </Box>
+            <Box w="16%">
+              <NavLink to="https://nebraskasoybeans.org/" target="_blank">
+                <Image src="/img/footer/logos/nebraska_soybean_board.svg" />
+              </NavLink>
+            </Box>
+          </Flex>
         </Stack>
       </Stack>
     </Container>

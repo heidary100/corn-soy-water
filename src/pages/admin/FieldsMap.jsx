@@ -80,7 +80,7 @@ export default function FieldsMap() {
   }, []);
 
   return (
-    <Box height="70vh" pos="relative">
+    <Box h="90vh" pos="relative">
       <Progress hidden={!loading} size="xs" isIndeterminate />
       {!loading && (
         <MapContainer center={[38, -90]} zoom={5} scrollWheelZoom>
