@@ -116,7 +116,7 @@ export default function SoybeanDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedIrrigationRecord, setSelectedIrrigationRecord] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [tabIndex, setTabIndex] = useState(0); // Initial tab index is set to 0
+  const [tabIndex, setTabIndex] = useState(2); // Initial tab index is set to 0
 
   const handleTabChange = (index) => {
     setTabIndex(index);
