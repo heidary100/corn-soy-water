@@ -32,7 +32,7 @@ function AdjustMapBounds({ data, loading }) {
       );
 
       if (validMarkers.length > 0) {
-        const bounds = L.latLngBounds(validMarkers).pad(0.5);
+        const bounds = L.latLngBounds(validMarkers);
         map.fitBounds(bounds);
       }
     }
