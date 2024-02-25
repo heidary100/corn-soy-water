@@ -4,9 +4,6 @@ import {
   Box,
   useToast,
   Progress,
-  Avatar,
-  Switch,
-  Text,
 } from '@chakra-ui/react';
 import { MdInfo } from 'react-icons/md';
 import {
@@ -18,7 +15,6 @@ import { FullscreenControl } from 'react-leaflet-fullscreen';
 import SoybeanService from '../../services/soybean.service';
 import CornService from '../../services/corn.service';
 import LeafletgeoSearch from '../../components/LeafletgeoSearch';
-import WeatherStations from '../../components/admin/WeatherStations';
 import { cornIcon, soybeanIcon } from '../../components/admin/MarkerIcons';
 
 function AdjustMapBounds({ data, loading }) {
@@ -52,7 +48,6 @@ export default function FieldsMap() {
     soybeans: [],
   });
   const [loading, setLoading] = useState(false);
-  const [showWS, setShowWS] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -103,7 +98,6 @@ export default function FieldsMap() {
 
           </LayersControl>
 
-          {showWS && <WeatherStations />}
           {data.corns.map((item) => {
             const latitude = parseFloat(item.lat);
             const longitude = parseFloat(item.lng);
@@ -167,22 +161,6 @@ export default function FieldsMap() {
           <AdjustMapBounds data={data} loading={loading} />
         </MapContainer>
       )}
-      <Button
-        pos="absolute"
-        bottom="5"
-        left="5"
-        zIndex={10000}
-        onClick={() => {
-          setShowWS(!showWS);
-        }}
-        size="sm"
-      >
-        <Text style={{ pointerEvents: 'none' }}>
-          <Avatar borderRadius={0} boxSize="5" name="Weather Station" src="/img/climatology.png" mr={1} />
-          Weather Stations
-          <Switch isChecked={showWS} ml={1} />
-        </Text>
-      </Button>
     </Box>
   );
 }
