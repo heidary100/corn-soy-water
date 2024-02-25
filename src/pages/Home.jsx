@@ -23,14 +23,9 @@ export default function Home() {
           lineHeight="110%"
         >
           CornSoyWater
-          {' '}
-          <br />
-          <Text as="span" color="green.400">
-            Web Application
-          </Text>
         </Heading>
-        <Text color="gray.500">
-          A web-based irrigation tool for corn and soybean producers in Nebraska
+        <Text fontSize={25} color="gray.600">
+          An irrigation tool for Corn and Soybean producers
         </Text>
         <Stack
           direction="column"
