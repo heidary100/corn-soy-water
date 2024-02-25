@@ -384,8 +384,8 @@ export default function EditSoybean({ fieldInfo, onCancel, onSuccess }) {
 
                 <RadioGroup id="soilTexture" onChange={setSoilTexture} value={soilTexture}>
                   <Stack direction="row">
-                    <Radio value="automatic">Automatic</Radio>
-                    <Radio value="manual">Manual</Radio>
+                    <Radio value="automatic">Automatically select from Online Soil Database</Radio>
+                    <Radio value="manual">Manual Setting</Radio>
                   </Stack>
                 </RadioGroup>
               </FormControl>

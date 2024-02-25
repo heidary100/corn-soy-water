@@ -131,7 +131,7 @@ export default function AddSoybean() {
       maturityGroup: '',
       soilRootingDepth: '',
       availableSoilWater: '',
-      averageSoilTexture: '',
+      averageSoilTexture: '1',
     },
     // eslint-disable-next-line max-len, no-nested-ternary
     validationSchema: step === 1 ? form1ValidationSchema : step === 2 ? form2ValidationSchema : form3ValidationSchema,
@@ -595,8 +595,8 @@ export default function AddSoybean() {
 
               <RadioGroup id="soilTexture" onChange={setSoilTexture} value={soilTexture}>
                 <Stack direction="row">
-                  <Radio value="automatic">Automatic</Radio>
-                  <Radio value="manual">Manual</Radio>
+                  <Radio value="automatic">Automatically select from Online Soil Database</Radio>
+                  <Radio value="manual">Manual Setting</Radio>
                 </Stack>
               </RadioGroup>
             </FormControl>

@@ -146,8 +146,8 @@ export default function AddCorn() {
       topSoilBulkDensity: '',
       topSoilMoistureAtPlanting: '',
       subSoilMoistureAtPlanting: '',
-      topSoilTexture: '',
-      subSoilTexture: '',
+      topSoilTexture: '1',
+      subSoilTexture: '1',
     },
     // eslint-disable-next-line max-len, no-nested-ternary
     validationSchema: step === 1 ? form1ValidationSchema : step === 2 ? form2ValidationSchema : form3ValidationSchema,
@@ -835,8 +835,8 @@ export default function AddCorn() {
 
               <RadioGroup id="soilTexture" onChange={setSoilTexture} value={soilTexture}>
                 <Stack direction="row">
-                  <Radio value="automatic">Automatic</Radio>
-                  <Radio value="manual">Manual</Radio>
+                  <Radio value="automatic">Automatically select from Online Soil Database</Radio>
+                  <Radio value="manual">Manual Setting</Radio>
                 </Stack>
               </RadioGroup>
             </FormControl>
@@ -872,7 +872,7 @@ export default function AddCorn() {
                 value={formik.values.topSoilTexture}
                 disabled={soilTexture === 'automatic'}
               >
-                <option value="1">Loamy sand</option>
+                <option value="1" selected>Loamy sand</option>
                 <option value="2">Sandy loam</option>
                 <option value="3">Silt loam</option>
                 <option value="4">Loam</option>
@@ -918,7 +918,7 @@ export default function AddCorn() {
                 value={formik.values.subSoilTexture}
                 disabled={soilTexture === 'automatic'}
               >
-                <option value="1">Loamy sand</option>
+                <option value="1" selected>Loamy sand</option>
                 <option value="2">Sandy loam</option>
                 <option value="3">Silt Loam</option>
                 <option value="4">Loam</option>
