@@ -90,7 +90,6 @@ function AdminLayout() {
                 to="/admin/profile"
                 icon={<Avatar size="sm" name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />}
               />
-              <ColorModeSwitcher />
               &nbsp;
               <Button
                 display={{ base: 'none', md: 'inline-flex' }}
@@ -108,7 +107,7 @@ function AdminLayout() {
                 variant="solid"
                 icon={<HiOutlineLogout />}
               />
-
+              <ColorModeSwitcher />
             </Flex>
           </Flex>
 
