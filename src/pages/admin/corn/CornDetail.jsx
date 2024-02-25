@@ -272,7 +272,7 @@ export default function CornDetail() {
                         <SimpleGrid minChildWidth="300px" columns={2} spacing={1}>
                           <VStack spacing={4} align="top">
                             <Heading as="h3" size="lg" mb={2}>
-                              Crop Management
+                              Crop Information
                             </Heading>
                             <Text fontSize="lg">
                               <strong>Name:</strong>
@@ -297,7 +297,7 @@ export default function CornDetail() {
                           </VStack>
                           <VStack spacing={4} align="top">
                             <Heading as="h3" size="lg" mb={2}>
-                              Soil Properties
+                              Soil Information
                             </Heading>
                             <Text fontSize="lg">
                               <strong>Soil Rooting Depth:</strong>

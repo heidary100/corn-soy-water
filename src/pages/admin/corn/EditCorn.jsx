@@ -138,7 +138,7 @@ export default function EditCorn({ fieldInfo, onCancel, onSuccess }) {
           <SimpleGrid minChildWidth="300px" columns={2} spacing={1}>
             <VStack spacing={4} align="top">
               <Heading as="h3" size="lg" mb={2}>
-                Crop Management
+                Crop Information
               </Heading>
               <FormControl>
                 <FormLabel
@@ -370,7 +370,7 @@ export default function EditCorn({ fieldInfo, onCancel, onSuccess }) {
             </VStack>
             <VStack spacing={4} align="top">
               <Heading as="h3" size="lg" mb={2}>
-                Soil Properties
+                Soil Information
               </Heading>
 
               <FormControl>

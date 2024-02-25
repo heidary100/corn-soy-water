@@ -306,7 +306,7 @@ export default function AddCorn() {
         return (
           <form onSubmit={formik.handleSubmit}>
             <Heading w="100%" textAlign="center" fontWeight="normal" my={3} fontSize={{ base: 'xl', md: '2xl' }}>
-              Step 3: Crop Management Info
+              Step 3: Crop Information
             </Heading>
 
             <FormControl as={GridItem}>
@@ -570,7 +570,7 @@ export default function AddCorn() {
         return (
           <form onSubmit={formik.handleSubmit}>
             <Heading w="100%" textAlign="center" fontWeight="normal" fontSize={{ base: 'xl', md: '2xl' }}>
-              Step 4: Soil Properties
+              Step 4: Soil Information
             </Heading>
 
             <FormControl as={GridItem}>
