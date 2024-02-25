@@ -384,16 +384,18 @@ export default function SoybeanDetail() {
                 <Table variant="simple">
                   <Thead>
                     <Tr>
-                      <Th>Amount (inches)</Th>
+                      <Th>Row</Th>
                       <Th>Date</Th>
+                      <Th>Amount (inches)</Th>
                       <Th>Actions</Th>
                     </Tr>
                   </Thead>
                   <Tbody>
-                    {fieldInfo.irrigations && fieldInfo.irrigations.map((item) => (
+                    {fieldInfo.irrigations && fieldInfo.irrigations.map((item, index) => (
                       <Tr key={item.id}>
-                        <Td>{item.amount}</Td>
+                        <Td>{index + 1}</Td>
                         <Td>{new Date(item.date).toLocaleDateString()}</Td>
+                        <Td>{item.amount}</Td>
                         <Td>
                           <Stack direction="row" spacing={1}>
                             <Button

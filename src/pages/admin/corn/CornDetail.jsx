@@ -362,53 +362,53 @@ export default function CornDetail() {
 
                     </Box>
                     {!isEditing && (
-                    <Box height="50vh" marginBottom="10">
-                      {tabIndex === 0 && !Number.isNaN(parseFloat(fieldInfo.lat))
-                        && !Number.isNaN(parseFloat(fieldInfo.lng))
-                        && (
-                          <MapContainer
-                            center={[parseFloat(fieldInfo.lat), parseFloat(fieldInfo.lng)]}
-                            zoom={16}
-                            scrollWheelZoom
-                          >
-                            <LayersControl>
-                              <LayersControl.BaseLayer checked name="Satellite">
-                                <LayerGroup>
-                                  <TileLayer
-                                    attribution="Google Maps Satellite"
-                                    url="https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}"
-                                  />
-                                  <TileLayer url="https://www.google.cn/maps/vt?lyrs=y@189&gl=cn&x={x}&y={y}&z={z}" />
-                                </LayerGroup>
-                              </LayersControl.BaseLayer>
-                              <LayersControl.BaseLayer name="Street View">
-                                <TileLayer
-                                  attribution="Google Maps"
-                                  url="https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}"
-                                />
-                              </LayersControl.BaseLayer>
-
-                            </LayersControl>
-                            <Marker
-                              icon={cornIcon}
-                              position={[parseFloat(fieldInfo.lat), parseFloat(fieldInfo.lng)]}
+                      <Box height="50vh" marginBottom="10">
+                        {tabIndex === 0 && !Number.isNaN(parseFloat(fieldInfo.lat))
+                          && !Number.isNaN(parseFloat(fieldInfo.lng))
+                          && (
+                            <MapContainer
+                              center={[parseFloat(fieldInfo.lat), parseFloat(fieldInfo.lng)]}
+                              zoom={16}
+                              scrollWheelZoom
                             >
-                              <Popup>
-                                {fieldInfo.name}
-                              </Popup>
-                            </Marker>
-                            {fieldInfo.shape && JSON.parse(fieldInfo.shape).type !== 'circle'
-                              && <GeoJSON data={JSON.parse(fieldInfo.shape).geoJSON} />}
-                            {fieldInfo.shape && JSON.parse(fieldInfo.shape).type === 'circle'
-                              && (
-                                <Circle
-                                  center={JSON.parse(fieldInfo.shape).geoJSON.center}
-                                  radius={JSON.parse(fieldInfo.shape).geoJSON.radius}
-                                />
-                              )}
-                          </MapContainer>
-                        )}
-                    </Box>
+                              <LayersControl>
+                                <LayersControl.BaseLayer checked name="Satellite">
+                                  <LayerGroup>
+                                    <TileLayer
+                                      attribution="Google Maps Satellite"
+                                      url="https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}"
+                                    />
+                                    <TileLayer url="https://www.google.cn/maps/vt?lyrs=y@189&gl=cn&x={x}&y={y}&z={z}" />
+                                  </LayerGroup>
+                                </LayersControl.BaseLayer>
+                                <LayersControl.BaseLayer name="Street View">
+                                  <TileLayer
+                                    attribution="Google Maps"
+                                    url="https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}"
+                                  />
+                                </LayersControl.BaseLayer>
+
+                              </LayersControl>
+                              <Marker
+                                icon={cornIcon}
+                                position={[parseFloat(fieldInfo.lat), parseFloat(fieldInfo.lng)]}
+                              >
+                                <Popup>
+                                  {fieldInfo.name}
+                                </Popup>
+                              </Marker>
+                              {fieldInfo.shape && JSON.parse(fieldInfo.shape).type !== 'circle'
+                                && <GeoJSON data={JSON.parse(fieldInfo.shape).geoJSON} />}
+                              {fieldInfo.shape && JSON.parse(fieldInfo.shape).type === 'circle'
+                                && (
+                                  <Circle
+                                    center={JSON.parse(fieldInfo.shape).geoJSON.center}
+                                    radius={JSON.parse(fieldInfo.shape).geoJSON.radius}
+                                  />
+                                )}
+                            </MapContainer>
+                          )}
+                      </Box>
                     )}
                   </SimpleGrid>
                 </Box>
@@ -432,16 +432,18 @@ export default function CornDetail() {
                 <Table variant="simple">
                   <Thead>
                     <Tr>
-                      <Th>Amount (inches)</Th>
+                      <Th>Row</Th>
                       <Th>Date</Th>
+                      <Th>Amount (inches)</Th>
                       <Th>Actions</Th>
                     </Tr>
                   </Thead>
                   <Tbody>
-                    {fieldInfo.irrigations && fieldInfo.irrigations.map((item) => (
+                    {fieldInfo.irrigations && fieldInfo.irrigations.map((item, index) => (
                       <Tr key={item.id}>
-                        <Td>{item.amount}</Td>
+                        <Td>{index + 1}</Td>
                         <Td>{new Date(item.date).toLocaleDateString()}</Td>
+                        <Td>{item.amount}</Td>
                         <Td>
                           <Stack direction="row" spacing={1}>
                             <Button
