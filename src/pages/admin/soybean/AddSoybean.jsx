@@ -29,7 +29,6 @@ import {
   useDisclosure,
   Avatar,
   Checkbox,
-  Switch,
 } from '@chakra-ui/react';
 import {
   MapContainer, TileLayer, Marker, LayersControl, LayerGroup,
@@ -176,7 +175,7 @@ export default function AddSoybean() {
                   (formik.values.lat === '' && formik.values.lng === '') ? ['40.505664', '-98.966389']
                     : [parseFloat(formik.values.lat), parseFloat(formik.values.lng)]
                 }
-                zoom={16}
+                zoom={8}
                 scrollWheelZoom
               >
                 <LayersControl>
@@ -213,9 +212,10 @@ export default function AddSoybean() {
                 />
               </MapContainer>
               <Button
+                p={0}
                 pos="absolute"
-                bottom="5"
-                left="5"
+                top="110"
+                left="11px"
                 zIndex={10000}
                 onClick={() => {
                   setShowWS(!showWS);
@@ -223,9 +223,7 @@ export default function AddSoybean() {
                 size="sm"
               >
                 <Text style={{ pointerEvents: 'none' }}>
-                  <Avatar borderRadius={0} boxSize="5" name="Weather Station" src="/img/climatology.png" mr={1} />
-                  Weather Stations
-                  <Switch isChecked={showWS} ml={1} />
+                  <Avatar p={0} borderRadius={0} boxSize="5" name="ws" src={showWS ? '/img/climatology.png' : '/img/climatology-off.png'} />
                 </Text>
               </Button>
 

@@ -27,7 +27,6 @@ import {
   useDisclosure,
   Avatar,
   Checkbox,
-  Switch,
 } from '@chakra-ui/react';
 import {
   MapContainer, TileLayer, Marker,
@@ -229,9 +228,10 @@ export default function AddCorn() {
                 />
               </MapContainer>
               <Button
+                p={0}
                 pos="absolute"
-                bottom="5"
-                left="5"
+                top="110"
+                left="11px"
                 zIndex={10000}
                 onClick={() => {
                   setShowWS(!showWS);
@@ -239,9 +239,7 @@ export default function AddCorn() {
                 size="sm"
               >
                 <Text style={{ pointerEvents: 'none' }}>
-                  <Avatar borderRadius={0} boxSize="5" name="Weather Station" src="/img/climatology.png" mr={1} />
-                  Weather Stations
-                  <Switch isChecked={showWS} ml={1} />
+                  <Avatar p={0} borderRadius={0} boxSize="5" name="ws" src={showWS ? '/img/climatology.png' : '/img/climatology-off.png'} />
                 </Text>
               </Button>
             </Box>

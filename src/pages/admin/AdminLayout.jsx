@@ -112,7 +112,7 @@ function AdminLayout() {
             </Flex>
           </Flex>
 
-          <Box as="main" maxH="95vh" overflow="scroll">
+          <Box as="main" maxH="95vh" overflow="scroll" pb="5">
             <Outlet />
           </Box>
         </Box>
