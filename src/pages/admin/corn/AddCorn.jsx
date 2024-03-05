@@ -320,8 +320,8 @@ export default function AddCorn() {
                 }}
                 mt="2%"
               >
-                Name
-                <Tooltip label="enter your name" fontSize="md">
+                Field Name
+                <Tooltip label="Enter Field's Name" fontSize="md">
                   <InfoIcon marginLeft={2} />
                 </Tooltip>
               </FormLabel>
@@ -355,7 +355,7 @@ export default function AddCorn() {
                 mt="2%"
               >
                 Date of Planting
-                <Tooltip label="enter your Date of Planting" fontSize="md">
+                <Tooltip label="Enter Planting Date" fontSize="md">
                   <InfoIcon marginLeft={2} />
                 </Tooltip>
               </FormLabel>
@@ -391,7 +391,7 @@ export default function AddCorn() {
                 mt="2%"
               >
                 Relative Maturity (days)
-                <Tooltip label="enter your Relative Maturity (days)" fontSize="md">
+                <Tooltip label="Enter Relative Maturity in days" fontSize="md">
                   <InfoIcon marginLeft={2} />
                 </Tooltip>
               </FormLabel>
@@ -463,7 +463,7 @@ export default function AddCorn() {
                 mt="2%"
               >
                 Plant Population (x1000/acre)
-                <Tooltip label="enter your Plant Population (x1000/acre)" fontSize="md">
+                <Tooltip label="Enter Plant Population (x1000/acre)" fontSize="md">
                   <InfoIcon marginLeft={2} />
                 </Tooltip>
               </FormLabel>
@@ -586,7 +586,7 @@ export default function AddCorn() {
                 mt="2%"
               >
                 Soil Rooting Depth (inch)
-                <Tooltip label="enter your Soil Rooting Depth (inch)" fontSize="md">
+                <Tooltip label="Enter Soil Rooting Depth in inches" fontSize="md">
                   <InfoIcon marginLeft={2} />
                 </Tooltip>
               </FormLabel>
@@ -662,7 +662,7 @@ export default function AddCorn() {
                 mt="2%"
               >
                 Soil Surface Residues Coverage (%)
-                <Tooltip label="enter your Soil Surface Residues Coverage (%)" fontSize="md">
+                <Tooltip label="Enter Soil Surface Residues Coverage (%)" fontSize="md">
                   <InfoIcon marginLeft={2} />
                 </Tooltip>
               </FormLabel>
@@ -709,7 +709,7 @@ export default function AddCorn() {
                 mt="2%"
               >
                 Top Soil Bulk Density
-                <Tooltip label="enter your Top Soil Bulk Density" fontSize="md">
+                <Tooltip label="Enter Top Soil Bulk Density" fontSize="md">
                   <InfoIcon marginLeft={2} />
                 </Tooltip>
               </FormLabel>
@@ -749,7 +749,7 @@ export default function AddCorn() {
                 mt="2%"
               >
                 Top Soil (1 foot) Moisture at Planting
-                <Tooltip label="enter your Top Soil (1 foot) Moisture at Planting" fontSize="md">
+                <Tooltip label="Enter Top Soil (1 foot) Moisture at Planting" fontSize="md">
                   <InfoIcon marginLeft={2} />
                 </Tooltip>
               </FormLabel>
@@ -789,7 +789,7 @@ export default function AddCorn() {
                 mt="2%"
               >
                 Sub Soil (below 1 foot) Moisture at Planting
-                <Tooltip label="enter your Sub Soil (below 1 foot) Moisture at Planting" fontSize="md">
+                <Tooltip label="Enter Sub Soil (below 1 foot) Moisture at Planting" fontSize="md">
                   <InfoIcon marginLeft={2} />
                 </Tooltip>
               </FormLabel>
@@ -829,7 +829,7 @@ export default function AddCorn() {
                 mt="2%"
               >
                 Soil Texture
-                <Tooltip label="enter your Soil Texture" fontSize="md">
+                <Tooltip label="Enter Soil Texture" fontSize="md">
                   <InfoIcon marginLeft={2} />
                 </Tooltip>
               </FormLabel>
@@ -854,7 +854,7 @@ export default function AddCorn() {
                 mt="2%"
               >
                 Top Soil (1 foot) Texture
-                <Tooltip label="enter your Top Soil (1 foot) Texture" fontSize="md">
+                <Tooltip label="Enter Top Soil (1 foot) Texture" fontSize="md">
                   <InfoIcon marginLeft={2} />
                 </Tooltip>
               </FormLabel>
@@ -900,7 +900,7 @@ export default function AddCorn() {
                 mt="2%"
               >
                 Sub Soil (below 1 foot) Texture
-                <Tooltip label="enter your Sub Soil (below 1 foot) Texture" fontSize="md">
+                <Tooltip label="Enter Sub Soil (below 1 foot) Texture" fontSize="md">
                   <InfoIcon marginLeft={2} />
                 </Tooltip>
               </FormLabel>

@@ -126,8 +126,8 @@ export default function EditSoybean({ fieldInfo, onCancel, onSuccess }) {
                   }}
                   mt="2%"
                 >
-                  Name
-                  <Tooltip label="enter your Name" fontSize="md">
+                  Field Name
+                  <Tooltip label="Enter Field's Name" fontSize="md">
                     <InfoIcon marginLeft={2} />
                   </Tooltip>
                 </FormLabel>
@@ -161,7 +161,7 @@ export default function EditSoybean({ fieldInfo, onCancel, onSuccess }) {
                   mt="2%"
                 >
                   Date of Planting
-                  <Tooltip label="enter your Date of Planting" fontSize="md">
+                  <Tooltip label="Enter Planting Date" fontSize="md">
                     <InfoIcon marginLeft={2} />
                   </Tooltip>
                 </FormLabel>
@@ -197,7 +197,7 @@ export default function EditSoybean({ fieldInfo, onCancel, onSuccess }) {
                   mt="2%"
                 >
                   Maturity Group
-                  <Tooltip label="enter your Maturity Group" fontSize="md">
+                  <Tooltip label="Select Maturity Group" fontSize="md">
                     <InfoIcon marginLeft={2} />
                   </Tooltip>
                 </FormLabel>
@@ -273,7 +273,7 @@ export default function EditSoybean({ fieldInfo, onCancel, onSuccess }) {
                   mt="2%"
                 >
                   Soil Rooting Depth (inch)
-                  <Tooltip label="enter your Soil Rooting Depth (inch)" fontSize="md">
+                  <Tooltip label="Enter Soil Rooting Depth in inches" fontSize="md">
                     <InfoIcon marginLeft={2} />
                   </Tooltip>
                 </FormLabel>
@@ -339,7 +339,7 @@ export default function EditSoybean({ fieldInfo, onCancel, onSuccess }) {
                   mt="2%"
                 >
                   Available soil water at planting day (%)
-                  <Tooltip label="enter your Available soil water at planting day (%)" fontSize="md">
+                  <Tooltip label="Enter Available soil water at planting day (%)" fontSize="md">
                     <InfoIcon marginLeft={2} />
                   </Tooltip>
                 </FormLabel>
@@ -378,7 +378,7 @@ export default function EditSoybean({ fieldInfo, onCancel, onSuccess }) {
                   mt="2%"
                 >
                   Soil Texture
-                  <Tooltip label="enter your Soil Texture" fontSize="md">
+                  <Tooltip label="Enter Soil Texture" fontSize="md">
                     <InfoIcon marginLeft={2} />
                   </Tooltip>
                 </FormLabel>
@@ -403,7 +403,7 @@ export default function EditSoybean({ fieldInfo, onCancel, onSuccess }) {
                   mt="2%"
                 >
                   Average soil texture to the rooting depth
-                  <Tooltip label="enter your Average soil texture to the rooting depth" fontSize="md">
+                  <Tooltip label="Enter Average soil texture to the rooting depth" fontSize="md">
                     <InfoIcon marginLeft={2} />
                   </Tooltip>
                 </FormLabel>
