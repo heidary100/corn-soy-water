@@ -395,7 +395,7 @@ export default function AddSoybean() {
                 onBlur={formik.handleBlur}
                 value={formik.values.maturityGroup}
               >
-                <option value="1">1</option>
+                <option value="1">1.0</option>
                 <option value="1.1">1.1</option>
                 <option value="1.2">1.2</option>
                 <option value="1.3">1.3</option>
@@ -405,7 +405,7 @@ export default function AddSoybean() {
                 <option value="1.7">1.7</option>
                 <option value="1.8">1.8</option>
                 <option value="1.9">1.9</option>
-                <option value="2">2</option>
+                <option value="2">2.0</option>
                 <option value="2.1">2.1</option>
                 <option value="2.2">2.2</option>
                 <option value="2.3">2.3</option>
@@ -415,7 +415,7 @@ export default function AddSoybean() {
                 <option value="2.7">2.7</option>
                 <option value="2.8">2.8</option>
                 <option value="2.9">2.9</option>
-                <option value="3">3</option>
+                <option value="3">3.0</option>
                 <option value="3.1">3.1</option>
                 <option value="3.2">3.2</option>
                 <option value="3.3">3.3</option>
@@ -425,7 +425,7 @@ export default function AddSoybean() {
                 <option value="3.7">3.7</option>
                 <option value="3.8">3.8</option>
                 <option value="3.9">3.9</option>
-                <option value="4">4</option>
+                <option value="4">4.0</option>
                 <option value="4.1">4.1</option>
                 <option value="4.2">4.2</option>
                 <option value="4.3">4.3</option>
