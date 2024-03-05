@@ -256,15 +256,16 @@ export default function AddCorn() {
                   >
                     Back
                   </Button>
-                  <Button
-                    type="submit"
-                    w="7rem"
-                    colorScheme="blue"
-                    variant="outline"
-                  >
-                    Next
-                  </Button>
+
                 </Flex>
+                <Button
+                  type="submit"
+                  w="7rem"
+                  colorScheme="blue"
+                  variant="outline"
+                >
+                  Next
+                </Button>
               </Flex>
             </ButtonGroup>
             <AlertDialog
@@ -553,15 +554,16 @@ export default function AddCorn() {
                   >
                     Back
                   </Button>
-                  <Button
-                    type="submit"
-                    w="7rem"
-                    colorScheme="blue"
-                    variant="outline"
-                  >
-                    Next
-                  </Button>
+
                 </Flex>
+                <Button
+                  type="submit"
+                  w="7rem"
+                  colorScheme="blue"
+                  variant="outline"
+                >
+                  Next
+                </Button>
               </Flex>
             </ButtonGroup>
           </form>
