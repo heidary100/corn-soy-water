@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Button,
   Box,
   useToast,
   Progress,
 } from '@chakra-ui/react';
-import { MdInfo } from 'react-icons/md';
 import {
-  MapContainer, TileLayer, Popup, Marker, LayersControl, LayerGroup, useMap,
+  MapContainer, TileLayer, Marker, LayersControl, LayerGroup, useMap,
 } from 'react-leaflet';
 import L from 'leaflet';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FullscreenControl } from 'react-leaflet-fullscreen';
 import SoybeanService from '../../services/soybean.service';
 import CornService from '../../services/corn.service';
@@ -48,6 +46,7 @@ export default function FieldsMap() {
     soybeans: [],
   });
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
@@ -108,17 +107,9 @@ export default function FieldsMap() {
                   key={`corn-${item.id}`}
                   position={[latitude, longitude]}
                   eventHandlers={{
-                    mouseover: (event) => event.target.openPopup(),
+                    click: () => { navigate(`/admin/result/corn/${item.id}`); },
                   }}
-                >
-                  <Popup>
-                    {item.name}
-                    <br />
-                    <Button as={NavLink} to={`/admin/result/corn/${item.id}`} leftIcon={<MdInfo />} colorScheme="blue" variant="ghost" size="sm">
-                      Detail
-                    </Button>
-                  </Popup>
-                </Marker>
+                />
               );
             }
 
@@ -137,17 +128,9 @@ export default function FieldsMap() {
                   key={`soybean-${item.id}`}
                   position={[latitude, longitude]}
                   eventHandlers={{
-                    mouseover: (event) => event.target.openPopup(),
+                    click: () => { navigate(`/admin/result/soybean/${item.id}`); },
                   }}
-                >
-                  <Popup>
-                    {item.name}
-                    <br />
-                    <Button as={NavLink} to={`/admin/result/soybean/${item.id}`} leftIcon={<MdInfo />} colorScheme="blue" variant="ghost" size="sm">
-                      Detail
-                    </Button>
-                  </Popup>
-                </Marker>
+                />
               );
             }
 
