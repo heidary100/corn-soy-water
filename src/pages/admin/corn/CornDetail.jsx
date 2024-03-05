@@ -322,11 +322,6 @@ export default function CornDetail() {
                               {fieldInfo.topSoilMoistureAtPlanting}
                             </Text>
                             <Text fontSize="lg">
-                              <strong>Top Soil (1 foot) Moisture at Planting:</strong>
-                              {' '}
-                              {fieldInfo.topSoilMoistureAtPlanting}
-                            </Text>
-                            <Text fontSize="lg">
                               <strong>Sub Soil (below 1 foot) Moisture at Planting:</strong>
                               {' '}
                               {fieldInfo.subSoilMoistureAtPlanting}
