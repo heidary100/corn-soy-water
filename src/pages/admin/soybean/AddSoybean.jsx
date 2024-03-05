@@ -47,6 +47,7 @@ import 'react-leaflet-fullscreen/styles.css';
 import WeatherStations from '../../../components/admin/WeatherStations';
 import { soybeanIcon } from '../../../components/admin/MarkerIcons';
 import DrawTools from '../../../components/admin/DrawTools';
+import findNearestWeatherStation from '../../../helper/nearest-weather-station';
 
 const form1ValidationSchema = Yup.object().shape({
 });
@@ -84,6 +85,7 @@ export default function AddSoybean() {
   const [loading, setLoading] = useState(false);
   const [showWS, setShowWS] = useState(false);
   const [dontShowAgain, setDontShowAgain] = useState(false);
+  const [distanceToWS, setDistanceToWS] = useState(0);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const shapeRef = useRef(null);
 
@@ -159,6 +161,10 @@ export default function AddSoybean() {
     shapeRef.current = shape;
     formik.setFieldValue('lat', lat === null ? '' : lat);
     formik.setFieldValue('lng', lng === null ? '' : lng);
+    if (lat !== null && lng !== null) {
+      const { minDistance } = findNearestWeatherStation({ lat, lon: lng });
+      setDistanceToWS(minDistance.toFixed(1));
+    }
   };
 
   const currentForm = () => {
@@ -266,7 +272,11 @@ export default function AddSoybean() {
                   </AlertDialogHeader>
 
                   <AlertDialogBody>
-                    Your field is 43 miles away from the nearest weather station.
+                    Your field is
+                    {' '}
+                    {distanceToWS}
+                    {' '}
+                    miles away from the nearest weather station.
                     The result of the program may not accurately represent your field.
                     <br />
                     <Checkbox
