@@ -65,6 +65,7 @@ export default function AddIrrigation({ isOpen, onClose, onSubmit }) {
                 rounded="md"
                 showIcon
                 dateFormat="MM/dd/yyyy"
+                placeholderText="MM/dd/yyyy"
               />
               {formik.touched.date && formik.errors.date && (
                 <Text color="red">{formik.errors.date}</Text>

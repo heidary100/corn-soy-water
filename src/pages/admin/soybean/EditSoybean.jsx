@@ -178,6 +178,7 @@ export default function EditSoybean({ fieldInfo, onCancel, onSuccess }) {
                   rounded="md"
                   showIcon
                   dateFormat="MM/dd/yyyy"
+                  placeholderText="MM/dd/yyyy"
                 />
                 {formik.touched.plantingDate && formik.errors.plantingDate && (
                   <Text color="red">{formik.errors.plantingDate}</Text>
